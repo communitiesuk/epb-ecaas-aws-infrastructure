@@ -192,15 +192,15 @@ tfvars-get-for-ci path="./ci": _ensure_aws_profile
 
 
 # Deletes all tvars from local
-tfvars-delete path="service-infrastructure":
+tfvars-delete path="ecaas-infrastructure":
     #!/usr/bin/env bash
     cd {{path}}
     rm -f {*.tfvars,.*.tfvars}
 
 tf-switch profile:
      #!/usr/bin/env bash
-     echo "cd into service-infrastructure"
-     cd service-infrastructure/
+     echo "cd into ecaas-infrastructure"
+     cd ecaas-infrastructure/
      echo "performing tf init for {{profile}}"
      aws-vault exec {{profile}} -- terraform init -backend-config=backend_{{profile}}.hcl -reconfigure
 
