@@ -9,7 +9,7 @@ Infrastructure definition using Terraform for Energy Calculation as a Service (E
 1. Install Terraform:
    <https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli>
 2. Install AWS Vault: <https://github.com/99designs/aws-vault>
-3. Set up AWS access [via aws-vault profile](https://tech-docs.epcregisters.net/dev-setup.html#create-an-aws-vault-profile)
+3. Set up [AWS access using aws-vault](https://tech-docs.epcregisters.net/dev-setup.html#using-aws-vault)
 
 ### tfvars
 
