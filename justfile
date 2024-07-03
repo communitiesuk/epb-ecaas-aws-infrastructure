@@ -65,7 +65,7 @@ _ensure_aws_profile:
     #!/usr/bin/env bash
 
     if [[ -z "${AWS_PROFILE}" ]]; then
-      echo "Please define your AWS_PROFILE environment variable, e.g. 'export AWS_PROFILE=integration'"
+      echo "Please define your AWS_PROFILE environment variable, e.g. 'export AWS_PROFILE=ecaas-integration'"
       exit 1
     fi
 
@@ -161,16 +161,3 @@ tfvars-delete path="ecaas-infrastructure":
     cd {{path}}
     rm -f {*.tfvars,.*.tfvars}
 
-tf-switch profile:
-     #!/usr/bin/env bash
-     echo "cd into ecaas-infrastructure"
-     cd ecaas-infrastructure/
-     echo "performing tf init for {{profile}}"
-     aws-vault exec {{profile}} -- terraform init -backend-config=backend_{{profile}}.hcl -reconfigure
-
-tf-switch-to profile repo:
-     #!/usr/bin/env bash
-     echo "cd into {{repo}}"
-     cd {{repo}}
-     echo "performing tf init for {{profile}}"
-     aws-vault exec {{profile}} -- terraform init -backend-config=backend_{{profile}}.hcl -reconfigure
