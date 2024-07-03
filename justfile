@@ -4,42 +4,6 @@ set dotenv-load
 default:
     @just --list
 
-# Install dependencies
-[windows]
-install:
-    @choco install terraform aws-vault tfsec tflint docker docker-compose awscli pack
-    @pip install checkov
-
-    @just _alias_this
-    @just install-hooks
-
-# Install dependencies
-[macos]
-install:
-    @brew install terraform aws-vault tfsec tflint docker docker-compose awscli buildpacks/tap/pack
-    @pip install checkov
-
-    @just _alias_this
-    @just install-hooks
-
-_alias_this:
-    #!/usr/bin/env bash
-
-    ALIAS_COMMAND="alias .j='just --justfile $(pwd)/justfile --'"
-
-    if [ -n "$($SHELL -c 'echo $ZSH_VERSION')" ]; then
-        if ! grep -q "$ALIAS_COMMAND" ~/.zshrc; then
-            echo $ALIAS_COMMAND >> ~/.zshrc
-        fi
-    elif [ -n "$($SHELL -c 'echo $BASH_VERSION')" ]; then
-        if [ -f ~/.bash_profile ]; then
-            if ! grep -q "$ALIAS_COMMAND" ~/.bash_profile; then
-                echo $ALIAS_COMMAND >> ~/.bash_profile
-            fi
-        else
-            echo $ALIAS_COMMAND > ~/.bash_profile
-        fi
-    fi
 
 # Add AWS config and aws-vault profile required to run many commands. Note: this will update .env file in current directory
 add-profile profile:
