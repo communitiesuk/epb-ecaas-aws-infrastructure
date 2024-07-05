@@ -78,12 +78,12 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         Resource = "*",
         Sid      = ""
       },
-#       {
-#         Action   = "sts:AssumeRole",
-#         Effect   = "Allow",
-#         Resource = var.cross_account_role_arns
-#         Sid      = ""
-#       }
+      {
+        Action   = "sts:AssumeRole",
+        Effect   = "Allow",
+        Resource = var.cross_account_role_arns
+        Sid      = ""
+      }
     ] : i if i != null]
   })
 }
