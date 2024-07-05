@@ -35,3 +35,4 @@ terraform.rc
 
 # local AWS_PROFILE set by justfile
 /.env
+/.env-e
