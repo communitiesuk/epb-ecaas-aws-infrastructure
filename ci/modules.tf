@@ -42,4 +42,5 @@ module "ecaas-api-pipeline" {
   project_name            = "ecaas-api"
   codebuild_image_ecr_url = var.codebuild_image_ecr_url
   region                  = var.region
+  account_ids             = var.account_ids
 }

@@ -1,5 +1,5 @@
 variable "codebuild_image_ecr_url" {
-  default = "public.ecr.aws/hashicorp/terraform:latest"
+  default = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
   type    = string
 }
 
@@ -15,4 +15,8 @@ variable "github_organisation" {
 variable "region" {
   default = "eu-west-2"
   type    = string
+}
+
+variable "account_ids" {
+  type = map(string)
 }

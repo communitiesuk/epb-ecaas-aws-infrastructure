@@ -8,7 +8,7 @@ module "codebuild_run_app_test" {
   buildspec_file     = "buildspec.yml"
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
-    { name = "AWS_ACCOUNT_ID", value = data.aws_caller_identity.current.account_id },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
   ]
   region = var.region
 }
