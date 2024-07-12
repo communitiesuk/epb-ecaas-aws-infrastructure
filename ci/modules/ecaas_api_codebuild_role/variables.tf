@@ -17,3 +17,11 @@ variable "region" {
 variable "s3_buckets_to_access" {
   type = list(string)
 }
+
+variable "api_integration_terraform_state_bucket" {
+  type    = string
+}
+
+variable "api_tfstate" {
+  type = string
+}
