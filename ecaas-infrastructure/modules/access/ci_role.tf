@@ -15,34 +15,24 @@ resource "aws_iam_role" "ci_role" {
   })
 }
 
+resource "aws_iam_role_policy" "ci_api_gateway_policy" {
+  name = "ci_api_gateway_policy"
+  role = aws_iam_role.ci_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
 
-# TODO: add policies that CI requires for Terraforming new API gateways/Lambdas, etc.
-# The below role policy and attachment give CI access to ECS and ECR, which we don't need for ECaaS
-# Left commented out here for info, until these are replaced by ECaaS-suitable policies
-
-# # https://docs.aws.amazon.com/AmazonECS/latest/userguide/security_iam_id-based-policy-examples.html#IAM_update_service_policies
-# resource "aws_iam_role_policy" "ci_ecs_policy" {
-#   name = "ci-ecs-policy"
-#   role = aws_iam_role.ci_role.id
-#   policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [
-#       {
-#         Effect = "Allow"
-#         Action = [
-#           "ecs:UpdateService",
-#           "ec2:Describe*",
-#           "ecs:RunTask",
-#           "ecs:DescribeTasks",
-#           "iam:PassRole"
-#         ]
-#         Resource = "*"
-#       }
-#     ]
-#   })
-# }
-#
-# resource "aws_iam_role_policy_attachment" "codebuild_ecr_policy" {
-#   role       = aws_iam_role.ci_role.id
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
-# }
+resource "aws_iam_role_policy_attachment" "codebuild_ecr_policy" {
+  role       = aws_iam_role.ci_role.id
+  policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator"
+ }
