@@ -25,6 +25,10 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
         Effect = "Allow"
         Action = [
           "s3:GetObject",
+          "s3:PutObject",
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:DeleteItem"
         ]
         Resource = "*"
       }
