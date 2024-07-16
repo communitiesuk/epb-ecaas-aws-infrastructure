@@ -18,7 +18,7 @@ variable "s3_buckets_to_access" {
   type = list(string)
 }
 
-variable "api_integration_terraform_state_bucket" {
+variable "integration_terraform_state_bucket" {
   type = string
 }
 

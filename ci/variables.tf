@@ -21,7 +21,7 @@ variable "account_ids" {
   type = map(string)
 }
 
-variable "api_integration_terraform_state_bucket" {
+variable "integration_terraform_state_bucket" {
   type = string
 }
 
