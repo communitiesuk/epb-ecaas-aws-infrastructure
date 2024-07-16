@@ -19,7 +19,7 @@ variable "s3_buckets_to_access" {
 }
 
 variable "api_integration_terraform_state_bucket" {
-  type    = string
+  type = string
 }
 
 variable "api_tfstate" {

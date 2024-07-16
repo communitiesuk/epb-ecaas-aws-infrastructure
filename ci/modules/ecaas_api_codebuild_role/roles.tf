@@ -10,15 +10,6 @@ data "aws_iam_policy_document" "assume_role_codebuild" {
   }
 }
 
-data "aws_iam_policy_document" "codebuild_role_policy" {
-  statement {
-    effect = "Allow"
-    actions = ["s3:GetObject"]
-    resources = [
-      "arn:aws:s3:::${var.api_integration_terraform_state_bucket}/${var.api_tfstate}",
-    ]
-  }
-}
 resource "aws_iam_role" "codebuild_role" {
   name               = "ecaas-codebuild-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_codebuild.json

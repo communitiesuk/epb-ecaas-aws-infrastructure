@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "codebuild_ecr_policy" {
+resource "aws_iam_role_policy_attachment" "codebuild_api_gateway_policy" {
   role       = aws_iam_role.ci_role.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator"
- }
+}

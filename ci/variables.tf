@@ -22,9 +22,9 @@ variable "account_ids" {
 }
 
 variable "api_integration_terraform_state_bucket" {
-  type    = string
+  type = string
 }
 
 variable "api_tfstate" {
-  type    = string
+  type = string
 }
