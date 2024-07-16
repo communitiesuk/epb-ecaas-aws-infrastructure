@@ -19,14 +19,12 @@ module "cc-tray" {
 }
 
 module "codebuild_role" {
-  source                             = "./modules/ecaas_api_codebuild_role"
-  codepipeline_bucket_arn            = module.artefact.codepipeline_bucket_arn
-  cross_account_role_arns            = var.cross_account_role_arns
-  codestar_connection_arn            = module.codestar_connection.codestar_connection_arn
-  region                             = var.region
-  s3_buckets_to_access               = [var.integration_terraform_state_bucket]
-  integration_terraform_state_bucket = var.integration_terraform_state_bucket
-  api_tfstate                        = var.api_tfstate
+  source                  = "./modules/ecaas_api_codebuild_role"
+  codepipeline_bucket_arn = module.artefact.codepipeline_bucket_arn
+  cross_account_role_arns = var.cross_account_role_arns
+  codestar_connection_arn = module.codestar_connection.codestar_connection_arn
+  region                  = var.region
+  s3_buckets_to_access    = []
 }
 
 module "ecaas-api-pipeline" {

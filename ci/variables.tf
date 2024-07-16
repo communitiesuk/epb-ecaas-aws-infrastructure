@@ -20,11 +20,3 @@ variable "region" {
 variable "account_ids" {
   type = map(string)
 }
-
-variable "integration_terraform_state_bucket" {
-  type = string
-}
-
-variable "api_tfstate" {
-  type = string
-}
