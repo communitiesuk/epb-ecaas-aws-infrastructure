@@ -28,7 +28,9 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           "s3:PutObject",
           "dynamodb:GetItem",
           "dynamodb:PutItem",
-          "dynamodb:DeleteItem"
+          "dynamodb:DeleteItem",
+          "lambda:GetFunction",
+          "lambda:PutFunction",
         ]
         Resource = ["arn:aws:s3:::${var.integration_terraform_state_bucket}/${var.api_tfstate}", var.integration_terraform_state_table_arn]
       }
