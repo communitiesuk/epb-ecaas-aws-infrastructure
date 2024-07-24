@@ -1,9 +1,22 @@
 data "aws_caller_identity" "current" {}
 
-module "codebuild_run_app_test" {
+module "codebuild_run_api_gateway_terraform" {
   source             = "../codebuild_project"
   codebuild_role_arn = var.codebuild_role_arn
-  name               = "${var.project_name}-codebuild-run-test"
+  name               = "${var.project_name}-codebuild-run-api-gateway-terraform"
+  build_image_uri    = var.codebuild_image_ecr_url
+  buildspec_file     = "buildspec/api_gateway.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+  ]
+  region = var.region
+}
+
+module "codebuild_build_hem_lambda" {
+  source             = "../codebuild_project"
+  codebuild_role_arn = var.codebuild_role_arn
+  name               = "${var.project_name}-codebuild-build-hem-lambda"
   build_image_uri    = var.codebuild_image_ecr_url
   buildspec_file     = "buildspec.yml"
   environment_variables = [
