@@ -26,6 +26,19 @@ module "codebuild_build_hem_lambda" {
   region = var.region
 }
 
+module "codebuild_deploy_hem_lambda" {
+  source             = "../codebuild_project"
+  codebuild_role_arn = var.codebuild_role_arn
+  name               = "${var.project_name}-codebuild-deploy-hem-lambda"
+  build_image_uri    = var.codebuild_image_ecr_url
+  buildspec_file     = "buildspec/deploy_hem_lambda.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+  ]
+  region = var.region
+}
+
 module "codebuild_run_app_test" {
   source             = "../codebuild_project"
   codebuild_role_arn = var.codebuild_role_arn
