@@ -29,10 +29,21 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           "dynamodb:GetItem",
           "dynamodb:PutItem",
           "dynamodb:DeleteItem",
+          "lambda:CreateFunction",
+          "lambda:UpdateFunctionCode",
           "lambda:GetFunction",
-          "lambda:PutFunction",
+          "iam:CreateRole",
+          "iam:AttachRolePolicy",
+          "iam:UpdateAssumeRolePolicy",
+          "iam:PassRole"
         ]
-        Resource = ["arn:aws:s3:::${var.integration_terraform_state_bucket}/${var.api_tfstate}", var.integration_terraform_state_table_arn]
+        Resource = [
+          "arn:aws:s3:::${var.integration_terraform_state_bucket}/${var.api_tfstate}",
+          var.integration_terraform_state_table_arn,
+          var.hem_lambda_arn,
+          var.integration_aws_lambda_role,
+          var.integration_cargo_lambda_role,
+        ]
       }
     ]
   })

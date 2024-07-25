@@ -13,3 +13,15 @@ variable "api_tfstate" {
 variable "integration_terraform_state_table_arn" {
   type = string
 }
+
+variable "hem_lambda_arn" {
+  type = string
+}
+
+variable "integration_aws_lambda_role" {
+  type = string
+}
+
+variable "integration_cargo_lambda_role" {
+  type = string
+}

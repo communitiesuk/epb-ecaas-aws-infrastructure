@@ -46,7 +46,7 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "build-hem-lambda"
-    
+
     action {
       name             = "BuildHEMLambda"
       category         = "Build"
@@ -57,7 +57,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["build_hem_lambda_output"]
 
       configuration = {
-        ProjectName = module.codebuild_build_hem_lambda.codebuild_name
+        ProjectName   = module.codebuild_build_hem_lambda.codebuild_name
         PrimarySource = "source_output"
       }
     }
@@ -65,7 +65,7 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "deploy-hem-lambda"
-    
+
     action {
       name             = "DeployHEMLambda"
       category         = "Build"
@@ -76,7 +76,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["deploy_hem_lambda_output"]
 
       configuration = {
-        ProjectName = module.codebuild_deploy_hem_lambda.codebuild_name
+        ProjectName   = module.codebuild_deploy_hem_lambda.codebuild_name
         PrimarySource = "source_output"
       }
     }
