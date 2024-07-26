@@ -35,15 +35,29 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           "iam:CreateRole",
           "iam:AttachRolePolicy",
           "iam:UpdateAssumeRolePolicy",
-          "iam:PassRole"
+          "iam:PassRole",
         ]
         Resource = [
-          "arn:aws:s3:::${var.integration_terraform_state_bucket}/${var.api_tfstate}",
+          "arn:aws:s3:::${var.integration_terraform_state_bucket}/*",
           var.integration_terraform_state_table_arn,
-          var.hem_lambda_arn,
+          var.integration_hem_lambda_arn,
           var.integration_aws_lambda_role,
           var.integration_cargo_lambda_role,
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "iam:GetRole",
+          "iam:GetPolicy",
+          "iam:ListRolePolicies",
+          "iam:GetPolicyVersion",
+          "iam:ListAttachedRolePolicies",
+          "iam:PassRole",
+          "lambda:ListVersionsByFunction",
+          "lambda:GetFunctionCodeSigningConfig",
+        ]
+        Resource = ["*"]
       }
     ]
   })

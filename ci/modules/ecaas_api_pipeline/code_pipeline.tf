@@ -95,7 +95,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["build_and_test_output"]
 
       configuration = {
-        ProjectName = module.codebuild_run_api_gateway_terraform.codebuild_name
+        ProjectName   = module.codebuild_run_api_gateway_terraform.codebuild_name
         PrimarySource = "source_output"
       }
     }

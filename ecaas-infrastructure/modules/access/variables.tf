@@ -6,15 +6,11 @@ variable "integration_terraform_state_bucket" {
   type = string
 }
 
-variable "api_tfstate" {
-  type = string
-}
-
 variable "integration_terraform_state_table_arn" {
   type = string
 }
 
-variable "hem_lambda_arn" {
+variable "integration_hem_lambda_arn" {
   type = string
 }
 
