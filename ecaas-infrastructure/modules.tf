@@ -7,3 +7,7 @@ module "access" {
   integration_aws_lambda_role           = var.integration_aws_lambda_role
   integration_cargo_lambda_role         = var.integration_cargo_lambda_role
 }
+
+module "api_gateway" {
+  source = "./modules/api_gateway"
+}
