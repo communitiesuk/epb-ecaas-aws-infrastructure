@@ -56,6 +56,9 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           "iam:PassRole",
           "lambda:ListVersionsByFunction",
           "lambda:GetFunctionCodeSigningConfig",
+          "lambda:AddPermission",
+          "lambda:RemovePermission",
+          "lambda:GetPolicy"
         ]
         Resource = ["*"]
       }
