@@ -63,39 +63,20 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  # stage {
-  #   name = "deploy-hem-lambda"
-
-  #   action {
-  #     name             = "DeployHEMLambda"
-  #     category         = "Build"
-  #     owner            = "AWS"
-  #     provider         = "CodeBuild"
-  #     version          = "1"
-  #     input_artifacts  = ["build_hem_lambda_output", "source_output"]
-  #     output_artifacts = ["deploy_hem_lambda_output"]
-
-  #     configuration = {
-  #       ProjectName   = module.codebuild_deploy_hem_lambda.codebuild_name
-  #       PrimarySource = "source_output"
-  #     }
-  #   }
-  # }
-
   stage {
-    name = "terraform-api-gateway"
+    name = "deploy-hem-lambda"
 
     action {
-      name             = "TerraformAPIGateway"
+      name             = "DeployHEMLambda"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
       input_artifacts  = ["build_hem_lambda_output", "source_output"]
-      output_artifacts = ["build_and_test_output"]
+      output_artifacts = ["deploy_hem_lambda_output"]
 
       configuration = {
-        ProjectName   = module.codebuild_run_api_gateway_terraform.codebuild_name
+        ProjectName   = module.codebuild_deploy_hem_lambda.codebuild_name
         PrimarySource = "source_output"
       }
     }
