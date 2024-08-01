@@ -73,7 +73,8 @@ resource "aws_lambda_function" "lambda" {
   handler          = "bootstrap"
   runtime          = "provided.al2023"
   architectures    = ["arm64"]
-  timeout          = 30
+  timeout          = 60
+  memory_size      = 3072
 }
 
 resource "aws_iam_role" "lambda_role" {
