@@ -62,8 +62,8 @@ resource "aws_api_gateway_method_response" "GetApiMethodResponse" {
 # create lambda
 data "archive_file" "aws_lambda_placeholder_archive" {
   type        = "zip"
-  source_file = "empty_lambda.py"
-  output_path = "empty_lambda.zip"
+  source_file = "bootstrap"
+  output_path = "bootstrap.zip"
 }
 
 resource "aws_lambda_function" "lambda" {
@@ -74,7 +74,6 @@ resource "aws_lambda_function" "lambda" {
   runtime          = "provided.al2023"
   architectures    = ["arm64"]
   timeout          = 30
-  source_code_hash = filebase64sha256(data.archive_file.aws_lambda_placeholder_archive.output_path)
 }
 
 resource "aws_iam_role" "lambda_role" {
