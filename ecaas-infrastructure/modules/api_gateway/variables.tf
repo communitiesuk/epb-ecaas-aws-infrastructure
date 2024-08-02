@@ -3,3 +3,6 @@ variable "api_version" {
   type    = string
 }
 
+variable "region" {
+  type = string
+}
