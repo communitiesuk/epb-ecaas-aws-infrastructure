@@ -66,15 +66,15 @@ data "archive_file" "aws_lambda_placeholder_archive" {
   output_path = "bootstrap.zip"
 }
 
-resource "aws_lambda_function" "lambda" {
-  filename         = data.archive_file.aws_lambda_placeholder_archive.output_path
-  function_name    = "hem-lambda"
-  role             = aws_iam_role.lambda_role.arn
-  handler          = "bootstrap"
-  runtime          = "provided.al2023"
-  architectures    = ["arm64"]
-  timeout          = 60
-  memory_size      = 3072
+resource "aws_lambda_function" "hem_lambda" {
+  filename      = data.archive_file.aws_lambda_placeholder_archive.output_path
+  function_name = "hem-lambda"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "bootstrap"
+  runtime       = "provided.al2023"
+  architectures = ["arm64"]
+  timeout       = 60
+  memory_size   = 3072
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -124,7 +124,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 resource "aws_lambda_permission" "api_gateway_lambda_permission" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda.function_name
+  function_name = aws_lambda_function.hem_lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.ECaaSAPI.execution_arn}/*/*"
 }
@@ -143,14 +143,14 @@ resource "aws_api_gateway_method" "proxy" {
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "lambda" {
+resource "aws_api_gateway_integration" "hem_lambda" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
   resource_id = aws_api_gateway_method.proxy.resource_id
   http_method = aws_api_gateway_method.proxy.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda.invoke_arn
+  uri                     = aws_lambda_function.hem_lambda.invoke_arn
 }
 
 # Set up deployment
@@ -165,7 +165,7 @@ resource "aws_api_gateway_deployment" "Deployment" {
       aws_api_gateway_method.GetApiMethod.id,
       aws_api_gateway_integration.GatewayIntegration.id,
       aws_api_gateway_integration_response.GetApiIntegrationResponse.response_templates,
-      aws_api_gateway_integration.lambda.id
+      aws_api_gateway_integration.hem_lambda.id
     ]))
   }
 
