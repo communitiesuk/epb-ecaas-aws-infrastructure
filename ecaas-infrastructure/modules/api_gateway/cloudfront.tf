@@ -38,3 +38,8 @@ resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
     viewer_protocol_policy = "allow-all"
   }
 }
+
+resource "aws_shield_protection" "ecaas_integration_cloudfront" {
+  name         = "ecaas_integration_cloudfront_protection"
+  resource_arn = aws_cloudfront_distribution.api_gateway_cloudfront_distribution.arn
+}
