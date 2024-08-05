@@ -1,5 +1,6 @@
 resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
-  enabled = true
+  enabled    = true
+  web_acl_id = aws_wafv2_web_acl.ecaas_integration_web_acl.arn
 
   origin {
     domain_name = "${aws_api_gateway_rest_api.ECaaSAPI.id}.execute-api.${var.region}.amazonaws.com"
