@@ -151,8 +151,4 @@ resource "aws_wafv2_web_acl" "ecaas_web_acl" {
     metric_name                = "waf-metrics"
     sampled_requests_enabled   = false
   }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
