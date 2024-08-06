@@ -1,6 +1,6 @@
 resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
   enabled    = true
-  web_acl_id = aws_wafv2_web_acl.ecaas_integration_web_acl.arn
+  web_acl_id = aws_wafv2_web_acl.ecaas_web_acl.arn
 
   origin {
     domain_name = "${aws_api_gateway_rest_api.ECaaSAPI.id}.execute-api.${var.region}.amazonaws.com"
@@ -40,7 +40,7 @@ resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
   }
 }
 
-resource "aws_shield_protection" "ecaas_integration_cloudfront" {
-  name         = "ecaas_integration_cloudfront_protection"
+resource "aws_shield_protection" "ecaas_cloudfront" {
+  name         = "ecaas_cloudfront_protection"
   resource_arn = aws_cloudfront_distribution.api_gateway_cloudfront_distribution.arn
 }

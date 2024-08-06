@@ -1,5 +1,5 @@
-resource "aws_wafv2_web_acl" "ecaas_integration_web_acl" {
-  name        = "ecaas_integration_web_acl"
+resource "aws_wafv2_web_acl" "ecaas_web_acl" {
+  name        = "ecaas_web_acl"
   description = "Web ACL to restrict traffic to CloudFront"
   provider    = aws.us-east
   scope       = "CLOUDFRONT"
