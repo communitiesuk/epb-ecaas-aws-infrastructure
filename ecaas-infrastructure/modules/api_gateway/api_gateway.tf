@@ -31,7 +31,8 @@ resource "aws_api_gateway_method" "GetApiMethod" {
   rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
   resource_id   = aws_api_gateway_resource.ApiResource.id
   http_method   = "GET"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
 }
 
 resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
@@ -60,23 +61,24 @@ resource "aws_api_gateway_method_response" "GetApiMethodResponse" {
 }
 
 # hook up lambda
-resource "aws_api_gateway_resource" "proxy" {
+resource "aws_api_gateway_resource" "HomeEnergyModelResource" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
   parent_id   = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
   path_part   = "home-energy-model"
 }
 
-resource "aws_api_gateway_method" "proxy" {
+resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
   rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id   = aws_api_gateway_resource.proxy.id
+  resource_id   = aws_api_gateway_resource.HomeEnergyModelResource.id
   http_method   = "POST"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
 }
 
 resource "aws_api_gateway_integration" "hem_lambda" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_method.proxy.resource_id
-  http_method = aws_api_gateway_method.proxy.http_method
+  resource_id = aws_api_gateway_method.HomeEnergyModelPostMethod.resource_id
+  http_method = aws_api_gateway_method.HomeEnergyModelPostMethod.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
@@ -93,6 +95,9 @@ resource "aws_api_gateway_deployment" "Deployment" {
       aws_api_gateway_rest_api.ECaaSAPI.description,
       aws_api_gateway_resource.ApiResource.id,
       aws_api_gateway_method.GetApiMethod.id,
+      aws_api_gateway_method.GetApiMethod.authorization,
+      aws_api_gateway_method.HomeEnergyModelPostMethod.id,
+      aws_api_gateway_method.HomeEnergyModelPostMethod.authorization,
       aws_api_gateway_integration.GatewayIntegration.id,
       aws_api_gateway_integration_response.GetApiIntegrationResponse.response_templates,
       aws_api_gateway_integration.hem_lambda.id
