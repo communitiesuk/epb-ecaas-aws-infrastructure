@@ -33,6 +33,7 @@ resource "aws_api_gateway_method" "GetApiMethod" {
   http_method   = "GET"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
+  authorization_scopes = [ "resource-server/home-energy-model" ]
 }
 
 resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
@@ -73,6 +74,7 @@ resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
   http_method   = "POST"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
+  authorization_scopes = [ "resource-server/home-energy-model" ]
 }
 
 resource "aws_api_gateway_integration" "hem_lambda" {
@@ -94,10 +96,8 @@ resource "aws_api_gateway_deployment" "Deployment" {
       aws_api_gateway_rest_api.ECaaSAPI.id,
       aws_api_gateway_rest_api.ECaaSAPI.description,
       aws_api_gateway_resource.ApiResource.id,
-      aws_api_gateway_method.GetApiMethod.id,
-      aws_api_gateway_method.GetApiMethod.authorization,
-      aws_api_gateway_method.HomeEnergyModelPostMethod.id,
-      aws_api_gateway_method.HomeEnergyModelPostMethod.authorization,
+      aws_api_gateway_method.GetApiMethod,
+      aws_api_gateway_method.HomeEnergyModelPostMethod,
       aws_api_gateway_integration.GatewayIntegration.id,
       aws_api_gateway_integration_response.GetApiIntegrationResponse.response_templates,
       aws_api_gateway_integration.hem_lambda.id

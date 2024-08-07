@@ -19,4 +19,19 @@ resource "aws_cognito_user_pool_client" "client" {
   user_pool_id        = aws_cognito_user_pool.pool.id
   generate_secret     = true
   explicit_auth_flows = ["ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_PASSWORD_AUTH", "ALLOW_ADMIN_USER_PASSWORD_AUTH", "ALLOW_CUSTOM_AUTH", "ALLOW_USER_SRP_AUTH"]
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["client_credentials"]
+  allowed_oauth_scopes                 = ["resource-server/home-energy-model"]
+}
+
+resource "aws_cognito_resource_server" "resource" {
+  identifier = "resource-server"
+  name       = "resource-server"
+
+  scope {
+    scope_name        = "home-energy-model"
+    scope_description = "access to home energy model api endpoint"
+  }
+
+  user_pool_id = aws_cognito_user_pool.pool.id
 }
