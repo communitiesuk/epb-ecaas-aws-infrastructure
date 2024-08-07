@@ -33,7 +33,7 @@ resource "aws_api_gateway_method" "GetApiMethod" {
   http_method   = "GET"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
-  authorization_scopes = [ "resource-server/home-energy-model" ]
+  authorization_scopes = [ "ecaas-api/home-energy-model" ]
 }
 
 resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
@@ -74,7 +74,7 @@ resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
   http_method   = "POST"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
-  authorization_scopes = [ "resource-server/home-energy-model" ]
+  authorization_scopes = [ "ecaas-api/home-energy-model" ]
 }
 
 resource "aws_api_gateway_integration" "hem_lambda" {
