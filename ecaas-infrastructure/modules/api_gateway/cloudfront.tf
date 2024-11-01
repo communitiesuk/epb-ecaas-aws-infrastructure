@@ -21,8 +21,10 @@ resource "aws_cloudfront_cache_policy" "cache_policy" {
 
 
 resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
-  enabled    = true
-  web_acl_id = aws_wafv2_web_acl.ecaas_web_acl.arn
+  enabled         = true
+  is_ipv6_enabled = true
+  price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
+  web_acl_id      = aws_wafv2_web_acl.ecaas_web_acl.arn
 
   origin {
     domain_name = "${aws_api_gateway_rest_api.ECaaSAPI.id}.execute-api.${var.region}.amazonaws.com"
@@ -36,7 +38,9 @@ resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn      = var.cdn_certificate_arn
+    minimum_protocol_version = "TLSv1.2_2021"
+    ssl_support_method       = "sni-only"
   }
 
   restrictions {
