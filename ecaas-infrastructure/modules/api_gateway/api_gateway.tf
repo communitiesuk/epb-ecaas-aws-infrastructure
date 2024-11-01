@@ -8,6 +8,11 @@ resource "aws_api_gateway_rest_api" "ECaaSAPI" {
   }
 }
 
+resource "aws_api_gateway_domain_name" "ECaaSAPIDomainName" {
+  certificate_arn = var.cdn_certificate_arn
+  domain_name     = var.domain_name
+}
+
 resource "aws_api_gateway_integration" "GatewayIntegration" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
   resource_id = aws_api_gateway_resource.ApiResource.id

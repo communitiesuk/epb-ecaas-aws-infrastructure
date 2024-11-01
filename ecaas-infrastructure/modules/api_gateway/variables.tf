@@ -11,3 +11,11 @@ variable "tracing_config_mode" {
   description = "Can be either PassThrough or Active"
   default     = "Active"
 }
+
+variable "cdn_certificate_arn" {
+  type = string
+}
+
+variable "domain_name" {
+  type = string
+}
