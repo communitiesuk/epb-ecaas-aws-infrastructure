@@ -13,6 +13,12 @@ resource "aws_api_gateway_domain_name" "ECaaSAPIDomainName" {
   domain_name     = var.domain_name
 }
 
+resource "aws_api_gateway_base_path_mapping" "example" {
+  api_id      = aws_api_gateway_rest_api.ECaaSAPI.id
+  stage_name  = aws_api_gateway_stage.DeploymentStage.stage_name
+  domain_name = aws_api_gateway_domain_name.ECaaSAPIDomainName.domain_name
+}
+
 resource "aws_api_gateway_integration" "GatewayIntegration" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
   resource_id = aws_api_gateway_resource.ApiResource.id
