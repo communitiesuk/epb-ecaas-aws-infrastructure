@@ -13,6 +13,10 @@ resource "aws_lambda_function" "hem_lambda" {
   architectures = ["arm64"]
   timeout       = 60
   memory_size   = 3072
+
+  tracing_config {
+    mode = var.tracing_config_mode
+  }
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -65,4 +69,32 @@ resource "aws_lambda_permission" "api_gateway_lambda_permission" {
   function_name = aws_lambda_function.hem_lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.ECaaSAPI.execution_arn}/*/*"
+}
+
+data "aws_iam_policy_document" "xray_tracing" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords",
+        "xray:GetSamplingRules",
+        "xray:GetSamplingTargets",
+        "xray:GetSamplingStatisticSummaries"
+    ]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "xray_tracing" {
+  name        = "xray_tracing"
+  path        = "/"
+  description = "IAM policy for x-ray tracing from a lambda"
+  policy      = data.aws_iam_policy_document.xray_tracing.json
+}
+
+resource "aws_iam_role_policy_attachment" "xray_tracing" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.xray_tracing.arn
 }

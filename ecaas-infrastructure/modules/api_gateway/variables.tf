@@ -6,3 +6,8 @@ variable "api_version" {
 variable "region" {
   type = string
 }
+
+variable "tracing_config_mode" {
+  description = "Can be either PassThrough or Active"
+  default     = "Active"
+}
