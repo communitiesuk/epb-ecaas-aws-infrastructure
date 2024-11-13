@@ -125,4 +125,72 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
   rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
   stage_name    = "Deployment"
   xray_tracing_enabled = var.xray_tracing_enabled
+  depends_on = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
+}
+
+resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
+  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
+  stage_name  = aws_api_gateway_stage.DeploymentStage.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+    data_trace_enabled = false
+  }
+}
+
+resource "aws_cloudwatch_log_group" "ApiGatewayLogGroup" {
+  name              = "API-Gateway-Execution-Logs-ECaaS-API"
+  retention_in_days = 7
+}
+
+resource "aws_api_gateway_account" "CloudwatchAccount" {
+  cloudwatch_role_arn = aws_iam_role.cloudwatch.arn
+}
+
+data "aws_iam_policy_document" "AssumeRole" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "cloudwatch" {
+  name               = "api_gateway_cloudwatch_global"
+  assume_role_policy = data.aws_iam_policy_document.AssumeRole.json
+}
+
+data "aws_iam_policy_document" "cloudwatch" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+      "logs:PutLogEvents",
+      "logs:GetLogEvents",
+      "logs:FilterLogEvents",
+    ]
+
+    resources = ["*"]
+  }
+}
+resource "aws_iam_role_policy" "cloudwatch" {
+  name   = "default"
+  role   = aws_iam_role.cloudwatch.id
+  policy = data.aws_iam_policy_document.cloudwatch.json
+}
+
+resource "aws_iam_role_policy_attachment" "APIGatewayPushToCloudWatchLogs" {
+  role       = aws_iam_role.cloudwatch.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
 }
