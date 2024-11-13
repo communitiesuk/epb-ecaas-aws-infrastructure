@@ -10,10 +10,10 @@ resource "aws_api_gateway_rest_api" "ECaaSAPI" {
 
 resource "aws_api_gateway_domain_name" "ECaaSAPIDomainName" {
   certificate_arn = var.cdn_certificate_arn
-  domain_name     = var.domain_name
+  domain_name     = "api.${var.domain_name}"
 }
 
-resource "aws_api_gateway_base_path_mapping" "example" {
+resource "aws_api_gateway_base_path_mapping" "this" {
   api_id      = aws_api_gateway_rest_api.ECaaSAPI.id
   stage_name  = aws_api_gateway_stage.DeploymentStage.stage_name
   domain_name = aws_api_gateway_domain_name.ECaaSAPIDomainName.domain_name
