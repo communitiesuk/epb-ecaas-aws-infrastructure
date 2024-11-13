@@ -136,7 +136,7 @@ resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
   settings {
     metrics_enabled = true
     logging_level   = "INFO"
-    data_trace_enabled = false
+    data_trace_enabled = true
   }
 }
 
