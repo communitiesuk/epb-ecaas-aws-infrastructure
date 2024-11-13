@@ -20,3 +20,8 @@ variable "region" {
 variable "account_ids" {
   type = map(string)
 }
+
+variable "tech_docs_bucket_name" {
+  default = "epb-ecaas-tech-docs-bucket"
+  type = string
+}

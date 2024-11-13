@@ -44,3 +44,17 @@ module "ecaas-api-pipeline" {
   region                  = var.region
   account_ids             = var.account_ids
 }
+
+module "tech_docs_pipeline" {
+  artefact_bucket         = module.artefact.codepipeline_bucket
+  codebuild_role_arn      = module.codebuild_role.aws_codebuild_role_arn
+  codepipeline_role_arn   = module.codepipeline_role.aws_codepipeline_role_arn
+  codestar_connection_arn = module.codestar_connection.codestar_connection_arn
+  github_branch           = "main"
+  github_repository       = "epb-ecaas-tech-docs"
+  github_organisation     = var.github_organisation
+  region                  = var.region
+  repo_bucket_name        = var.tech_docs_bucket_name
+  source                  = "./modules/tech-docs-pipeline"
+  dev_account_id          = var.account_ids["integration"]
+}
