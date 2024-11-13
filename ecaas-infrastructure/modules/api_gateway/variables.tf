@@ -19,3 +19,9 @@ variable "cdn_certificate_arn" {
 variable "domain_name" {
   type = string
 }
+
+variable "xray_tracing_enabled" {
+  description = "Enables the XRay tracing and will create the necessary IAM permissions"
+  type        = bool
+  default     = true
+}

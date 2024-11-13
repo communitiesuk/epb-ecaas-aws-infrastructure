@@ -124,4 +124,5 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
   deployment_id = aws_api_gateway_deployment.Deployment.id
   rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
   stage_name    = "Deployment"
+  xray_tracing_enabled = var.xray_tracing_enabled
 }
