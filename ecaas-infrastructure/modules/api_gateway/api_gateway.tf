@@ -128,6 +128,7 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
   depends_on = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
 }
 
+# Set up logging
 resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
   stage_name  = aws_api_gateway_stage.DeploymentStage.stage_name
@@ -136,7 +137,7 @@ resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
   settings {
     metrics_enabled = true
     logging_level   = "INFO"
-    data_trace_enabled = true
+    data_trace_enabled = false // keep false otherwise Authentication access token gets written to logs
   }
 }
 
