@@ -25,3 +25,9 @@ variable "xray_tracing_enabled" {
   type        = bool
   default     = true
 }
+
+variable "stage_name" {
+  default = "Deployment"
+  type    = string
+}
+

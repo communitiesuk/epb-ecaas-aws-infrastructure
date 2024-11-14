@@ -123,7 +123,7 @@ resource "aws_api_gateway_deployment" "Deployment" {
 resource "aws_api_gateway_stage" "DeploymentStage" {
   deployment_id = aws_api_gateway_deployment.Deployment.id
   rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
-  stage_name    = "Deployment"
+  stage_name    = var.stage_name
   xray_tracing_enabled = var.xray_tracing_enabled
   depends_on = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
 }
@@ -131,7 +131,7 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
 # Set up logging
 resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  stage_name  = aws_api_gateway_stage.DeploymentStage.stage_name
+  stage_name  = var.stage_name
   method_path = "*/*"
 
   settings {
@@ -142,7 +142,7 @@ resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
 }
 
 resource "aws_cloudwatch_log_group" "ApiGatewayLogGroup" {
-  name              = "API-Gateway-Execution-Logs-ECaaS-API"
+  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ECaaSAPI.id}/${var.stage_name}"
   retention_in_days = 7
 }
 
