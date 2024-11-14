@@ -23,5 +23,5 @@ variable "account_ids" {
 
 variable "tech_docs_bucket_name" {
   default = "epb-ecaas-tech-docs-bucket"
-  type = string
+  type    = string
 }

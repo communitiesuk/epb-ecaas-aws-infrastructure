@@ -24,7 +24,7 @@ module "codebuild_role" {
   cross_account_role_arns = var.cross_account_role_arns
   codestar_connection_arn = module.codestar_connection.codestar_connection_arn
   region                  = var.region
-  s3_buckets_to_access    = [ var.tech_docs_bucket_name ]
+  s3_buckets_to_access    = [var.tech_docs_bucket_name]
 }
 
 module "ecaas-api-pipeline" {
@@ -57,4 +57,10 @@ module "tech_docs_pipeline" {
   repo_bucket_name        = var.tech_docs_bucket_name
   source                  = "./modules/tech-docs-pipeline"
   dev_account_id          = var.account_ids["integration"]
+}
+
+module "tech_docs" {
+  source                = "./modules/tech_docs"
+  region                = var.region
+  tech_docs_bucket_name = var.tech_docs_bucket_name
 }
