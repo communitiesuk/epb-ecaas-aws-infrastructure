@@ -168,29 +168,6 @@ resource "aws_iam_role" "cloudwatch" {
   assume_role_policy = data.aws_iam_policy_document.AssumeRole.json
 }
 
-data "aws_iam_policy_document" "cloudwatch" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:DescribeLogGroups",
-      "logs:DescribeLogStreams",
-      "logs:PutLogEvents",
-      "logs:GetLogEvents",
-      "logs:FilterLogEvents",
-    ]
-
-    resources = ["*"]
-  }
-}
-resource "aws_iam_role_policy" "cloudwatch" {
-  name   = "default"
-  role   = aws_iam_role.cloudwatch.id
-  policy = data.aws_iam_policy_document.cloudwatch.json
-}
-
 resource "aws_iam_role_policy_attachment" "APIGatewayPushToCloudWatchLogs" {
   role       = aws_iam_role.cloudwatch.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
