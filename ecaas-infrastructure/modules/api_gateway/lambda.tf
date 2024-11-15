@@ -12,7 +12,7 @@ resource "aws_lambda_function" "hem_lambda" {
   runtime       = "provided.al2023"
   architectures = ["arm64"]
   timeout       = 60
-  memory_size   = 3072
+  memory_size   = 8192
 
   tracing_config {
     mode = var.tracing_config_mode
