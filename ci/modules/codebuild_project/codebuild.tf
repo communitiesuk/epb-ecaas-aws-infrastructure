@@ -8,7 +8,7 @@ resource "aws_codebuild_project" "this" {
   }
 
   environment {
-    compute_type    = "BUILD_GENERAL1_SMALL"
+    compute_type    = var.codebuild_compute_type
     image           = var.build_image_uri
     type            = var.codebuild_environment_type
     privileged_mode = true

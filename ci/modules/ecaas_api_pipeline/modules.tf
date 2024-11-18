@@ -17,7 +17,8 @@ module "codebuild_build_hem_lambda" {
   source             = "../codebuild_project"
   codebuild_role_arn = var.codebuild_role_arn
   name               = "${var.project_name}-codebuild-build-hem-lambda"
-  build_image_uri    = var.codebuild_image_ecr_url
+  codebuild_environment_type = "ARM_CONTAINER"
+  build_image_uri    = "aws/codebuild/amazonlinux2-aarch64-standard:3.0"
   buildspec_file     = "buildspec/build_hem_lambda.yml"
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },

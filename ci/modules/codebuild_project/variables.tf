@@ -11,6 +11,11 @@ variable "codebuild_environment_type" {
   type    = string
 }
 
+variable "codebuild_compute_type" {
+  default = "BUILD_GENERAL1_SMALL"
+  type = string
+}
+
 variable "build_image_uri" {
   type = string
 }
