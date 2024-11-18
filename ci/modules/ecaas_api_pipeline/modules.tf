@@ -17,6 +17,7 @@ module "codebuild_build_hem_lambda" {
   source             = "../codebuild_project"
   codebuild_role_arn = var.codebuild_role_arn
   name               = "${var.project_name}-codebuild-build-hem-lambda"
+  codebuild_compute_type = "BUILD_GENERAL1_LARGE"
   codebuild_environment_type = "ARM_CONTAINER"
   build_image_uri    = "aws/codebuild/amazonlinux2-aarch64-standard:3.0"
   buildspec_file     = "buildspec/build_hem_lambda.yml"
