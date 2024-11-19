@@ -143,7 +143,7 @@ resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
 
 resource "aws_cloudwatch_log_group" "ApiGatewayLogGroup" {
   name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ECaaSAPI.id}/${var.stage_name}"
-  retention_in_days = 7
+  retention_in_days = 14
 }
 
 resource "aws_api_gateway_account" "CloudwatchAccount" {
