@@ -15,4 +15,9 @@ provider "aws" {
   shared_credentials_files = ["~/.aws/credentials"]
 }
 
+provider "aws" {
+  alias  = "us-east"
+  region = "us-east-1"
+}
+
 

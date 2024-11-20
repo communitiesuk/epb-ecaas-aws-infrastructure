@@ -1,6 +1,6 @@
 resource "aws_cloudfront_origin_access_control" "this" {
   name                              = aws_s3_bucket.tech-docs-s3.bucket_domain_name
-  description                       = "tech docs bucket"
+  description                       = "ECaaS public documentation bucket"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -15,6 +15,10 @@ resource "aws_cloudfront_distribution" "tech_docs_s3_distribution" {
   # By default, show index.html file
   default_root_object = "index.html"
   enabled             = true
+  is_ipv6_enabled     = true
+  price_class         = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
+  aliases             = [aws_acm_certificate.cert.domain_name]
+
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -28,7 +32,7 @@ resource "aws_cloudfront_distribution" "tech_docs_s3_distribution" {
         forward = "all"
       }
     }
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
@@ -54,7 +58,9 @@ resource "aws_cloudfront_distribution" "tech_docs_s3_distribution" {
 
   # SSL certificate for the service.
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn      = aws_acm_certificate.cert-cdn.arn
+    minimum_protocol_version = "TLSv1.2_2021"
+    ssl_support_method       = "sni-only"
   }
 
 
