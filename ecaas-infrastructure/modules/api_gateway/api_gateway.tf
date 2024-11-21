@@ -127,6 +127,20 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
   stage_name           = var.stage_name
   xray_tracing_enabled = var.xray_tracing_enabled
   depends_on           = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
+
+   access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.ApiGatewayLogGroup.arn
+    format          = jsonencode({
+      "requestId" : "$context.requestId",
+      "extendedRequestId" : "$context.extendedRequestId",
+      "requestTime" : "$context.requestTime",
+      "httpMethod" : "$context.httpMethod",
+      "resourcePath" : "$context.resourcePath",
+      "status" : "$context.status",
+      "protocol" : "$context.protocol",
+      "responseLength" : "$context.responseLength"
+    })
+  }
 }
 
 # Set up logging
