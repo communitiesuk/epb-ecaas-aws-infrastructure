@@ -67,15 +67,22 @@ resource "aws_api_gateway_method_response" "GetApiMethodResponse" {
 }
 
 # hook up lambda
-resource "aws_api_gateway_resource" "HomeEnergyModelResource" {
+
+resource "aws_api_gateway_resource" "ECaaSBetaResource" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
   parent_id   = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
-  path_part   = "home-energy-model"
+  path_part   = "beta"
+}
+
+resource "aws_api_gateway_resource" "FHSComplianceResource" {
+  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
+  parent_id   = aws_api_gateway_resource.ECaaSBetaResource.id
+  path_part   = "future-homes-standard-compliance"
 }
 
 resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
   rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id          = aws_api_gateway_resource.HomeEnergyModelResource.id
+  resource_id          = aws_api_gateway_resource.FHSComplianceResource.id
   http_method          = "POST"
   authorization        = "COGNITO_USER_POOLS"
   authorizer_id        = aws_api_gateway_authorizer.gateway_authorizer.id
