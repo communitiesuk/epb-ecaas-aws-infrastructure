@@ -50,11 +50,11 @@ resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
   }
 
   default_cache_behavior {
-    allowed_methods          = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods           = ["HEAD", "GET", "OPTIONS"]
-    target_origin_id         = "ApiGatewayOrigin"
-    cache_policy_id          = aws_cloudfront_cache_policy.cache_policy.id
-    viewer_protocol_policy   = "allow-all"
+    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods         = ["HEAD", "GET", "OPTIONS"]
+    target_origin_id       = "ApiGatewayOrigin"
+    cache_policy_id        = aws_cloudfront_cache_policy.cache_policy.id
+    viewer_protocol_policy = "allow-all"
   }
 }
 

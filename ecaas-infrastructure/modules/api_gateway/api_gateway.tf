@@ -39,12 +39,12 @@ resource "aws_api_gateway_resource" "ApiResource" {
 }
 
 resource "aws_api_gateway_method" "GetApiMethod" {
-  rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id   = aws_api_gateway_resource.ApiResource.id
-  http_method   = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
-  authorization_scopes = [ "ecaas-api/home-energy-model" ]
+  rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
+  resource_id          = aws_api_gateway_resource.ApiResource.id
+  http_method          = "GET"
+  authorization        = "COGNITO_USER_POOLS"
+  authorizer_id        = aws_api_gateway_authorizer.gateway_authorizer.id
+  authorization_scopes = ["ecaas-api/home-energy-model"]
 }
 
 resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
@@ -80,12 +80,12 @@ resource "aws_api_gateway_resource" "HomeEnergyModelResource" {
 }
 
 resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
-  rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id   = aws_api_gateway_resource.HomeEnergyModelResource.id
-  http_method   = "POST"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.gateway_authorizer.id
-  authorization_scopes = [ "ecaas-api/home-energy-model" ]
+  rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
+  resource_id          = aws_api_gateway_resource.HomeEnergyModelResource.id
+  http_method          = "POST"
+  authorization        = "COGNITO_USER_POOLS"
+  authorizer_id        = aws_api_gateway_authorizer.gateway_authorizer.id
+  authorization_scopes = ["ecaas-api/home-energy-model"]
 }
 
 resource "aws_api_gateway_integration" "hem_lambda" {
@@ -121,11 +121,11 @@ resource "aws_api_gateway_deployment" "Deployment" {
 }
 
 resource "aws_api_gateway_stage" "DeploymentStage" {
-  deployment_id = aws_api_gateway_deployment.Deployment.id
-  rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
-  stage_name    = var.stage_name
+  deployment_id        = aws_api_gateway_deployment.Deployment.id
+  rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
+  stage_name           = var.stage_name
   xray_tracing_enabled = var.xray_tracing_enabled
-  depends_on = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
+  depends_on           = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
 }
 
 # Set up logging
@@ -135,14 +135,14 @@ resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
   method_path = "*/*"
 
   settings {
-    metrics_enabled = true
-    logging_level   = "INFO"
+    metrics_enabled    = true
+    logging_level      = "INFO"
     data_trace_enabled = false // keep false otherwise Authentication access token gets written to logs
   }
 }
 
 resource "aws_cloudwatch_log_group" "ApiGatewayLogGroup" {
-  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ECaaSAPI.id}/${var.stage_name}"
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ECaaSAPI.id}/${var.stage_name}"
   retention_in_days = 14
 }
 
