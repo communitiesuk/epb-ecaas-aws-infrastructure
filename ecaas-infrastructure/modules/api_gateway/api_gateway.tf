@@ -21,7 +21,7 @@ resource "aws_api_gateway_base_path_mapping" "this" {
 
 resource "aws_api_gateway_integration" "GatewayIntegration" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_resource.ApiResource.id
+  resource_id = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
   http_method = aws_api_gateway_method.GetApiMethod.http_method
   type        = "MOCK"
   request_templates = {
@@ -31,16 +31,10 @@ resource "aws_api_gateway_integration" "GatewayIntegration" {
   }
 }
 
-# Set up /api method
-resource "aws_api_gateway_resource" "ApiResource" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  parent_id   = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
-  path_part   = "api"
-}
-
+# Set up root method
 resource "aws_api_gateway_method" "GetApiMethod" {
   rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id          = aws_api_gateway_resource.ApiResource.id
+  resource_id          = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
   http_method          = "GET"
   authorization        = "COGNITO_USER_POOLS"
   authorizer_id        = aws_api_gateway_authorizer.gateway_authorizer.id
@@ -49,7 +43,7 @@ resource "aws_api_gateway_method" "GetApiMethod" {
 
 resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_resource.ApiResource.id
+  resource_id = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
   http_method = aws_api_gateway_method.GetApiMethod.http_method
   status_code = aws_api_gateway_method_response.GetApiMethodResponse.status_code
   response_templates = {
@@ -67,7 +61,7 @@ resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
 
 resource "aws_api_gateway_method_response" "GetApiMethodResponse" {
   rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_resource.ApiResource.id
+  resource_id = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
   http_method = aws_api_gateway_method.GetApiMethod.http_method
   status_code = "200"
 }
@@ -106,7 +100,7 @@ resource "aws_api_gateway_deployment" "Deployment" {
     redeployment = sha1(jsonencode([
       aws_api_gateway_rest_api.ECaaSAPI.id,
       aws_api_gateway_rest_api.ECaaSAPI.description,
-      aws_api_gateway_resource.ApiResource.id,
+      aws_api_gateway_rest_api.ECaaSAPI.root_resource_id,
       aws_api_gateway_method.GetApiMethod,
       aws_api_gateway_method.HomeEnergyModelPostMethod,
       aws_api_gateway_integration.GatewayIntegration.id,
