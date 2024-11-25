@@ -138,7 +138,8 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
       "resourcePath" : "$context.resourcePath",
       "status" : "$context.status",
       "protocol" : "$context.protocol",
-      "responseLength" : "$context.responseLength"
+      "responseLength" : "$context.responseLength",
+      "client_id" : "$context.authorizer.claims.client_id",
     })
   }
 }
