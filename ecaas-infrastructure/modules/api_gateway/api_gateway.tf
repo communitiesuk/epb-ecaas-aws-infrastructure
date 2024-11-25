@@ -128,9 +128,9 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
   xray_tracing_enabled = var.xray_tracing_enabled
   depends_on           = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
 
-   access_log_settings {
+  access_log_settings {
     destination_arn = aws_cloudwatch_log_group.ApiGatewayLogGroup.arn
-    format          = jsonencode({
+    format = jsonencode({
       "requestId" : "$context.requestId",
       "extendedRequestId" : "$context.extendedRequestId",
       "requestTime" : "$context.requestTime",
@@ -158,7 +158,7 @@ resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
 
 resource "aws_cloudwatch_log_group" "ApiGatewayLogGroup" {
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ECaaSAPI.id}/${var.stage_name}"
-  retention_in_days = 14
+  retention_in_days = var.log_group_retention_in_days
 }
 
 resource "aws_api_gateway_account" "CloudwatchAccount" {

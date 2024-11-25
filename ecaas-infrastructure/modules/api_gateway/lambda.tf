@@ -19,6 +19,11 @@ resource "aws_lambda_function" "hem_lambda" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "hem_lambda_log_group" {
+  name              = "/aws/lambda/${aws_lambda_function.hem_lambda.function_name}"
+  retention_in_days = var.log_group_retention_in_days
+}
+
 resource "aws_iam_role" "lambda_role" {
   name               = "lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_lambda.json
