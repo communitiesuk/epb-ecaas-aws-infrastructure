@@ -52,7 +52,7 @@ resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
         "title" : "Energy Calculation as a Service",
         "version" : var.api_version,
         "links" : {
-          "describedBy" : "https://dj2ahbipy3ofb.cloudfront.net/#ecaas-technical-documentation"
+          "describedBy" : "https://docs.building-energy-calculator.communities.gov.uk/#ecaas-technical-documentation"
         }
       }
     )

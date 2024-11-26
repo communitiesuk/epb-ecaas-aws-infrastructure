@@ -1,5 +1,5 @@
 variable "api_version" {
-  default = "0.0.2"
+  default = "0.1.0"
   type    = string
 }
 

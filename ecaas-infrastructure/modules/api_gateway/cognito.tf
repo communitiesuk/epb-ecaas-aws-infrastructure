@@ -3,8 +3,9 @@ resource "aws_cognito_user_pool" "pool" {
 }
 
 resource "aws_cognito_user_pool_domain" "user_pool_domain" {
-  domain       = "ecaas"
-  user_pool_id = aws_cognito_user_pool.pool.id
+  domain          = "auth.${var.domain_name}"
+  certificate_arn = var.cdn_certificate_arn
+  user_pool_id    = aws_cognito_user_pool.pool.id
 }
 
 resource "aws_api_gateway_authorizer" "gateway_authorizer" {
