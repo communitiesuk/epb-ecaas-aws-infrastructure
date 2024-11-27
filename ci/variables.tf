@@ -25,3 +25,7 @@ variable "tech_docs_bucket_name" {
   default = "epb-ecaas-tech-docs-bucket"
   type    = string
 }
+
+variable "sentry_dsn" {
+  type = string
+}

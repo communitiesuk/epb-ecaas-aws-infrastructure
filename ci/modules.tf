@@ -64,3 +64,13 @@ module "tech_docs" {
   region                = var.region
   tech_docs_bucket_name = var.tech_docs_bucket_name
 }
+
+module "parameters" {
+  source = "./modules/parameter_store"
+  parameters = {
+    "SENTRY_DSN" : {
+      type  = "String"
+      value = var.sentry_dsn
+    }
+  }
+}
