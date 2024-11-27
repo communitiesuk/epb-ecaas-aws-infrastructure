@@ -16,13 +16,21 @@ resource "aws_api_gateway_authorizer" "gateway_authorizer" {
 }
 
 resource "aws_cognito_user_pool_client" "client" {
-  name                                 = "client"
+  name                                 = "ECaaS team shared client"
   user_pool_id                         = aws_cognito_user_pool.pool.id
   generate_secret                      = true
-  explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_PASSWORD_AUTH", "ALLOW_ADMIN_USER_PASSWORD_AUTH", "ALLOW_CUSTOM_AUTH", "ALLOW_USER_SRP_AUTH"]
+  explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH"]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["client_credentials"]
   allowed_oauth_scopes                 = ["ecaas-api/home-energy-model"]
+  access_token_validity                = 15
+  id_token_validity                    = 15
+  refresh_token_validity               = 30
+  token_validity_units  {
+    access_token  = "minutes"
+    id_token      = "minutes"
+    refresh_token = "days"
+  }
 }
 
 resource "aws_cognito_resource_server" "resource" {
