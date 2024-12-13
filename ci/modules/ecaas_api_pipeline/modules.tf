@@ -24,6 +24,7 @@ module "codebuild_build_hem_lambda" {
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
   ]
   region = var.region
 }

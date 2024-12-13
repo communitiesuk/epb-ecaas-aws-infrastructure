@@ -17,6 +17,7 @@ resource "aws_codebuild_project" "this" {
       for_each = var.environment_variables
       content {
         name  = environment_variable.value["name"]
+        type  = lookup(environment_variable.value, "type", "PLAINTEXT")
         value = environment_variable.value["value"]
       }
     }
