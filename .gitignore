@@ -39,3 +39,6 @@ terraform.rc
 
 # Ignore any zip files terraform creates
 *.zip
+
+# IDE stuff
+.idea
