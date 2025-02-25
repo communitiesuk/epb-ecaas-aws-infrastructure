@@ -20,3 +20,7 @@ module "cdn_certificate" {
   domain_name               = var.domain_name
   subject_alternative_names = var.subject_alternative_names
 }
+
+module "front_end" {
+  source              = "./modules/front_end"
+}
