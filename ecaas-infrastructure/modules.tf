@@ -23,4 +23,5 @@ module "cdn_certificate" {
 
 module "front_end" {
   source              = "./modules/front_end"
+  front_end_s3_bucket_name = "epb-ecaas-front-end-s3-bucket"
 }

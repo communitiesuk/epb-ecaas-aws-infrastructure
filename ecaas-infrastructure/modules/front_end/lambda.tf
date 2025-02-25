@@ -19,6 +19,11 @@ resource "aws_lambda_function" "front_end_lambda" {
   }
 }
 
+resource "aws_lambda_function_url" "front_end_lambda_url" {
+  function_name      = aws_lambda_function.front_end_lambda.function_name
+  authorization_type = "NONE"
+}
+
 resource "aws_cloudwatch_log_group" "front_end_lambda_log_group" {
   name              = "/aws/lambda/${aws_lambda_function.front_end_lambda.function_name}"
   retention_in_days = var.log_group_retention_in_days
