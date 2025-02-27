@@ -59,6 +59,22 @@ module "tech_docs_pipeline" {
   dev_account_id          = var.account_ids["integration"]
 }
 
+module "front-end-pipeline" {
+  source                  = "./modules/front-end-pipeline"
+  codepipeline_bucket     = module.artefact.codepipeline_bucket
+  codepipeline_role_arn   = module.codepipeline_role.aws_codepipeline_role_arn
+  codebuild_role_arn      = module.codebuild_role.aws_codebuild_role_arn
+  pipeline_name           = "front-end-pipeline"
+  github_repository       = "epb-ecaas-frontend"
+  github_branch           = "main"
+  github_organisation     = var.github_organisation
+  codestar_connection_arn = module.codestar_connection.codestar_connection_arn
+  project_name            = "epb-ecaas-frontend"
+  codebuild_image_ecr_url = var.codebuild_image_ecr_url
+  region                  = var.region
+  account_ids             = var.account_ids
+}
+
 module "tech_docs" {
   source                = "./modules/tech_docs"
   region                = var.region
