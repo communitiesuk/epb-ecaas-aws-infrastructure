@@ -45,6 +45,25 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
+    name = "test-hem-lambda"
+
+    action {
+      name = "TestHEM"
+      category = "Test"
+      owner = "AWS"
+      provider = "CodeBuild"
+      version = "1"
+      input_artifacts  = ["hem_lambda_source_output", "source_output"]
+      output_artifacts = []
+
+      configuration = {
+        ProjectName   = module.codebuild_test_hem_lambda.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+  }
+
+  stage {
     name = "build-hem-lambda"
 
     action {
