@@ -28,7 +28,8 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           "lambda:GetFunction",
         ]
         Resource = [
-          var.hem_lambda_arn
+          var.hem_lambda_arn, 
+          var.front_end_lambda_arn
         ]
       }
     ]

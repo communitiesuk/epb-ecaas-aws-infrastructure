@@ -2,6 +2,7 @@ module "access" {
   source         = "./modules/access"
   ci_account_id  = var.ci_account_id
   hem_lambda_arn = module.api_gateway.hem_lambda_arn
+  front_end_lambda_arn = module.front_end.front_end_lambda_arn
 }
 
 module "api_gateway" {
