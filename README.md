@@ -73,7 +73,7 @@ Until then, take care when handling the tfvars
 * Only pass them to others via the S3 bucket, as documented in previous section
 
 
-## Terraforming infrastrcuture
+## Terraforming infrastructure
 The repo is subdivided into terraform for the following ECaaS infrastructure:
 
 - /ecaas-infrastructure terraform for all resources in ecaas-integration, ecaas-staging and ecaas-production accounts
