@@ -28,16 +28,16 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "build-front-end"
+    name = "build-frontend"
 
     action {
-      name             = "BuildFrontEnd"
+      name             = "BuildFrontend"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
       input_artifacts  = ["source_output"]
-      output_artifacts = ["build_front_end_output"]
+      output_artifacts = ["build_frontend_output"]
 
       configuration = {
         ProjectName   = module.codebuild_build_front_end.codebuild_name
@@ -46,16 +46,16 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "deploy-hem-lambda"
+    name = "deploy-frontend"
 
     action {
-      name             = "DeployHEMLambda"
+      name             = "DeployFrontend"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["source_output", "build_front_end_output"]
-      output_artifacts = ["deploy_hem_lambda_output"]
+      input_artifacts  = ["source_output", "build_frontend_output"]
+      output_artifacts = ["deploy_frontend_output"]
 
       configuration = {
         ProjectName   = module.codebuild_deploy_front_end.codebuild_name
