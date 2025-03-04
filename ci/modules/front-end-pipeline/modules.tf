@@ -9,7 +9,8 @@ module "codebuild_build_front_end" {
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
-    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" },
+    { name = "BUILD_FOR_AWS_LAMBDA", value = "1" }
   ]
   region = var.region
 }
