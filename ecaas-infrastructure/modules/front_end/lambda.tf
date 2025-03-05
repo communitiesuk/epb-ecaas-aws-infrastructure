@@ -8,7 +8,7 @@ resource "aws_lambda_function" "front_end_lambda" {
   filename      = data.archive_file.aws_lambda_placeholder_archive.output_path
   function_name = "front-end-lambda"
   role          = aws_iam_role.front_end_lambda_role.arn
-  handler       = "bootstrap"
+  handler       = "index.handler"
   runtime       = "nodejs20.x"
   architectures = ["arm64"]
   timeout       = 30
