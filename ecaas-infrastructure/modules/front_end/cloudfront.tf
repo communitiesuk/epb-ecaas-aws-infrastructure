@@ -1,5 +1,5 @@
 resource "aws_cloudfront_origin_access_control" "this" {
-  name                              = aws_s3_bucket.front-end-s3.bucket_domain_name
+  name                              = aws_s3_bucket.frontend_s3.bucket_domain_name
   description                       = "Front end S3 bucket"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
@@ -8,7 +8,7 @@ resource "aws_cloudfront_origin_access_control" "this" {
 
 resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   origin {
-    domain_name              = aws_s3_bucket.front-end-s3.bucket_domain_name
+    domain_name              = aws_s3_bucket.frontend_s3.bucket_domain_name
     origin_id                = "S3-${var.front_end_s3_bucket_name}"
     origin_access_control_id = aws_cloudfront_origin_access_control.this.id
   }
