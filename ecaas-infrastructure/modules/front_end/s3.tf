@@ -11,12 +11,10 @@ resource "aws_s3_bucket_public_access_block" "block_public_access" {
   restrict_public_buckets = true
 }
 
-# resource "aws_iam_role" "s3_origin_from_cloudfront" {
-#   name        = "frontend-s3-origin-from-cloudfront"
-#   description = "Policy that allows access from a specific CloudFront distribution to an origin S3 bucket"
-
-#   assume_role_policy = data.aws_iam_policy_document.s3_origin_from_cloudfront.json
-# }
+resource "aws_s3_bucket_policy" "s3_origin_from_cloudfront" {
+  bucket = aws_s3_bucket.frontend_s3.id
+  policy = data.aws_iam_policy_document.s3_origin_from_cloudfront.json
+}
 
 data "aws_iam_policy_document" "s3_origin_from_cloudfront" {
   statement {
@@ -27,7 +25,10 @@ data "aws_iam_policy_document" "s3_origin_from_cloudfront" {
       type = "Service"
     }
     actions = ["s3:GetObject"]
-    resources = [aws_s3_bucket.frontend_s3.arn]
+    resources = [
+      aws_s3_bucket.frontend_s3.arn,
+      "${aws_s3_bucket.frontend_s3.arn}/*"
+    ]
     condition {
       test = "StringEquals"
       variable = "AWS:SourceArn"
