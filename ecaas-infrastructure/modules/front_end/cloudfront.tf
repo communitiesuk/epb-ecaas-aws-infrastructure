@@ -50,7 +50,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   ordered_cache_behavior {
     allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods         = ["GET", "HEAD"]
-    path_pattern           = "public/*"
+    path_pattern           = "static/*"
     target_origin_id       = "S3-${var.front_end_s3_bucket_name}"
     viewer_protocol_policy = "allow-all"
     forwarded_values {

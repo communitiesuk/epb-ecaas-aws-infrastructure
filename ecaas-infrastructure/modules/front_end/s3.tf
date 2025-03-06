@@ -26,7 +26,6 @@ data "aws_iam_policy_document" "s3_origin_from_cloudfront" {
     }
     actions = ["s3:GetObject"]
     resources = [
-      aws_s3_bucket.frontend_s3.arn,
       "${aws_s3_bucket.frontend_s3.arn}/*"
     ]
     condition {
