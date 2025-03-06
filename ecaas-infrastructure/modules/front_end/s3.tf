@@ -18,11 +18,11 @@ resource "aws_s3_bucket_policy" "s3_origin_from_cloudfront" {
 
 data "aws_iam_policy_document" "s3_origin_from_cloudfront" {
   statement {
-    sid = "AllowCloudFrontServicePrincipalReadOnly"
+    sid    = "AllowCloudFrontServicePrincipalReadOnly"
     effect = "Allow"
     principals {
       identifiers = ["cloudfront.amazonaws.com"]
-      type = "Service"
+      type        = "Service"
     }
     actions = ["s3:GetObject"]
     resources = [
@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "s3_origin_from_cloudfront" {
       "${aws_s3_bucket.frontend_s3.arn}/*"
     ]
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "AWS:SourceArn"
 
       values = [aws_cloudfront_distribution.front_end_cloudfront_distribution.arn]

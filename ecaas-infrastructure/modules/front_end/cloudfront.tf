@@ -14,13 +14,13 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   }
   origin {
     custom_origin_config {
-      http_port = 80
-      https_port = 443
+      http_port              = 80
+      https_port             = 443
       origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = ["TLSv1"]
+      origin_ssl_protocols   = ["TLSv1"]
     }
-    domain_name              = trimsuffix(trimprefix(aws_lambda_function_url.front_end_lambda_url.function_url, "https://"), "/")
-    origin_id                = "nuxt-ssr-engine"
+    domain_name = trimsuffix(trimprefix(aws_lambda_function_url.front_end_lambda_url.function_url, "https://"), "/")
+    origin_id   = "nuxt-ssr-engine"
   }
   default_root_object = "/server/index.mjs"
   enabled             = true
@@ -81,8 +81,8 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   # TODO link to custom domain
   # SSL certificate for the service.
   viewer_certificate {
-    cloudfront_default_certificate = true 
-    minimum_protocol_version = "TLSv1.2_2021"
-    ssl_support_method       = "sni-only"
+    cloudfront_default_certificate = true
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
   }
 }

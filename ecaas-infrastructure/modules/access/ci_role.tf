@@ -29,8 +29,21 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           "lambda:GetFunction",
         ]
         Resource = [
-          var.hem_lambda_arn, 
+          var.hem_lambda_arn,
           var.front_end_lambda_arn
+        ]
+      },
+      {
+        Effect = "Allow"
+        Resource = [
+          var.front_end_s3_arn,
+          "${var.front_end_s3_arn}/*"
+        ]
+        Action = [
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:Get*",
+          "s3:List*"
         ]
       }
     ]

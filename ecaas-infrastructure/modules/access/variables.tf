@@ -6,7 +6,10 @@ variable "hem_lambda_arn" {
   type = string
 }
 
-
 variable "front_end_lambda_arn" {
+  type = string
+}
+
+variable "front_end_s3_arn" {
   type = string
 }

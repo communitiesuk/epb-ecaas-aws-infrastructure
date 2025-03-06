@@ -140,7 +140,7 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
       "protocol" : "$context.protocol",
       "responseLength" : "$context.responseLength",
       "client_id" : "$context.authorizer.claims.client_id",
-      "lambda_integration_request_id": "$context.integration.requestId",
+      "lambda_integration_request_id" : "$context.integration.requestId",
     })
   }
 }
