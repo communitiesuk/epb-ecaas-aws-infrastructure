@@ -61,19 +61,19 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     }
   }
 
-  ordered_cache_behavior {
-    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods         = ["GET", "HEAD"]
-    path_pattern           = "assets/*"
-    target_origin_id       = "S3-${var.front_end_s3_bucket_name}"
-    viewer_protocol_policy = "allow-all"
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "all"
-      }
-    }
-  }
+  # ordered_cache_behavior {
+  #   allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+  #   cached_methods         = ["GET", "HEAD"]
+  #   path_pattern           = "assets/*"
+  #   target_origin_id       = "S3-${var.front_end_s3_bucket_name}"
+  #   viewer_protocol_policy = "allow-all"
+  #   forwarded_values {
+  #     query_string = true
+  #     cookies {
+  #       forward = "all"
+  #     }
+  #   }
+  # }
 
   # If there is a 404, return index.html with a HTTP 200 Response
   custom_error_response {
