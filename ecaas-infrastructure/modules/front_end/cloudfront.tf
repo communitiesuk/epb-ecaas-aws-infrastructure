@@ -22,7 +22,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     domain_name = trimsuffix(trimprefix(aws_lambda_function_url.front_end_lambda_url.function_url, "https://"), "/")
     origin_id   = "nuxt-ssr-engine"
   }
-  default_root_object = "/server/index.mjs"
+
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
@@ -61,27 +61,13 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     }
   }
 
-  # ordered_cache_behavior {
-  #   allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-  #   cached_methods         = ["GET", "HEAD"]
-  #   path_pattern           = "assets/*"
-  #   target_origin_id       = "S3-${var.front_end_s3_bucket_name}"
-  #   viewer_protocol_policy = "allow-all"
-  #   forwarded_values {
-  #     query_string = true
-  #     cookies {
-  #       forward = "all"
-  #     }
-  #   }
-  # }
-
   # If there is a 404, return index.html with a HTTP 200 Response
-  custom_error_response {
-    error_caching_min_ttl = 3000
-    error_code            = 404
-    response_code         = 200
-    response_page_path    = "/index.html"
-  }
+  # custom_error_response {
+  #   error_caching_min_ttl = 3000
+  #   error_code            = 404
+  #   response_code         = 200
+  #   response_page_path    = "/index.html"
+  # }
 
 
   # Restricts who is able to access this content
