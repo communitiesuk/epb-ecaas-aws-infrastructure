@@ -11,3 +11,13 @@ variable "log_group_retention_in_days" {
 variable "front_end_s3_bucket_name" {
   type = string
 }
+
+variable "xray_tracing_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "region" {
+  type    = string
+  default = "eu-west-2"
+}

@@ -97,3 +97,11 @@ data "aws_iam_policy_document" "xray_tracing" {
     resources = ["*"]
   }
 }
+
+resource "aws_lambda_permission" "api_gateway_lambda_permission" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.front_end_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.ecaas_frontend.execution_arn}/*/*"
+}
