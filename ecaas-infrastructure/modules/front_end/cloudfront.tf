@@ -21,6 +21,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     }
     domain_name = "${aws_api_gateway_rest_api.ecaas_frontend.id}.execute-api.${var.region}.amazonaws.com"
     origin_id   = "nuxt-ssr-engine"
+    origin_path = "/default"
   }
 
   enabled         = true
@@ -32,19 +33,8 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "nuxt-ssr-engine"
 
-    forwarded_values {
-      query_string = true
-
-      cookies {
-        forward = "all"
-      }
-    }
-
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
+    cache_policy_id        = aws_cloudfront_cache_policy.this.id
   }
 
   ordered_cache_behavior {
@@ -84,5 +74,26 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     cloudfront_default_certificate = true
     minimum_protocol_version       = "TLSv1.2_2021"
     ssl_support_method             = "sni-only"
+  }
+}
+
+resource "aws_cloudfront_cache_policy" "this" {
+  name        = "frontend-app-cache-policy"
+  min_ttl     = 0
+  default_ttl = 3600
+  max_ttl     = 86400
+  parameters_in_cache_key_and_forwarded_to_origin {
+    cookies_config {
+      cookie_behavior = "none"
+    }
+    headers_config {
+      header_behavior = "whitelist"
+      headers {
+        items = ["Authorization"]
+      }
+    }
+    query_strings_config {
+      query_string_behavior = "all"
+    }
   }
 }
