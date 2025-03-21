@@ -54,7 +54,8 @@ resource "aws_api_gateway_deployment" "this" {
       aws_api_gateway_rest_api.ecaas_frontend.description,
       aws_api_gateway_rest_api.ecaas_frontend.root_resource_id,
       aws_api_gateway_method.frontend_app,
-      aws_api_gateway_integration.frontend_app.id
+      aws_api_gateway_integration.frontend_app.id,
+      aws_lambda_function.front_end_lambda.code_sha256
     ]))
   }
 
