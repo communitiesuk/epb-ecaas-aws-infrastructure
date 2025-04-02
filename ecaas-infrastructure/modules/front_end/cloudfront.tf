@@ -27,6 +27,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   enabled         = true
   is_ipv6_enabled = true
   price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
+  aliases         = [aws_acm_certificate.cert.domain_name]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -68,14 +69,11 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     }
   }
 
-  # TODO link to custom domain
   # SSL certificate for the service.
   viewer_certificate {
-    cloudfront_default_certificate = true
-    # These two can only be set once cloudfront_default_certificate is false and we're specifying
-    # acm_certificate_arn using a custom cert - UNCOMMENT once we have the DNS records in
-    # minimum_protocol_version       = "TLSv1.2_2021"
-    # ssl_support_method             = "sni-only"
+    acm_certificate_arn            = aws_acm_certificate.cert-cdn.arn
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
   }
 }
 
