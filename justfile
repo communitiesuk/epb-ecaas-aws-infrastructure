@@ -128,12 +128,31 @@ tfvars-put-for-ci path="./ci": _ensure_aws_profile
     printf "${bg_red}KEEP MUM - THE WORLD HAS EARS!${clear}\n${green}Always run '${cyan}rm -f {*.tfvars,.*.tfvars}${green}' once you've applied your changes!\n\n"
 
 # Updates local tfvars file with values stored in S3 bucket. environment should be one of 'ecaas-integration', 'ecaas-staging' or 'ecaas-production'
-tfvars-get path="." environment="ecaas-integration": _ensure_aws_profile
+tfvars-get path="" environment="": _ensure_aws_profile
+    #!/usr/bin/env bash
+    bg_red='\033[0;41m'
+    clear='\033[0m'
+
+    if [ "{{environment}}" == "" ]; then
+        printf "${bg_red}Please provide a path and an environment${clear}"
+    else
+        cd {{path}}
+        echo "Getting tfvars for {{environment}}"
+        aws-vault exec $AWS_PROFILE -- aws s3api get-object --bucket epbr-{{environment}}-terraform-state --key .tfvars {{environment}}.tfvars
+        cp {{environment}}.tfvars .auto.tfvars
+
+        green='\033[0;32m'
+        cyan='\033[0;36m'
+        printf "${bg_red}CARELESS TALK COSTS LIVES!${clear}\n${green}Always run '${cyan}just tfvars-delete${green}' or '${cyan}rm -f {*.tfvars,.*.tfvars}${green}' once you've applied your changes!\n\n"
+    fi
+
+# Updates local tfvars file for integration with values stored in S3 bucket. environment is 'ecaas-integration'
+tfvars-get-for-integration : _ensure_aws_profile
     #!/usr/bin/env bash
 
-    cd {{path}}
-    aws-vault exec $AWS_PROFILE -- aws s3api get-object --bucket epbr-{{environment}}-terraform-state --key .tfvars {{environment}}.tfvars
-    cp {{environment}}.tfvars .auto.tfvars
+    cd ./ecaas-infrastructure
+    aws-vault exec $AWS_PROFILE -- aws s3api get-object --bucket epbr-ecaas-integration-terraform-state --key .tfvars ecaas-integration.tfvars
+    cp ecaas-integration.tfvars .auto.tfvars
 
     bg_red='\033[0;41m'
     green='\033[0;32m'
@@ -142,10 +161,10 @@ tfvars-get path="." environment="ecaas-integration": _ensure_aws_profile
     printf "${bg_red}CARELESS TALK COSTS LIVES!${clear}\n${green}Always run '${cyan}just tfvars-delete${green}' or '${cyan}rm -f {*.tfvars,.*.tfvars}${green}' once you've applied your changes!\n\n"
 
 # Updates local tfvars file for the ci with values stored in S3 bucket. environment is 'ecaas-ci'
-tfvars-get-for-ci path="./ci": _ensure_aws_profile
+tfvars-get-for-ci : _ensure_aws_profile
     #!/usr/bin/env bash
 
-    cd {{path}}
+    cd ./ci
     aws-vault exec $AWS_PROFILE -- aws s3api get-object --bucket epbr-ecaas-ci-terraform-state --key .tfvars .auto.tfvars
 
     bg_red='\033[0;41m'
@@ -154,10 +173,11 @@ tfvars-get-for-ci path="./ci": _ensure_aws_profile
     clear='\033[0m'
     printf "${bg_red}SILENCE MEANS SECURITY!${clear}\n${green}Always run '${cyan}rm -f {*.tfvars,.*.tfvars}${green}' once you've applied your changes!\n\n"
 
-
 # Deletes all tvars from local
-tfvars-delete path="ecaas-infrastructure":
+tfvars-delete :
     #!/usr/bin/env bash
-    cd {{path}}
     rm -f {*.tfvars,.*.tfvars}
-
+    cd ./ci
+    rm -f {*.tfvars,.*.tfvars}
+    cd ../ecaas-infrastructure
+    rm -f {*.tfvars,.*.tfvars}
