@@ -72,8 +72,10 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   # SSL certificate for the service.
   viewer_certificate {
     cloudfront_default_certificate = true
-    minimum_protocol_version       = "TLSv1.2_2021"
-    ssl_support_method             = "sni-only"
+    # These two can only be set once cloudfront_default_certificate is false and we're specifying
+    # acm_certificate_arn using a custom cert - UNCOMMENT once we have the DNS records in
+    # minimum_protocol_version       = "TLSv1.2_2021"
+    # ssl_support_method             = "sni-only"
   }
 }
 
