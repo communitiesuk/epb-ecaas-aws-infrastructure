@@ -27,7 +27,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   enabled         = true
   is_ipv6_enabled = true
   price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
-  aliases         = [aws_acm_certificate.cert.domain_name]
+  aliases         = [aws_acm_certificate.cert-cdn.domain_name]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
