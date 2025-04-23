@@ -27,3 +27,17 @@ module "front_end" {
   source                   = "./modules/front_end"
   front_end_s3_bucket_name = "epb-ecaas-front-end-s3-bucket"
 }
+
+module "parameter_store" {
+  source = "./modules/parameter_store"
+  parameters = {
+    "client_id" : {
+      type  = "SecureString"
+      value = var.parameters["client_id"]
+    }
+    "client_secret" : {
+      type  = "SecureString"
+      value = var.parameters["client_secret"]
+    }
+  }
+}
