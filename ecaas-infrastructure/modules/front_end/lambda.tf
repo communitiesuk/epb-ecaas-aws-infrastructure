@@ -16,10 +16,7 @@ resource "aws_lambda_function" "front_end_lambda" {
 
   environment {
     variables = {
-      # should be inferred from the resource, but this currently creates circular reference
-      # __may__ be resolvable after migrating to using api gateway rather than lambda function
-      # NUXT_APP_CDN_URL = "https://${aws_cloudfront_distribution.front_end_cloudfront_distribution.domain_name}/static"
-      NUXT_APP_CDN_URL = "https://dimijf1zo5k0x.cloudfront.net/static"
+      NUXT_APP_CDN_URL = "https://${aws_acm_certificate.cert-cdn.domain_name}/static"
     }
   }
 
