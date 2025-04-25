@@ -28,6 +28,23 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
+    name = "check-frontend"
+
+    action {
+      name            = "CheckFrontend"
+      category        = "Test"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source_output"]
+
+      configuration = {
+        ProjectName = module.codebuild_check_front_end.codebuild_name
+      }
+    }
+  }
+
+  stage {
     name = "build-frontend"
 
     action {
@@ -40,7 +57,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["build_frontend_output"]
 
       configuration = {
-        ProjectName   = module.codebuild_build_front_end.codebuild_name
+        ProjectName = module.codebuild_build_front_end.codebuild_name
       }
     }
   }

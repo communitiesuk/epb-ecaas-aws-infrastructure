@@ -7,6 +7,6 @@ variable "tech_docs_bucket_name" {
 }
 
 variable "domain_name" {
-  type = string
+  type    = string
   default = "docs.building-energy-calculator.communities.gov.uk"
 }

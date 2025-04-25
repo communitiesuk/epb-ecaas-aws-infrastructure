@@ -23,6 +23,6 @@ variable "region" {
 }
 
 variable "domain_name" {
-  type = string
+  type    = string
   default = "energy-calculator-integration.digital.communities.gov.uk"
 }

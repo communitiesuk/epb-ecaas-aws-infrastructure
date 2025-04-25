@@ -1,3 +1,15 @@
+module "codebuild_check_front_end" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-check-front-end"
+  codebuild_compute_type     = "BUILD_GENERAL1_MEDIUM"
+  codebuild_environment_type = "LINUX_CONTAINER"
+  build_image_uri            = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
+  buildspec_file             = "buildspec/check_front_end.yml"
+  region                     = var.region
+  environment_variables      = []
+}
+
 module "codebuild_build_front_end" {
   source                     = "../codebuild_project"
   codebuild_role_arn         = var.codebuild_role_arn

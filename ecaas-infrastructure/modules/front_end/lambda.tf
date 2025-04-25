@@ -24,9 +24,9 @@ resource "aws_lambda_function" "front_end_lambda" {
     mode = var.tracing_config_mode
   }
 
-   layers                         = [
-             "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension-Arm64:12",
-           ]
+  layers = [
+    "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension-Arm64:12",
+  ]
 }
 
 resource "aws_cloudwatch_log_group" "front_end_lambda_log_group" {
