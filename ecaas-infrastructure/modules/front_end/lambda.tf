@@ -36,6 +36,31 @@ resource "aws_cloudwatch_log_group" "front_end_lambda_log_group" {
   retention_in_days = var.log_group_retention_in_days
 }
 
+data "aws_iam_policy_document" "front_end_parameter_store_policy" {
+  statement {
+	effect = "Allow"
+
+	actions = [
+		"ssm:GetParameter",
+		"kms:Decrypt"
+	]
+
+	resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "lambda_parameter_store" {
+  name        = "lambda_parameter_store"
+  path        = "/"
+  description = "IAM policy for accessing parameter store from a lambda"
+  policy      = data.aws_iam_policy_document.front_end_parameter_store_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_parameter_store" {
+  role       = aws_iam_role.front_end_lambda_role.name
+  policy_arn = aws_iam_policy.lambda_parameter_store.arn
+}
+
 resource "aws_iam_role" "front_end_lambda_role" {
   name               = "front-end-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.front_end_assume_role_lambda.json
