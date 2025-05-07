@@ -9,7 +9,7 @@ resource "aws_lambda_function" "front_end_lambda" {
   function_name = "front-end-lambda"
   role          = aws_iam_role.front_end_lambda_role.arn
   handler       = "index.handler"
-  runtime       = "nodejs20.x"
+  runtime       = "nodejs22.x"
   architectures = ["arm64"]
   timeout       = 30
   memory_size   = 1024
