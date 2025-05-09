@@ -26,8 +26,8 @@ module "cdn_certificate" {
 module "front_end" {
   source                   = "./modules/front_end"
   front_end_s3_bucket_name = "epb-ecaas-front-end-s3-bucket"
-  ecaas_auth_api_url = var.parameters["ecaas_auth_api_url"]
-  ecaas_api_url = var.parameters["ecaas_api_url"]
+  ecaas_auth_api_url       = var.parameters["ecaas_auth_api_url"]
+  ecaas_api_url            = var.parameters["ecaas_api_url"]
 }
 
 module "parameter_store" {

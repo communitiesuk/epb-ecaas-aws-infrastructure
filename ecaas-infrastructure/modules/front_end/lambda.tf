@@ -16,9 +16,9 @@ resource "aws_lambda_function" "front_end_lambda" {
 
   environment {
     variables = {
-      NUXT_APP_CDN_URL = "https://${aws_acm_certificate.cert-cdn.domain_name}/static"
-	  ECAAS_AUTH_API_URL = var.ecaas_auth_api_url
-	  ECAAS_API_URL = var.ecaas_api_url
+      NUXT_APP_CDN_URL   = "https://${aws_acm_certificate.cert-cdn.domain_name}/static"
+      ECAAS_AUTH_API_URL = var.ecaas_auth_api_url
+      ECAAS_API_URL      = var.ecaas_api_url
     }
   }
 
@@ -38,14 +38,14 @@ resource "aws_cloudwatch_log_group" "front_end_lambda_log_group" {
 
 data "aws_iam_policy_document" "front_end_parameter_store_policy" {
   statement {
-	effect = "Allow"
+    effect = "Allow"
 
-	actions = [
-		"ssm:GetParameter",
-		"kms:Decrypt"
-	]
+    actions = [
+      "ssm:GetParameter",
+      "kms:Decrypt"
+    ]
 
-	resources = ["*"]
+    resources = ["*"]
   }
 }
 
