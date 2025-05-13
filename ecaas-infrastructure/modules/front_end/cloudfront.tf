@@ -30,7 +30,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   aliases         = [aws_acm_certificate.cert-cdn.domain_name]
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
+    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "nuxt-ssr-engine"
 
