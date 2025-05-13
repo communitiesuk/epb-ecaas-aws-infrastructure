@@ -92,6 +92,11 @@ _ensure_jq:
       fi
     fi
 
+sso-login: _ensure_aws_profile
+    #!/usr/bin/env bash
+
+    aws sso login --profile $AWS_PROFILE
+
 tf-init path="." backend="": _ensure_aws_profile
     #!/usr/bin/env bash
 
