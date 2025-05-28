@@ -26,8 +26,11 @@ module "cdn_certificate" {
 module "front_end" {
   source                   = "./modules/front_end"
   front_end_s3_bucket_name = "epb-ecaas-front-end-s3-bucket"
-  ecaas_auth_api_url       = var.parameters["ecaas_auth_api_url"]
-  ecaas_api_url            = var.parameters["ecaas_api_url"]
+  ecaas_auth_api_url       = var.ecaas_auth_api_url
+  ecaas_api_url            = var.ecaas_api_url
+  cognito_user_pool_id	   = var.cognito_user_pool_id
+  nuxt_session_password    = var.nuxt_session_password
+  nuxt_oauth_cognito_redirect_url = var.nuxt_oauth_cognito_redirect_url
 }
 
 module "parameter_store" {
@@ -41,5 +44,13 @@ module "parameter_store" {
       type  = "SecureString"
       value = var.parameters["client_secret"]
     }
+	"nuxt_oauth_cognito_client_id": {
+		type = "SecureString"
+		value = var.parameters["nuxt_oauth_cognito_client_id"]
+	}
+	"nuxt_oauth_cognito_client_secret": {
+		type = "SecureString"
+		value = var.parameters["nuxt_oauth_cognito_client_secret"]
+	}
   }
 }

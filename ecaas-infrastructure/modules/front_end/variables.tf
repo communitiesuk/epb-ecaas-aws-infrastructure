@@ -34,3 +34,16 @@ variable "ecaas_auth_api_url" {
 variable "ecaas_api_url" {
   type = string
 }
+
+variable "cognito_user_pool_id" {
+  type = string
+}
+
+variable "nuxt_session_password" {
+  type = string
+  sensitive = true
+}
+
+variable "nuxt_oauth_cognito_redirect_url" {
+  type = string
+}
