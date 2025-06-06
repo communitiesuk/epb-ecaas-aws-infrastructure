@@ -16,12 +16,12 @@ resource "aws_lambda_function" "front_end_lambda" {
 
   environment {
     variables = {
-      NUXT_APP_CDN_URL   = "https://${aws_acm_certificate.cert-cdn.domain_name}/static"
-      ECAAS_AUTH_API_URL = var.ecaas_auth_api_url
-      ECAAS_API_URL      = var.ecaas_api_url
-	  COGNITO_USER_POOL_ID = var.cognito_user_pool_id
-	  NUXT_SESSION_PASSWORD = var.nuxt_session_password
-	  NUXT_OAUTH_COGNITO_REDIRECT_URL = var.nuxt_oauth_cognito_redirect_url
+      NUXT_APP_CDN_URL                = "https://${aws_acm_certificate.cert-cdn.domain_name}/static"
+      ECAAS_AUTH_API_URL              = var.ecaas_auth_api_url
+      ECAAS_API_URL                   = var.ecaas_api_url
+      COGNITO_USER_POOL_ID            = var.cognito_user_pool_id
+      NUXT_SESSION_PASSWORD           = var.nuxt_session_password
+      NUXT_OAUTH_COGNITO_REDIRECT_URL = var.nuxt_oauth_cognito_redirect_url
     }
   }
 
@@ -32,6 +32,12 @@ resource "aws_lambda_function" "front_end_lambda" {
   layers = [
     "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension-Arm64:12",
   ]
+
+  vpc_config {
+
+    subnet_ids         = [aws_subnet.private[*].id]
+    security_group_ids = [aws_security_group.lambda_sg.id]
+  }
 }
 
 resource "aws_cloudwatch_log_group" "front_end_lambda_log_group" {
@@ -130,4 +136,31 @@ resource "aws_lambda_permission" "api_gateway_lambda_permission" {
   function_name = aws_lambda_function.front_end_lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.ecaas_frontend.execution_arn}/*/*"
+}
+
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_policy_document" "lambda_elasticache_policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "elasticache:Connect"
+    ]
+
+    resources = [
+      "arn:aws:elasticache:${var.region}:${data.aws_caller_identity.current.account_id}:serverlesscache:elasticache_for_valkey"
+    ]
+  }
+}
+
+resource "aws_iam_policy" "lambda_elasticache_policy" {
+  name        = "lambda-elasticache-policy"
+  description = "IAM policy for lambda to access ElastiCache"
+  policy      = data.aws_iam_policy_document.lambda_elasticache_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_elasticache" {
+  role       = aws_iam_role.front_end_lambda_role.name
+  policy_arn = aws_iam_policy.lambda_elasticache_policy.arn
 }
