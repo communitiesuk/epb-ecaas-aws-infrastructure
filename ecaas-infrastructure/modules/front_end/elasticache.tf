@@ -15,7 +15,7 @@ resource "aws_elasticache_serverless_cache" "elasticache_for_valkey" {
   kms_key_id               = aws_kms_key.this.key_id
   major_engine_version     = "7"
   snapshot_retention_limit = 1
-  security_group_ids       = [aws_security_group.elasticache.id]
+  security_group_ids       = [aws_security_group.elasticache_sg.id]
   subnet_ids               = aws_subnet.private[*].id
 }
 
