@@ -32,12 +32,6 @@ resource "aws_lambda_function" "front_end_lambda" {
   layers = [
     "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension-Arm64:12",
   ]
-
-  vpc_config {
-
-    subnet_ids         = [aws_subnet.private[*].id]
-    security_group_ids = [aws_security_group.lambda_sg.id]
-  }
 }
 
 resource "aws_cloudwatch_log_group" "front_end_lambda_log_group" {
@@ -163,4 +157,11 @@ resource "aws_iam_policy" "lambda_elasticache_policy" {
 resource "aws_iam_role_policy_attachment" "lambda_elasticache" {
   role       = aws_iam_role.front_end_lambda_role.name
   policy_arn = aws_iam_policy.lambda_elasticache_policy.arn
+}
+
+
+
+resource "aws_iam_role_policy_attachment" "lambda_vpc_access" {
+  role       = aws_iam_role.front_end_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }

@@ -22,7 +22,7 @@ resource "aws_subnet" "private" {
     Name = "private-subnet-${local.availability_zones[count.index]}"
   }
 }
-// may need publlic subnets if lambda needs to access resources outside VPC
+
 
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
