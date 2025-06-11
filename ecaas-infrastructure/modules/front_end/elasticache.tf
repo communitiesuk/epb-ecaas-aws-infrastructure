@@ -1,6 +1,6 @@
 resource "aws_elasticache_serverless_cache" "elasticache_for_valkey" {
   engine = "valkey"
-  name   = "elasticache_for_valkey"
+  name   = "elasticache-for-valkey"
   cache_usage_limits {
     data_storage {
       maximum = 10
