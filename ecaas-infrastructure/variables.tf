@@ -28,7 +28,7 @@ variable "cognito_user_pool_id" {
 }
 
 variable "nuxt_session_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
