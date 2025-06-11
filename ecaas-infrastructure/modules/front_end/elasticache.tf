@@ -79,20 +79,6 @@ resource "aws_kms_key" "this" {
           "kms:GenerateDataKey*",
           "kms:DescribeKey"
         ],
-        "Resource" : "*",
-        "Condition" : {
-          "StringEquals" : {
-            "kms:CallerAccount" : [
-              data.aws_caller_identity.current.account_id,
-              var.account_ids["integration"],
-              var.account_ids["staging"], 
-              var.account_ids["ci-cd"]
-            ],
-            "kms:ViaService" : [
-              "elasticache.eu-west-2.amazonaws.com",
-            ]
-          }
-        }
       }
     ]
     }
