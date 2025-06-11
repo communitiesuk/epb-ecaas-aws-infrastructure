@@ -45,7 +45,6 @@ resource "aws_security_group" "lambda_sg" {
 
 
 //KMS key to encrypt data at rest in elasticache 
-data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "this" {
   description             = "Symmetric encryption KMS key for elasticache"
@@ -57,20 +56,12 @@ resource "aws_kms_key" "this" {
     Version = "2012-10-17"
     Id      = "key-for-elasticache-encryption"
     Statement = [
+     
       {
-        Sid    = "Enable IAM User Permissions"
+        Sid    = "Allow ElastiCache use of the key"
         Effect = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        },
-        Action   = "kms:*"
-        Resource = "*"
-      },
-      {
-        Sid    = "Allow administration of the key"
-        Effect = "Allow"
-        Principal = {
-          AWS = "*"
+          Service = "elasticache.amazonaws.com"
         },
         Action = [
           "kms:Encrypt",
