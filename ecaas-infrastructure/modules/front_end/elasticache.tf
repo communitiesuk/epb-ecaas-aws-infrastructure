@@ -12,7 +12,7 @@ resource "aws_elasticache_serverless_cache" "elasticache_for_valkey" {
   }
   daily_snapshot_time      = "09:00"
   description              = "Elasticache to manage Valkey cache"
-  kms_key_id               = aws_kms_key.this.key_id
+  kms_key_id               = aws_kms_key.this.arn
   major_engine_version     = "7"
   snapshot_retention_limit = 1
   security_group_ids       = [aws_security_group.elasticache_sg.id]
