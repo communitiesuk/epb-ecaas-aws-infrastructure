@@ -17,6 +17,7 @@ resource "aws_elasticache_serverless_cache" "elasticache_for_valkey" {
   snapshot_retention_limit = 1
   security_group_ids       = [aws_security_group.elasticache_sg.id]
   subnet_ids               = aws_subnet.private[*].id
+  user_group_id            = aws_elasticache_user_group.lambda_valkey_group.id
 }
 
 
@@ -57,7 +58,7 @@ resource "aws_kms_key" "this" {
     Version = "2012-10-17"
     Id      = "key-for-elasticache-encryption"
     Statement = [
-       {
+      {
         Sid    = "Enable IAM User Permissions"
         Effect = "Allow"
         Principal = {
@@ -85,9 +86,25 @@ resource "aws_kms_key" "this" {
   )
 }
 
-
 resource "aws_kms_alias" "this" {
   name          = "alias/elasticache-encryption-key"
   target_key_id = aws_kms_key.this.key_id
 }
 
+
+//user and user group to authenticate lambda with valkey
+resource "aws_elasticache_user" "lambda_valkey_user" {
+  user_id       = "lambda-valkey-user"
+  user_name     = "lambda-valkey-user"
+  access_string = "on ~* +@all"
+  engine        = "valkey"
+
+  authentication_mode {
+    type = "iam"
+  }
+}
+resource "aws_elasticache_user_group" "lambda_valkey_group" {
+  engine        = "valkey"
+  user_group_id = "lambda-valkey-group"
+  user_ids      = [aws_elasticache_user.lambda_valkey_user.user_id]
+}

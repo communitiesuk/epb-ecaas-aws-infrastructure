@@ -143,7 +143,9 @@ data "aws_iam_policy_document" "lambda_elasticache_policy" {
     ]
 
     resources = [
-      "arn:aws:elasticache:${var.region}:${data.aws_caller_identity.current.account_id}:serverlesscache:elasticache_for_valkey"
+      "arn:aws:elasticache:${var.region}:${data.aws_caller_identity.current.account_id}:serverlesscache:elasticache-for-valkey",
+      "arn:aws:elasticache:${var.region}:${data.aws_caller_identity.current.account_id}:serverlesscache:lambda-valkey-user"
+
     ]
   }
 }
