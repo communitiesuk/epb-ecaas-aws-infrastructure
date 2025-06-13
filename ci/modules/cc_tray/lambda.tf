@@ -11,7 +11,7 @@ resource "aws_lambda_function" "this" {
   description      = "Handler that responds to CodePipeline events by updating a CCTray XML feed"
   memory_size      = 128
   timeout          = 20
-  runtime          = "provided.al2023"
+  runtime          = "go1.x"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   role             = aws_iam_role.this.arn
 
