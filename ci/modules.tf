@@ -64,7 +64,7 @@ module "front-end-pipeline" {
   codepipeline_bucket     = module.artefact.codepipeline_bucket
   codepipeline_role_arn   = module.codepipeline_role.aws_codepipeline_role_arn
   codebuild_role_arn      = module.codebuild_role.aws_codebuild_role_arn
-  pipeline_name           = "front-end-pipeline"
+  pipeline_name           = "ecaas-frontend-pipeline"
   github_repository       = "epb-ecaas-frontend"
   github_branch           = "main"
   github_organisation     = var.github_organisation
