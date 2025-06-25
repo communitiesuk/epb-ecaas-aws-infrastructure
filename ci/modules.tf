@@ -88,5 +88,9 @@ module "parameters" {
       type  = "String"
       value = var.sentry_dsn
     }
+    "ELASTICACHE_ENDPOINT" = {
+      type = "String"
+      value = var.elasticache_endpoint
+    }
   }
 }
