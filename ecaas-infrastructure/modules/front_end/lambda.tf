@@ -22,7 +22,7 @@ resource "aws_lambda_function" "front_end_lambda" {
       COGNITO_USER_POOL_ID            = var.cognito_user_pool_id
       NUXT_SESSION_PASSWORD           = var.nuxt_session_password
       NUXT_OAUTH_COGNITO_REDIRECT_URL = var.nuxt_oauth_cognito_redirect_url
-      ELASTICACHE_ENDPOINT            = aws_elasticache_serverless_cache.elasticache_with_valkey.endpoint[0].address
+      NUXT_REDIS_ENDPOINT            = aws_elasticache_serverless_cache.elasticache_with_valkey.endpoint[0].address
     }
   }
 
