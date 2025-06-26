@@ -29,7 +29,3 @@ variable "tech_docs_bucket_name" {
 variable "sentry_dsn" {
   type = string
 }
-
-variable "elasticache_endpoint" {
-  type = string  
-}
