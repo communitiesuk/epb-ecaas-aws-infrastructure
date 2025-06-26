@@ -24,6 +24,7 @@ resource "aws_lambda_function" "front_end_lambda" {
       NUXT_OAUTH_COGNITO_REDIRECT_URL = var.nuxt_oauth_cognito_redirect_url
       NUXT_REDIS_ENDPOINT             = aws_elasticache_serverless_cache.elasticache_with_valkey.endpoint[0].address
       NUXT_REDIS_PORT                 = aws_elasticache_serverless_cache.elasticache_with_valkey.endpoint[0].port
+      NUXT_REDIS_PASSWORD             = random_password.lambda_user_password.result  
     }
   }
 

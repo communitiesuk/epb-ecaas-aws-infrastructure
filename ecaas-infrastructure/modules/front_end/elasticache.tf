@@ -91,6 +91,11 @@ resource "aws_kms_alias" "this" {
   target_key_id = aws_kms_key.this.key_id
 }
 
+resource "random_password" "lambda_user_password" {
+  length           = 16
+  special          = true
+  override_special = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&*()-_=+[]{}<>:?"
+}
 
 //user and user group to authenticate lambda with valkey
 resource "aws_elasticache_user" "lambda_valkey_user" {
@@ -98,10 +103,7 @@ resource "aws_elasticache_user" "lambda_valkey_user" {
   user_name     = "lambda-valkey-user"
   access_string = "on ~* +@all"
   engine        = "valkey"
-
-  authentication_mode {
-    type = "iam"
-  }
+  passwords     = [random_password.lambda_user_password.result]
 }
 resource "aws_elasticache_user_group" "lambda_valkey_group" {
   engine        = "valkey"
