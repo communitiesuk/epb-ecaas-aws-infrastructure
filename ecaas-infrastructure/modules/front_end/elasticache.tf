@@ -20,39 +20,7 @@ resource "aws_elasticache_serverless_cache" "elasticache_with_valkey" {
   user_group_id            = aws_elasticache_user_group.lambda_valkey_group.id
 }
 
-
-
-resource "aws_security_group" "elasticache_sg" {
-  name        = "elasticache-sg"
-  description = "ElastiCache security group"
-  vpc_id      = aws_vpc.this.id
-
-  ingress {
-    protocol        = "tcp"
-    from_port       = 6379
-    to_port         = 6379
-    security_groups = [aws_security_group.lambda_sg.id]
-    description     = "Allow traffic from lambda to ElastiCache Valkey"
-
-  }
-}
-
-resource "aws_security_group" "lambda_sg" {
-  name        = "lambda_sg"
-  description = "Lambda security group"
-  vpc_id      = aws_vpc.this.id
-
-egress {
-    protocol        = "tcp"
-    from_port       = 6379
-    to_port         = 6379
-    cidr_blocks = [aws_vpc.this.cidr_block]
-    description     = "Allow Lambda to connect to ElastiCache Valkey in VPC"
-  }
-}
-
 //KMS key to encrypt data at rest in elasticache 
-
 
 resource "aws_kms_key" "this" {
   description             = "Symmetric encryption KMS key for elasticache"
