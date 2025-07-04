@@ -54,3 +54,8 @@ module "parameter_store" {
     }
   }
 }
+
+module "logging" {
+  source                    = "./modules/logging"
+  region                    = var.region
+}
