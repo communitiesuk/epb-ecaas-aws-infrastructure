@@ -56,7 +56,7 @@ def register_alarm(alarm):
                 "type": "header",
                 "text": {
                     "type": "plain_text",
-                    "text": f":new: (Ecaas) {alarm['name']} alarm was registered"
+                    "text": f":new: (ECaaS) {alarm['name']} alarm was registered"
                     # "text": f":new: {alarm['name']} alarm was registered in {alarm['environment']}"
                     
                 }
@@ -85,7 +85,7 @@ def activate_alarm(alarm):
                 "type": "header",
                 "text": {
                     "type": "plain_text",
-                    "text": f":red_circle: (Ecaas) Alarm: {alarm['description']}",
+                    "text": f":red_circle: (ECaaS) Alarm: {alarm['description']}",
                     # "text": f":red_circle: Alarm in {alarm['environment']}: {alarm['description']}",
                 
                 }
@@ -125,7 +125,7 @@ def resolve_alarm(alarm):
                 "type": "header",
                 "text": {
                     "type": "plain_text",
-                    "text": f":large_green_circle: (Ecaas) Resolved: {alarm['description']}",
+                    "text": f":large_green_circle: (ECaaS) Resolved: {alarm['description']}",
                     # "text": f":large_green_circle: Resolved in {alarm['environment']}: {alarm['description']}",
                
                 }
