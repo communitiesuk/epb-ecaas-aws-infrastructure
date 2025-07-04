@@ -52,10 +52,32 @@ module "parameter_store" {
       type  = "SecureString"
       value = var.parameters["nuxt_oauth_cognito_client_secret"]
     }
+    "epc_team_main_slack_url" : {
+      type  = "SecureString"
+      value = var.parameters["epc_team_main_slack_url"]
+    }
+    "epb_team_slack_url" : {
+      type  = "SecureString"
+      value = var.parameters["epb_team_slack_url"]
+    }
+    # "stage" : {
+    #   type  = "String"
+    #   value = var.parameters["stage"]
+    # }
   }
 }
 
 module "logging" {
   source                    = "./modules/logging"
   region                    = var.region
+}
+
+module "alerts" {
+  source                 = "./modules/alerts"
+  region                 = var.region
+  # environment                = var.parameters["STAGE"]
+  slack_webhook_url      = var.parameters["epb_team_slack_url"]
+  main_slack_alerts      = var.environment == "integration" ? 1 : 0
+  main_slack_webhook_url = var.parameters["epc_team_main_slack_url"]
+  cloudtrail_log_group_name  = module.logging.cloudtrail_log_group_name
 }

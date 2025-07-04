@@ -41,3 +41,6 @@ variable "parameters" {
   type        = map(string)
   sensitive   = true
 }
+variable "environment" {
+  type = string
+}
