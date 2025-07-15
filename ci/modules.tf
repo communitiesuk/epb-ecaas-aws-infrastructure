@@ -88,5 +88,5 @@ module "parameters" {
       type  = "String"
       value = var.sentry_dsn
     }
-   }
+  }
 }

@@ -79,7 +79,7 @@ resource "aws_vpc_security_group_egress_rule" "lambda_to_api_gateway" {
   from_port                    = 443
   to_port                      = 443
   security_group_id            = aws_security_group.lambda_sg.id
-  referenced_security_group_id =   aws_security_group.api-gateway_endpoint_sg.id
+  referenced_security_group_id = aws_security_group.api-gateway_endpoint_sg.id
   description                  = "Allow Lambda to connect to API Gateway outside of the VPC"
 }
 
