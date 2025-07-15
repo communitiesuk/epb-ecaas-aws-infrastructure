@@ -40,7 +40,7 @@ variable "cognito_user_pool_id" {
 }
 
 variable "nuxt_session_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -49,6 +49,16 @@ variable "nuxt_oauth_cognito_redirect_url" {
 }
 
 variable "vpc_cidr" {
-  type = string
+  type    = string
   default = "10.0.0.0/16"
+}
+
+variable "sentry_auth_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "sentry_dsn_public" {
+  type      = string
+  sensitive = true
 }

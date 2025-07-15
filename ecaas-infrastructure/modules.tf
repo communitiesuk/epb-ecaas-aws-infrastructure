@@ -31,6 +31,8 @@ module "front_end" {
   cognito_user_pool_id            = var.cognito_user_pool_id
   nuxt_session_password           = var.nuxt_session_password
   nuxt_oauth_cognito_redirect_url = var.nuxt_oauth_cognito_redirect_url
+  sentry_auth_token               = var.sentry_auth_token
+  sentry_dsn_public               = var.sentry_dsn_public
 }
 
 module "parameter_store" {
@@ -68,16 +70,16 @@ module "parameter_store" {
 }
 
 module "logging" {
-  source                    = "./modules/logging"
-  region                    = var.region
+  source = "./modules/logging"
+  region = var.region
 }
 
 module "alerts" {
-  source                 = "./modules/alerts"
-  region                 = var.region
+  source = "./modules/alerts"
+  region = var.region
   # environment                = var.parameters["STAGE"]
-  slack_webhook_url      = var.parameters["epb_team_slack_url"]
-  main_slack_alerts      = var.environment == "integration" ? 1 : 0
-  main_slack_webhook_url = var.parameters["epc_team_main_slack_url"]
-  cloudtrail_log_group_name  = module.logging.cloudtrail_log_group_name
+  slack_webhook_url         = var.parameters["epb_team_slack_url"]
+  main_slack_alerts         = var.environment == "integration" ? 1 : 0
+  main_slack_webhook_url    = var.parameters["epc_team_main_slack_url"]
+  cloudtrail_log_group_name = module.logging.cloudtrail_log_group_name
 }

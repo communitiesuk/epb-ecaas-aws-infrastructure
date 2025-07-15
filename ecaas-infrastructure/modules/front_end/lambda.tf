@@ -25,7 +25,9 @@ resource "aws_lambda_function" "front_end_lambda" {
       NUXT_REDIS_ENDPOINT             = aws_elasticache_serverless_cache.elasticache_with_valkey.endpoint[0].address
       NUXT_REDIS_PORT                 = aws_elasticache_serverless_cache.elasticache_with_valkey.endpoint[0].port
       NUXT_REDIS_PASSWORD             = random_password.lambda_user_password.result
-      NUXT_REDIS_USERNAME             = aws_elasticache_user.lambda_valkey_user.user_name  
+      NUXT_REDIS_USERNAME             = aws_elasticache_user.lambda_valkey_user.user_name
+      SENTRY_AUTH_TOKEN               = var.sentry_auth_token
+      SENTRY_DSN_PUBLIC               = var.sentry_dsn_public
     }
   }
 

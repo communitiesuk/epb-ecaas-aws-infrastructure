@@ -44,3 +44,13 @@ variable "parameters" {
 variable "environment" {
   type = string
 }
+
+variable "sentry_auth_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "sentry_dsn_public" {
+  type      = string
+  sensitive = true
+}
