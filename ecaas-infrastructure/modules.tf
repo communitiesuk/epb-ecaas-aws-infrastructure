@@ -79,7 +79,7 @@ module "alerts" {
   region = var.region
   # environment                = var.parameters["STAGE"]
   slack_webhook_url         = var.parameters["epb_team_slack_url"]
-  main_slack_alerts         = var.environment == "integration" ? 1 : 0
+  main_slack_alerts         = var.environment == "ecaas-integration" ? 1 : 0
   main_slack_webhook_url    = var.parameters["epc_team_main_slack_url"]
   cloudtrail_log_group_name = module.logging.cloudtrail_log_group_name
 }
