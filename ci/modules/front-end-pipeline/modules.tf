@@ -22,7 +22,8 @@ module "codebuild_build_front_end" {
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
     { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" },
-    { name = "BUILD_FOR_AWS_LAMBDA", value = "1" }
+    { name = "BUILD_FOR_AWS_LAMBDA", value = "1" },
+    { name = "SENTRY_AUTH_TOKEN", value = var.sentry_auth_token }
   ]
   region = var.region
 }

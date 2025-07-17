@@ -29,3 +29,8 @@ variable "tech_docs_bucket_name" {
 variable "sentry_dsn" {
   type = string
 }
+
+variable "sentry_auth_token" {
+  type      = string
+  sensitive = true
+}

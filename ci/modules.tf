@@ -73,6 +73,7 @@ module "front-end-pipeline" {
   codebuild_image_ecr_url = var.codebuild_image_ecr_url
   region                  = var.region
   account_ids             = var.account_ids
+  sentry_auth_token       = var.sentry_auth_token
 }
 
 module "tech_docs" {

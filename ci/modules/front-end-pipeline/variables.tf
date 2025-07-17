@@ -45,3 +45,8 @@ variable "region" {
 variable "account_ids" {
   type = map(string)
 }
+
+variable "sentry_auth_token" {
+  type      = string
+  sensitive = true
+}
