@@ -33,6 +33,7 @@ module "front_end" {
   nuxt_oauth_cognito_redirect_url = var.nuxt_oauth_cognito_redirect_url
   sentry_auth_token               = var.sentry_auth_token
   sentry_dsn                      = var.sentry_dsn
+  sentry_config                   = var.sentry_config
 }
 
 module "parameter_store" {

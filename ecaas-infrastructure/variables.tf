@@ -54,3 +54,7 @@ variable "sentry_dsn" {
   type      = string
   sensitive = true
 }
+
+variable "sentry_config" {
+  type = string
+}
