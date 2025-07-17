@@ -58,7 +58,7 @@ variable "sentry_auth_token" {
   sensitive = true
 }
 
-variable "sentry_dsn_public" {
+variable "sentry_dsn" {
   type      = string
   sensitive = true
 }
