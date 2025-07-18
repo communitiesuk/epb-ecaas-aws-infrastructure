@@ -9,12 +9,12 @@ module "access" {
 module "api_gateway" {
   source              = "./modules/api_gateway"
   region              = var.region
-  cdn_certificate_arn = module.cdn_certificate.certificate_arn
+  cdn_certificate_arn = module.api_cdn_certificate.certificate_arn
   domain_name         = var.api_domain_name
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
-module "cdn_certificate" {
+module "api_cdn_certificate" {
   source = "./modules/ssl"
   providers = {
     aws = aws.us-east
