@@ -24,7 +24,6 @@ variable "region" {
 
 variable "domain_name" {
   type    = string
-  default = "energy-calculator-integration.digital.communities.gov.uk"
 }
 
 variable "ecaas_auth_api_url" {

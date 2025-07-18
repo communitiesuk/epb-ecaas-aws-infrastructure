@@ -10,7 +10,7 @@ module "api_gateway" {
   source              = "./modules/api_gateway"
   region              = var.region
   cdn_certificate_arn = module.cdn_certificate.certificate_arn
-  domain_name         = var.domain_name
+  domain_name         = var.api_domain_name
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
@@ -19,13 +19,14 @@ module "cdn_certificate" {
   providers = {
     aws = aws.us-east
   }
-  domain_name               = var.domain_name
-  subject_alternative_names = var.subject_alternative_names
+  domain_name               = var.api_domain_name
+  subject_alternative_names = var.api_subject_alternative_names
 }
 
 module "front_end" {
   source                          = "./modules/front_end"
   front_end_s3_bucket_name        = "epb-ecaas-front-end-s3-bucket"
+  domain_name                     = var.frontend_domain_name
   ecaas_auth_api_url              = var.ecaas_auth_api_url
   ecaas_api_url                   = var.ecaas_api_url
   cognito_user_pool_id            = var.cognito_user_pool_id
