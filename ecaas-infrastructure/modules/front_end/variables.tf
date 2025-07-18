@@ -62,3 +62,8 @@ variable "sentry_dsn" {
   type      = string
   sensitive = true
 }
+
+variable "environment_name" {
+  type    = string
+  default = "integration"
+}
