@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "frontend_s3" {
-  bucket        = var.front_end_s3_bucket_name
+  bucket        = var.environment == "ecaas-intg" ? "epb-ecaas-front-end-s3-bucket" : "epb-ecaas-${var.environment}-frontend-assets"
   force_destroy = false
 }
 

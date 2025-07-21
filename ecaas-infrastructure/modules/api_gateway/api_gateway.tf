@@ -37,7 +37,7 @@ resource "aws_api_gateway_method" "GetApiMethod" {
   resource_id          = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
   http_method          = "GET"
   authorization        = "COGNITO_USER_POOLS"
-  authorizer_id        = aws_api_gateway_authorizer.gateway_authorizer.id
+  authorizer_id        = var.gateway_authorizer_id
   authorization_scopes = ["ecaas-api/home-energy-model"]
 }
 
@@ -85,7 +85,7 @@ resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
   resource_id          = aws_api_gateway_resource.FHSComplianceResource.id
   http_method          = "POST"
   authorization        = "COGNITO_USER_POOLS"
-  authorizer_id        = aws_api_gateway_authorizer.gateway_authorizer.id
+  authorizer_id        = var.gateway_authorizer_id
   authorization_scopes = ["ecaas-api/home-energy-model"]
 }
 

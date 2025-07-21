@@ -23,18 +23,6 @@ variable "frontend_subject_alternative_names" {
   type = list(string)
 }
 
-variable "ecaas_auth_api_url" {
-  type = string
-}
-
-variable "ecaas_api_url" {
-  type = string
-}
-
-variable "cognito_user_pool_id" {
-  type = string
-}
-
 variable "nuxt_session_password" {
   type      = string
   sensitive = true

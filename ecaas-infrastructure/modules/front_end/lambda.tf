@@ -16,8 +16,8 @@ resource "aws_lambda_function" "front_end_lambda" {
 
   environment {
     variables = {
-      NUXT_APP_CDN_URL                = "https://${aws_acm_certificate.cert-cdn.domain_name}/static"
-      ECAAS_AUTH_API_URL              = var.ecaas_auth_api_url
+      NUXT_APP_CDN_URL                = "https://${var.domain_name}/static"
+      ECAAS_AUTH_API_URL              = var.ecaas_auth_url
       ECAAS_API_URL                   = var.ecaas_api_url
       COGNITO_USER_POOL_ID            = var.cognito_user_pool_id
       NUXT_SESSION_PASSWORD           = var.nuxt_session_password

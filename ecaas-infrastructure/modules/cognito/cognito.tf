@@ -10,7 +10,7 @@ resource "aws_cognito_user_pool_domain" "user_pool_domain" {
 
 resource "aws_api_gateway_authorizer" "gateway_authorizer" {
   name          = "gateway-authorizer"
-  rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
+  rest_api_id   = var.rest_api_id
   type          = "COGNITO_USER_POOLS"
   provider_arns = [aws_cognito_user_pool.pool.arn]
 }

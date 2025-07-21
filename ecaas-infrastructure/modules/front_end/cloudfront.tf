@@ -9,7 +9,7 @@ resource "aws_cloudfront_origin_access_control" "this" {
 resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   origin {
     domain_name              = aws_s3_bucket.frontend_s3.bucket_domain_name
-    origin_id                = "S3-${var.front_end_s3_bucket_name}"
+    origin_id                = "S3-${aws_s3_bucket.frontend_s3.id}"
     origin_access_control_id = aws_cloudfront_origin_access_control.this.id
   }
   origin {
@@ -27,7 +27,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   enabled         = true
   is_ipv6_enabled = true
   price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
-  aliases         = [aws_acm_certificate.cert-cdn.domain_name]
+  aliases         = [var.domain_name]
 
   default_cache_behavior {
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
@@ -42,7 +42,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods         = ["GET", "HEAD"]
     path_pattern           = "static/*"
-    target_origin_id       = "S3-${var.front_end_s3_bucket_name}"
+    target_origin_id       = "S3-${aws_s3_bucket.frontend_s3.id}"
     viewer_protocol_policy = "allow-all"
     forwarded_values {
       query_string = true
@@ -71,7 +71,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
 
   # SSL certificate for the service.
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate.cert-cdn.arn
+    acm_certificate_arn      = var.environment == "ecaas-intg" ? aws_acm_certificate.cert-cdn.arn : var.cdn_certificate_arn
     minimum_protocol_version = "TLSv1.2_2021"
     ssl_support_method       = "sni-only"
   }

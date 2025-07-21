@@ -8,10 +8,6 @@ variable "log_group_retention_in_days" {
   type    = number
 }
 
-variable "front_end_s3_bucket_name" {
-  type = string
-}
-
 variable "xray_tracing_enabled" {
   type    = bool
   default = false
@@ -22,11 +18,19 @@ variable "region" {
   default = "eu-west-2"
 }
 
+variable "environment" {
+  type = string
+}
+
 variable "domain_name" {
   type    = string
 }
 
-variable "ecaas_auth_api_url" {
+variable cdn_certificate_arn {
+  type    = string
+}
+
+variable "ecaas_auth_url" {
   type = string
 }
 
