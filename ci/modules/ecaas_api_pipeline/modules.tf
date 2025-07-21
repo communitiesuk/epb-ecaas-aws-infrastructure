@@ -1,4 +1,3 @@
-data "aws_caller_identity" "current" {}
 
 module "codebuild_run_api_gateway_terraform" {
   source             = "../codebuild_project"

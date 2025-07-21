@@ -116,22 +116,6 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   policy_arn = aws_iam_policy.front_end_lambda_logging.arn
 }
 
-data "aws_iam_policy_document" "xray_tracing" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "xray:PutTraceSegments",
-      "xray:PutTelemetryRecords",
-      "xray:GetSamplingRules",
-      "xray:GetSamplingTargets",
-      "xray:GetSamplingStatisticSummaries"
-    ]
-
-    resources = ["*"]
-  }
-}
-
 resource "aws_lambda_permission" "api_gateway_lambda_permission" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
