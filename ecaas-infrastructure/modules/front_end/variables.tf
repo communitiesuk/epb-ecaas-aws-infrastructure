@@ -1,4 +1,5 @@
 variable "tracing_config_mode" {
+  type        = string
   description = "Can be either PassThrough or Active"
   default     = "Active"
 }
