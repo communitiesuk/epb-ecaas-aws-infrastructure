@@ -80,4 +80,23 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
+
+  stage {
+    name = "e2e-test-frontend"
+
+    action {
+      name             = "E2eTestFrontend"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output", "deploy_frontend_output"]
+      output_artifacts = ["e2e_test_frontend_output"]
+
+      configuration = {
+        ProjectName   = module.codebuild_e2e_test_front_end.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+  }
 }

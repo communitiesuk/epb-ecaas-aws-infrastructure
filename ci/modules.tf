@@ -88,6 +88,22 @@ module "parameters" {
     "SENTRY_DSN" : {
       type  = "String"
       value = var.sentry_dsn
+    },
+    "login_username" : {
+      type  = "String"
+      value = var.login_username
+    },
+    "login_password" : {
+      type  = "String"
+      value = var.login_password
+    },
+    "login_url" : {
+      type  = "String"
+      value = var.login_url
+    },
+    "base_url" : {
+      type  = "String"
+      value = var.base_url
     }
   }
 }

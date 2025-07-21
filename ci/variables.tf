@@ -34,3 +34,23 @@ variable "sentry_auth_token" {
   type      = string
   sensitive = true
 }
+
+variable "login_username" {
+  type      = string
+  sensitive = true
+}
+
+variable "login_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "login_url" {
+  type      = string
+  sensitive = true
+}
+
+variable "base_url" {
+  type      = string
+  sensitive = true
+}
