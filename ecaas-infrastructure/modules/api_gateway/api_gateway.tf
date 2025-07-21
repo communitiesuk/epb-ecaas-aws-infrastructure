@@ -1,5 +1,5 @@
 # Set up API Gateway
-resource "aws_api_gateway_rest_api" "ECaaSAPI" {
+resource "aws_api_gateway_rest_api" "ecaas_api" {
   name        = "ECaas API"
   description = "API for ECaaS (Energy Calculation as a Service). Used for Home Energy Model calculations."
 
@@ -8,21 +8,21 @@ resource "aws_api_gateway_rest_api" "ECaaSAPI" {
   }
 }
 
-resource "aws_api_gateway_domain_name" "ECaaSAPIDomainName" {
+resource "aws_api_gateway_domain_name" "ecaas_api_domain_name" {
   certificate_arn = var.cdn_certificate_arn
   domain_name     = "api.${var.domain_name}"
 }
 
 resource "aws_api_gateway_base_path_mapping" "this" {
-  api_id      = aws_api_gateway_rest_api.ECaaSAPI.id
+  api_id      = aws_api_gateway_rest_api.ecaas_api.id
   stage_name  = aws_api_gateway_stage.DeploymentStage.stage_name
-  domain_name = aws_api_gateway_domain_name.ECaaSAPIDomainName.domain_name
+  domain_name = aws_api_gateway_domain_name.ecaas_api_domain_name.domain_name
 }
 
-resource "aws_api_gateway_integration" "GatewayIntegration" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
-  http_method = aws_api_gateway_method.GetApiMethod.http_method
+resource "aws_api_gateway_integration" "gateway_integration" {
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
+  resource_id = aws_api_gateway_rest_api.ecaas_api.root_resource_id
+  http_method = aws_api_gateway_method.get_api_method.http_method
   type        = "MOCK"
   request_templates = {
     "application/json" = jsonencode({
@@ -32,20 +32,20 @@ resource "aws_api_gateway_integration" "GatewayIntegration" {
 }
 
 # Set up root method
-resource "aws_api_gateway_method" "GetApiMethod" {
-  rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id          = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
+resource "aws_api_gateway_method" "get_api_method" {
+  rest_api_id          = aws_api_gateway_rest_api.ecaas_api.id
+  resource_id          = aws_api_gateway_rest_api.ecaas_api.root_resource_id
   http_method          = "GET"
   authorization        = "COGNITO_USER_POOLS"
   authorizer_id        = var.gateway_authorizer_id
   authorization_scopes = ["ecaas-api/home-energy-model"]
 }
 
-resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
-  http_method = aws_api_gateway_method.GetApiMethod.http_method
-  status_code = aws_api_gateway_method_response.GetApiMethodResponse.status_code
+resource "aws_api_gateway_integration_response" "get_api_integration_response" {
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
+  resource_id = aws_api_gateway_rest_api.ecaas_api.root_resource_id
+  http_method = aws_api_gateway_method.get_api_method.http_method
+  status_code = aws_api_gateway_method_response.api_method_response.status_code
   response_templates = {
     "application/json" = jsonencode(
       {
@@ -59,30 +59,30 @@ resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
   }
 }
 
-resource "aws_api_gateway_method_response" "GetApiMethodResponse" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
-  http_method = aws_api_gateway_method.GetApiMethod.http_method
+resource "aws_api_gateway_method_response" "api_method_response" {
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
+  resource_id = aws_api_gateway_rest_api.ecaas_api.root_resource_id
+  http_method = aws_api_gateway_method.get_api_method.http_method
   status_code = "200"
 }
 
 # hook up lambda
 
-resource "aws_api_gateway_resource" "ECaaSBetaResource" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  parent_id   = aws_api_gateway_rest_api.ECaaSAPI.root_resource_id
+resource "aws_api_gateway_resource" "ecaas_beta_api_gateway" {
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
+  parent_id   = aws_api_gateway_rest_api.ecaas_api.root_resource_id
   path_part   = "beta"
 }
 
-resource "aws_api_gateway_resource" "FHSComplianceResource" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  parent_id   = aws_api_gateway_resource.ECaaSBetaResource.id
+resource "aws_api_gateway_resource" "ecaas_fhs_compliance_api_gateway" {
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
+  parent_id   = aws_api_gateway_resource.ecaas_beta_api_gateway.id
   path_part   = "future-homes-standard-compliance"
 }
 
-resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
-  rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id          = aws_api_gateway_resource.FHSComplianceResource.id
+resource "aws_api_gateway_method" "hem_post_method" {
+  rest_api_id          = aws_api_gateway_rest_api.ecaas_api.id
+  resource_id          = aws_api_gateway_resource.ecaas_fhs_compliance_api_gateway.id
   http_method          = "POST"
   authorization        = "COGNITO_USER_POOLS"
   authorizer_id        = var.gateway_authorizer_id
@@ -90,9 +90,9 @@ resource "aws_api_gateway_method" "HomeEnergyModelPostMethod" {
 }
 
 resource "aws_api_gateway_integration" "hem_lambda" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
-  resource_id = aws_api_gateway_method.HomeEnergyModelPostMethod.resource_id
-  http_method = aws_api_gateway_method.HomeEnergyModelPostMethod.http_method
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
+  resource_id = aws_api_gateway_method.hem_post_method.resource_id
+  http_method = aws_api_gateway_method.hem_post_method.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
@@ -100,18 +100,18 @@ resource "aws_api_gateway_integration" "hem_lambda" {
 }
 
 # Set up deployment
-resource "aws_api_gateway_deployment" "Deployment" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
+resource "aws_api_gateway_deployment" "ecaas_api_deployment" {
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
 
   triggers = {
     redeployment = sha1(jsonencode([
-      aws_api_gateway_rest_api.ECaaSAPI.id,
-      aws_api_gateway_rest_api.ECaaSAPI.description,
-      aws_api_gateway_rest_api.ECaaSAPI.root_resource_id,
-      aws_api_gateway_method.GetApiMethod,
-      aws_api_gateway_method.HomeEnergyModelPostMethod,
-      aws_api_gateway_integration.GatewayIntegration.id,
-      aws_api_gateway_integration_response.GetApiIntegrationResponse.response_templates,
+      aws_api_gateway_rest_api.ecaas_api.id,
+      aws_api_gateway_rest_api.ecaas_api.description,
+      aws_api_gateway_rest_api.ecaas_api.root_resource_id,
+      aws_api_gateway_method.get_api_method,
+      aws_api_gateway_method.hem_post_method,
+      aws_api_gateway_integration.gateway_integration.id,
+      aws_api_gateway_integration_response.get_api_integration_response.response_templates,
       aws_api_gateway_integration.hem_lambda.id
     ]))
   }
@@ -122,8 +122,8 @@ resource "aws_api_gateway_deployment" "Deployment" {
 }
 
 resource "aws_api_gateway_stage" "DeploymentStage" {
-  deployment_id        = aws_api_gateway_deployment.Deployment.id
-  rest_api_id          = aws_api_gateway_rest_api.ECaaSAPI.id
+  deployment_id        = aws_api_gateway_deployment.ecaas_api_deployment.id
+  rest_api_id          = aws_api_gateway_rest_api.ecaas_api.id
   stage_name           = var.stage_name
   xray_tracing_enabled = var.xray_tracing_enabled
   depends_on           = [aws_cloudwatch_log_group.ApiGatewayLogGroup]
@@ -147,7 +147,7 @@ resource "aws_api_gateway_stage" "DeploymentStage" {
 
 # Set up logging
 resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
-  rest_api_id = aws_api_gateway_rest_api.ECaaSAPI.id
+  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
   stage_name  = var.stage_name
   method_path = "*/*"
 
@@ -159,7 +159,7 @@ resource "aws_api_gateway_method_settings" "DeploymentStageSettings" {
 }
 
 resource "aws_cloudwatch_log_group" "ApiGatewayLogGroup" {
-  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ECaaSAPI.id}/${var.stage_name}"
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ecaas_api.id}/${var.stage_name}"
   retention_in_days = var.log_group_retention_in_days
 }
 

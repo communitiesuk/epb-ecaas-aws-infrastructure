@@ -73,7 +73,7 @@ resource "aws_lambda_permission" "api_gateway_lambda_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.hem_lambda.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.ECaaSAPI.execution_arn}/*/*"
+  source_arn    = "${aws_api_gateway_rest_api.ecaas_api.execution_arn}/*/*"
 }
 
 data "aws_iam_policy_document" "xray_tracing" {

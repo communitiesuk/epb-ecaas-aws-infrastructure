@@ -45,7 +45,7 @@ resource "aws_api_gateway_integration" "frontend_app_root" {
   uri                     = aws_lambda_function.front_end_lambda.invoke_arn
 }
 
-resource "aws_api_gateway_deployment" "this" {
+resource "aws_api_gateway_deployment" "ecaas_frontend_deployment" {
   rest_api_id = aws_api_gateway_rest_api.ecaas_frontend.id
 
   triggers = {
@@ -64,7 +64,7 @@ resource "aws_api_gateway_deployment" "this" {
 }
 
 resource "aws_api_gateway_stage" "this" {
-  deployment_id        = aws_api_gateway_deployment.this.id
+  deployment_id        = aws_api_gateway_deployment.ecaas_frontend_deployment.id
   rest_api_id          = aws_api_gateway_rest_api.ecaas_frontend.id
   stage_name           = "default"
   xray_tracing_enabled = var.xray_tracing_enabled
