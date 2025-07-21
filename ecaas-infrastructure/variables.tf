@@ -28,10 +28,6 @@ variable "nuxt_session_password" {
   sensitive = true
 }
 
-variable "nuxt_oauth_cognito_redirect_url" {
-  type = string
-}
-
 variable "parameters" {
   description = "A map of parameter values. Keys should be a subset of the ones passed to 'parameters' module."
   type        = map(string)

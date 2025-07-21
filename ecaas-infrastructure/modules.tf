@@ -50,7 +50,6 @@ module "front_end" {
   ecaas_auth_url                  = module.cognito.ecaas_auth_url
   cognito_user_pool_id            = module.cognito.cognito_user_pool_id
   nuxt_session_password           = var.nuxt_session_password
-  nuxt_oauth_cognito_redirect_url = var.nuxt_oauth_cognito_redirect_url
   sentry_auth_token               = var.sentry_auth_token
   sentry_dsn                      = var.sentry_dsn
 }

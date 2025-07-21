@@ -47,10 +47,6 @@ variable "nuxt_session_password" {
   sensitive = true
 }
 
-variable "nuxt_oauth_cognito_redirect_url" {
-  type = string
-}
-
 variable "vpc_cidr" {
   type    = string
   default = "10.0.0.0/16"
