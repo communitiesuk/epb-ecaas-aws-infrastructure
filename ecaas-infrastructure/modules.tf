@@ -87,8 +87,9 @@ module "parameter_store" {
 }
 
 module "logging" {
-  source = "./modules/logging"
-  region = var.region
+  source      = "./modules/logging"
+  region      = var.region
+  environment = var.environment
 }
 
 module "alerts" {
