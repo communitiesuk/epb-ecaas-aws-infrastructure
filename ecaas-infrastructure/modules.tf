@@ -28,7 +28,6 @@ module "api_cdn_certificate" {
     aws = aws.us-east
   }
   domain_name               = var.api_domain_name
-  subject_alternative_names = var.api_subject_alternative_names
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
@@ -38,7 +37,6 @@ module "frontend_cdn_certificate" {
     aws = aws.us-east
   }
   domain_name               = var.frontend_domain_name
-  subject_alternative_names = var.frontend_subject_alternative_names
 }
 
 module "front_end" {

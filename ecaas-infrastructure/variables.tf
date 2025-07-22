@@ -11,16 +11,8 @@ variable "api_domain_name" {
   type = string
 }
 
-variable "api_subject_alternative_names" {
-  type = list(string)
-}
-
 variable "frontend_domain_name" {
   type = string
-}
-
-variable "frontend_subject_alternative_names" {
-  type = list(string)
 }
 
 variable "nuxt_session_password" {
