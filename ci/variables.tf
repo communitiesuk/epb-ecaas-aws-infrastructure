@@ -45,12 +45,7 @@ variable "login_password" {
   sensitive = true
 }
 
-variable "login_url" {
-  type      = string
-  sensitive = true
-}
-
-variable "base_url" {
+variable "ecaas_url" {
   type      = string
   sensitive = true
 }

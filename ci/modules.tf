@@ -70,10 +70,11 @@ module "front-end-pipeline" {
   github_organisation     = var.github_organisation
   codestar_connection_arn = module.codestar_connection.codestar_connection_arn
   project_name            = "epb-ecaas-frontend"
-  codebuild_image_ecr_url = var.codebuild_image_ecr_url
+  # codebuild_image_ecr_url = var.codebuild_image_ecr_url
   region                  = var.region
   account_ids             = var.account_ids
   sentry_auth_token       = var.sentry_auth_token
+  ecaas_url = var.ecaas_url
 }
 
 module "tech_docs" {
@@ -96,14 +97,6 @@ module "parameters" {
     "login_password" : {
       type  = "String"
       value = var.login_password
-    },
-    "login_url" : {
-      type  = "String"
-      value = var.login_url
-    },
-    "base_url" : {
-      type  = "String"
-      value = var.base_url
     }
   }
 }
