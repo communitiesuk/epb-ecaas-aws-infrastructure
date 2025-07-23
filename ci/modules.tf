@@ -36,8 +36,8 @@ module "ecaas-api-pipeline" {
   github_repository       = "epb-ecaas-api"
   github_branch           = "main"
   github_organisation     = var.github_organisation
-  hem_lambda_repository   = "epb-home-energy-model"
-  hem_lambda_branch       = "main"
+  hem_core_repository   = "epb-home-energy-model"
+  hem_core_branch       = "main"
   codestar_connection_arn = module.codestar_connection.codestar_connection_arn
   project_name            = "ecaas-api"
   codebuild_image_ecr_url = var.codebuild_image_ecr_url

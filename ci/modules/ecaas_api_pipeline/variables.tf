@@ -30,11 +30,11 @@ variable "github_repository" {
   type = string
 }
 
-variable "hem_lambda_repository" {
+variable "hem_core_repository" {
   type = string
 }
 
-variable "hem_lambda_branch" {
+variable "hem_core_branch" {
   type = string
 }
 

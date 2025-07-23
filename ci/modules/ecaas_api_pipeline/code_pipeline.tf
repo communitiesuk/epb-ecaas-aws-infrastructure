@@ -28,17 +28,17 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      name             = "HEMLambdaSource"
+      name             = "HEMCoreSource"
       category         = "Source"
       owner            = "AWS"
       provider         = "CodeStarSourceConnection"
       version          = "1"
-      output_artifacts = ["hem_lambda_source_output"]
+      output_artifacts = ["hem_core_source_output"]
 
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
-        FullRepositoryId     = format("%s/%s", var.github_organisation, var.hem_lambda_repository)
-        BranchName           = var.hem_lambda_branch
+        FullRepositoryId     = format("%s/%s", var.github_organisation, var.hem_core_repository)
+        BranchName           = var.hem_core_branch
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -53,7 +53,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["hem_lambda_source_output", "source_output"]
+      input_artifacts  = ["source_output", "hem_core_source_output"]
       output_artifacts = []
 
       configuration = {
@@ -72,7 +72,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["hem_lambda_source_output", "source_output"]
+      input_artifacts  = ["source_output", "hem_core_source_output"]
       output_artifacts = ["build_hem_lambda_output"]
 
       configuration = {
