@@ -7,11 +7,11 @@ resource "aws_cloudfront_origin_access_control" "this" {
 }
 
 resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
-  origin {
-    domain_name              = aws_s3_bucket.frontend_s3.bucket_domain_name
-    origin_id                = "S3-${aws_s3_bucket.frontend_s3.id}"
-    origin_access_control_id = aws_cloudfront_origin_access_control.this.id
-  }
+  # origin {
+  #   domain_name              = aws_s3_bucket.frontend_s3.bucket_domain_name
+  #   origin_id                = "S3-${aws_s3_bucket.frontend_s3.id}"
+  #   origin_access_control_id = aws_cloudfront_origin_access_control.this.id
+  # }
   origin {
     custom_origin_config {
       http_port              = 80
@@ -24,10 +24,11 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     origin_path = "/default"
   }
 
+  comment         = "ECaaS Frontend CDN"
   enabled         = true
   is_ipv6_enabled = true
   price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
-  aliases         = [var.domain_name]
+  # aliases         = [var.domain_name]
 
   default_cache_behavior {
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
@@ -38,19 +39,19 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     cache_policy_id        = aws_cloudfront_cache_policy.this.id
   }
 
-  ordered_cache_behavior {
-    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods         = ["GET", "HEAD"]
-    path_pattern           = "static/*"
-    target_origin_id       = "S3-${aws_s3_bucket.frontend_s3.id}"
-    viewer_protocol_policy = "allow-all"
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "all"
-      }
-    }
-  }
+  # ordered_cache_behavior {
+  #   allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+  #   cached_methods         = ["GET", "HEAD"]
+  #   path_pattern           = "static/*"
+  #   target_origin_id       = "S3-${aws_s3_bucket.frontend_s3.id}"
+  #   viewer_protocol_policy = "allow-all"
+  #   forwarded_values {
+  #     query_string = true
+  #     cookies {
+  #       forward = "all"
+  #     }
+  #   }
+  # }
 
   # If there is a 404, return index.html with a HTTP 200 Response
   # custom_error_response {
@@ -71,7 +72,8 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
 
   # SSL certificate for the service.
   viewer_certificate {
-    acm_certificate_arn      = var.cdn_certificate_arn
+    # acm_certificate_arn      = var.cdn_certificate_arn
+    cloudfront_default_certificate = true
     minimum_protocol_version = "TLSv1.2_2021"
     ssl_support_method       = "sni-only"
   }
