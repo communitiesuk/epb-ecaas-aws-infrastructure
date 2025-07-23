@@ -90,11 +90,11 @@ module "parameters" {
       type  = "String"
       value = var.sentry_dsn
     },
-    "login_username" : {
+    "LOGIN_USERNAME" : {
       type  = "String"
       value = var.login_username
     },
-    "login_password" : {
+    "LOGIN_PASSWORD" : {
       type  = "String"
       value = var.login_password
     }
