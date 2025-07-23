@@ -21,6 +21,8 @@ resource "aws_cloudfront_cache_policy" "cache_policy" {
 
 
 resource "aws_cloudfront_distribution" "api_gateway_cloudfront_distribution" {
+
+  comment         = "ECaaS API CDN"
   enabled         = true
   is_ipv6_enabled = true
   price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html

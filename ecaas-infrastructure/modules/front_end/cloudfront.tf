@@ -7,6 +7,13 @@ resource "aws_cloudfront_origin_access_control" "this" {
 }
 
 resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
+
+  comment         = "ECaaS Frontend CDN"
+  enabled         = true
+  is_ipv6_enabled = true
+  price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
+  aliases         = [var.domain_name]
+
   origin {
     domain_name              = aws_s3_bucket.frontend_s3.bucket_domain_name
     origin_id                = "S3-${aws_s3_bucket.frontend_s3.id}"
@@ -23,11 +30,6 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     origin_id   = "nuxt-ssr-engine"
     origin_path = "/default"
   }
-
-  enabled         = true
-  is_ipv6_enabled = true
-  price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
-  aliases         = [var.domain_name]
 
   default_cache_behavior {
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
