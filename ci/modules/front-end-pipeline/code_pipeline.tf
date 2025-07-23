@@ -90,12 +90,11 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["source_output", "deploy_frontend_output"]
+      input_artifacts  = ["source_output"]
       output_artifacts = ["e2e_test_frontend_output"]
 
       configuration = {
         ProjectName   = module.codebuild_e2e_test_front_end.codebuild_name
-        PrimarySource = "source_output"
       }
     }
   }
