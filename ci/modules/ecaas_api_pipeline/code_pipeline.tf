@@ -42,6 +42,22 @@ resource "aws_codepipeline" "codepipeline" {
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
+
+    action {
+      name = "ResolvePCDBDataSource"
+      category = "Source"
+      owner = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["resolve_pcdb_data_source_output"]
+
+      configuration = {
+        ConnectionArn        = var.codestar_connection_arn
+        FullRepositoryId     = format("%s/%s", var.github_organisation, "epb-ecaas-pcdb")
+        BranchName           = "main"
+        OutputArtifactFormat = "CODEBUILD_CLONE_REF"
+      }
+    }
   }
 
   stage {
