@@ -7,18 +7,18 @@ module "access" {
 }
 
 module "cognito" {
-  source = "./modules/cognito"
+  source              = "./modules/cognito"
   domain_name         = var.api_domain_name
   cdn_certificate_arn = module.api_cdn_certificate.certificate_arn
   rest_api_id         = module.api_gateway.rest_api_id
 }
 
 module "api_gateway" {
-  source                 = "./modules/api_gateway"
-  region                 = var.region
-  domain_name            = var.api_domain_name
-  cdn_certificate_arn    = module.api_cdn_certificate.certificate_arn
-  gateway_authorizer_id  = module.cognito.gateway_authorizer_id
+  source                = "./modules/api_gateway"
+  region                = var.region
+  domain_name           = var.api_domain_name
+  cdn_certificate_arn   = module.api_cdn_certificate.certificate_arn
+  gateway_authorizer_id = module.cognito.gateway_authorizer_id
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
@@ -27,7 +27,7 @@ module "api_cdn_certificate" {
   providers = {
     aws = aws.us-east
   }
-  domain_name               = var.api_domain_name
+  domain_name = var.api_domain_name
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
@@ -36,20 +36,20 @@ module "frontend_cdn_certificate" {
   providers = {
     aws = aws.us-east
   }
-  domain_name               = var.frontend_domain_name
+  domain_name = var.frontend_domain_name
 }
 
 module "front_end" {
-  source                          = "./modules/front_end"
-  environment                     = var.environment
-  domain_name                     = var.frontend_domain_name
-  cdn_certificate_arn             = module.frontend_cdn_certificate.certificate_arn
-  ecaas_api_url                   = module.api_gateway.ecaas_api_url
-  ecaas_auth_url                  = module.cognito.ecaas_auth_url
-  cognito_user_pool_id            = module.cognito.cognito_user_pool_id
-  nuxt_session_password           = var.nuxt_session_password
-  sentry_auth_token               = var.sentry_auth_token
-  sentry_dsn                      = var.sentry_dsn
+  source                = "./modules/front_end"
+  environment           = var.environment
+  domain_name           = var.frontend_domain_name
+  cdn_certificate_arn   = module.frontend_cdn_certificate.certificate_arn
+  ecaas_api_url         = module.api_gateway.ecaas_api_url
+  ecaas_auth_url        = module.cognito.ecaas_auth_url
+  cognito_user_pool_id  = module.cognito.cognito_user_pool_id
+  nuxt_session_password = var.nuxt_session_password
+  sentry_auth_token     = var.sentry_auth_token
+  sentry_dsn            = var.sentry_dsn
 }
 
 module "parameter_store" {

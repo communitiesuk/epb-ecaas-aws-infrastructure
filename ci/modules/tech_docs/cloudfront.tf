@@ -8,11 +8,11 @@ resource "aws_cloudfront_origin_access_control" "this" {
 
 resource "aws_cloudfront_distribution" "tech_docs_s3_distribution" {
 
-  comment             = "ECaaS technical documentation CDN"
-  enabled             = true
-  is_ipv6_enabled     = true
-  price_class         = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
-  aliases             = [aws_acm_certificate.cert.domain_name]
+  comment         = "ECaaS technical documentation CDN"
+  enabled         = true
+  is_ipv6_enabled = true
+  price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
+  aliases         = [aws_acm_certificate.cert.domain_name]
 
   origin {
     domain_name              = aws_s3_bucket.tech-docs-s3.bucket_domain_name

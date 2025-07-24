@@ -4,11 +4,11 @@ output "ecaas_auth_url" {
 }
 
 output "cognito_user_pool_id" {
-  value = aws_cognito_user_pool.pool.id
+  value       = aws_cognito_user_pool.pool.id
   description = "The ID of the Cognito user pool"
 }
 
 output "gateway_authorizer_id" {
-  value = aws_api_gateway_authorizer.gateway_authorizer.id
+  value       = aws_api_gateway_authorizer.gateway_authorizer.id
   description = "The ID of the Gateway Authorizer"
 }

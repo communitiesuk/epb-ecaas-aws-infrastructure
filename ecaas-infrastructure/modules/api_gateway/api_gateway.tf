@@ -102,16 +102,16 @@ resource "aws_api_gateway_integration" "hem_lambda" {
 # canned response for 504 gateway errors
 
 resource "aws_api_gateway_gateway_response" "gateway_timeout_response" {
-  rest_api_id = aws_api_gateway_rest_api.ecaas_api.id
+  rest_api_id   = aws_api_gateway_rest_api.ecaas_api.id
   response_type = "INTEGRATION_TIMEOUT"
-  status_code = "504"
+  status_code   = "504"
   response_templates = {
     "application/json" = jsonencode(
       {
-        "errors": [
+        "errors" : [
           {
-            status: "504",
-            title: "Request made to calculator timed out"
+            status : "504",
+            title : "Request made to calculator timed out"
           }
         ]
       }

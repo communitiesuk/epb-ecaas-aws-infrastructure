@@ -94,7 +94,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["e2e_test_frontend_output"]
 
       configuration = {
-        ProjectName   = module.codebuild_e2e_test_front_end.codebuild_name
+        ProjectName = module.codebuild_e2e_test_front_end.codebuild_name
       }
     }
   }

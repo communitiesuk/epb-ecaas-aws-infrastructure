@@ -49,5 +49,5 @@ variable "sentry_auth_token" {
 }
 
 variable "ecaas_url" {
-  type      = string
+  type = string
 }

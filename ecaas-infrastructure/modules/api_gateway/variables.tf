@@ -38,5 +38,5 @@ variable "log_group_retention_in_days" {
 }
 
 variable "gateway_authorizer_id" {
-  type    = string
+  type = string
 }

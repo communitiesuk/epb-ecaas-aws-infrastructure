@@ -24,11 +24,11 @@ variable "environment" {
 }
 
 variable "domain_name" {
-  type    = string
+  type = string
 }
 
-variable cdn_certificate_arn {
-  type    = string
+variable "cdn_certificate_arn" {
+  type = string
 }
 
 variable "ecaas_auth_url" {

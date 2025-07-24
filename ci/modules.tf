@@ -36,8 +36,8 @@ module "ecaas-api-pipeline" {
   github_repository       = "epb-ecaas-api"
   github_branch           = "main"
   github_organisation     = var.github_organisation
-  hem_core_repository   = "epb-home-energy-model"
-  hem_core_branch       = "main"
+  hem_core_repository     = "epb-home-energy-model"
+  hem_core_branch         = "main"
   codestar_connection_arn = module.codestar_connection.codestar_connection_arn
   project_name            = "ecaas-api"
   codebuild_image_ecr_url = var.codebuild_image_ecr_url
@@ -71,10 +71,10 @@ module "front-end-pipeline" {
   codestar_connection_arn = module.codestar_connection.codestar_connection_arn
   project_name            = "epb-ecaas-frontend"
   # codebuild_image_ecr_url = var.codebuild_image_ecr_url
-  region                  = var.region
-  account_ids             = var.account_ids
-  sentry_auth_token       = var.sentry_auth_token
-  ecaas_url = var.ecaas_url
+  region            = var.region
+  account_ids       = var.account_ids
+  sentry_auth_token = var.sentry_auth_token
+  ecaas_url         = var.ecaas_url
 }
 
 module "tech_docs" {

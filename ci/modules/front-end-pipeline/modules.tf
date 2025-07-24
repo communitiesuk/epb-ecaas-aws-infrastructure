@@ -53,7 +53,7 @@ module "codebuild_e2e_test_front_end" {
   build_image_uri            = "mcr.microsoft.com/playwright:v1.54.0-noble"
   buildspec_file             = "buildspec/e2e_test_front_end.yml"
   region                     = var.region
-  environment_variables      = [
-   { name = "ECAAS_URL", value = var.ecaas_url },
+  environment_variables = [
+    { name = "ECAAS_URL", value = var.ecaas_url },
   ]
 }

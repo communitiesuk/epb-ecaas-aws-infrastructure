@@ -4,7 +4,7 @@ output "hem_lambda_arn" {
 }
 
 output "rest_api_id" {
-  value = aws_api_gateway_rest_api.ecaas_api.id
+  value       = aws_api_gateway_rest_api.ecaas_api.id
   description = "The ID of the ECaaS API gateway"
 }
 
