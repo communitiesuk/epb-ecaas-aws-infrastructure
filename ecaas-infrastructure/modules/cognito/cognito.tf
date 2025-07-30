@@ -36,6 +36,7 @@ resource "aws_cognito_user_pool_client" "client" {
 resource "aws_cognito_user_pool_client" "frontend_api_client" {
   name                                 = "ECaaS frontend API client"
   user_pool_id                         = aws_cognito_user_pool.pool.id
+  generate_secret                      = true
   explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH"]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["client_credentials"]
@@ -53,6 +54,7 @@ resource "aws_cognito_user_pool_client" "frontend_api_client" {
 resource "aws_cognito_user_pool_client" "frontend_user_login_client" {
   name                                 = "ECaaS frontend userpool client"
   user_pool_id                         = aws_cognito_user_pool.pool.id
+  generate_secret                      = true
   explicit_auth_flows                  = ["ALLOW_USER_AUTH","ALLOW_USER_SRP_AUTH","ALLOW_REFRESH_TOKEN_AUTH"]
   prevent_user_existence_errors        = "ENABLED"
   allowed_oauth_flows_user_pool_client = true
