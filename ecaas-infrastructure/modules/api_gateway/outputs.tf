@@ -10,5 +10,4 @@ output "rest_api_id" {
 
 output "ecaas_api_url" {
   value = "https://${aws_api_gateway_domain_name.ecaas_api_domain_name.domain_name}"
-
 }
