@@ -58,19 +58,19 @@ module "parameter_store" {
   parameters = {
     "client_id" : {
       type  = "SecureString"
-      value = var.parameters["client_id"]
+      value = module.cognito.frontend_api_client_id
     }
     "client_secret" : {
       type  = "SecureString"
-      value = var.parameters["client_secret"]
+      value = module.cognito.frontend_api_client_secret
     }
     "nuxt_oauth_cognito_client_id" : {
       type  = "SecureString"
-      value = var.parameters["nuxt_oauth_cognito_client_id"]
+      value = module.cognito.frontend_user_login_client_id
     }
     "nuxt_oauth_cognito_client_secret" : {
       type  = "SecureString"
-      value = var.parameters["nuxt_oauth_cognito_client_secret"]
+      value = module.cognito.frontend_user_login_client_secret
     }
     "epc_team_main_slack_url" : {
       type  = "SecureString"
@@ -80,10 +80,6 @@ module "parameter_store" {
       type  = "SecureString"
       value = var.parameters["epb_team_slack_url"]
     }
-    # "stage" : {
-    #   type  = "String"
-    #   value = var.parameters["stage"]
-    # }
   }
 }
 
@@ -96,7 +92,6 @@ module "logging" {
 module "alerts" {
   source = "./modules/alerts"
   region = var.region
-  # environment                = var.parameters["STAGE"]
   slack_webhook_url         = var.parameters["epb_team_slack_url"]
   main_slack_alerts         = var.environment == "ecaas-intg" ? 1 : 0
   main_slack_webhook_url    = var.parameters["epc_team_main_slack_url"]

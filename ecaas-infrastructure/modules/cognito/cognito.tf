@@ -33,6 +33,43 @@ resource "aws_cognito_user_pool_client" "client" {
   }
 }
 
+resource "aws_cognito_user_pool_client" "frontend_api_client" {
+  name                                 = "ECaaS frontend API client"
+  user_pool_id                         = aws_cognito_user_pool.pool.id
+  explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH"]
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["client_credentials"]
+  allowed_oauth_scopes                 = ["ecaas-api/home-energy-model"]
+  access_token_validity                = 15
+  id_token_validity                    = 15
+  refresh_token_validity               = 30
+  token_validity_units {
+    access_token  = "minutes"
+    id_token      = "minutes"
+    refresh_token = "days"
+  }
+}
+
+resource "aws_cognito_user_pool_client" "frontend_user_login_client" {
+  name                                 = "ECaaS frontend userpool client"
+  user_pool_id                         = aws_cognito_user_pool.pool.id
+  explicit_auth_flows                  = ["ALLOW_USER_AUTH","ALLOW_USER_SRP_AUTH","ALLOW_REFRESH_TOKEN_AUTH"]
+  prevent_user_existence_errors        = "ENABLED"
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["code"]
+  allowed_oauth_scopes                 = ["openid"]
+  supported_identity_providers         = ["COGNITO"]
+  callback_urls                        = ["http://localhost:3000/auth/cognito","https://energy-calculator-integration.digital.communities.gov.uk/auth/cognito"]
+  access_token_validity                = 60
+  id_token_validity                    = 60
+  refresh_token_validity               = 5
+  token_validity_units {
+    access_token  = "minutes"
+    id_token      = "minutes"
+    refresh_token = "days"
+  }
+}
+
 resource "aws_cognito_resource_server" "resource" {
   identifier = "ecaas-api"
   name       = "ecaas-api"
