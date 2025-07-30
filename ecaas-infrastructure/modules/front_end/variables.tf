@@ -62,3 +62,8 @@ variable "sentry_dsn" {
   type      = string
   sensitive = true
 }
+
+variable "gtag_id" {
+  type = string
+  sensitive = true
+}

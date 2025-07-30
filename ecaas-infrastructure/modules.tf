@@ -50,6 +50,7 @@ module "front_end" {
   nuxt_session_password = var.nuxt_session_password
   sentry_auth_token     = var.sentry_auth_token
   sentry_dsn            = var.sentry_dsn
+  gtag_id				= var.gtag_id
 }
 
 module "parameter_store" {
