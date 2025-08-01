@@ -44,15 +44,41 @@ module "codebuild_build_hem_lambda" {
   region = var.region
 }
 
-module "codebuild_deploy_hem_lambda" {
+module "codebuild_deploy_hem_lambda_integration" {
   source             = "../codebuild_project"
   codebuild_role_arn = var.codebuild_role_arn
-  name               = "${var.project_name}-codebuild-deploy-hem-lambda"
+  name               = "${var.project_name}-codebuild-deploy-hem-lambda-integration"
   build_image_uri    = var.codebuild_image_ecr_url
   buildspec_file     = "buildspec/deploy_hem_lambda.yml"
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+  ]
+  region = var.region
+}
+
+module "codebuild_deploy_hem_lambda_staging" {
+  source             = "../codebuild_project"
+  codebuild_role_arn = var.codebuild_role_arn
+  name               = "${var.project_name}-codebuild-deploy-hem-lambda-staging"
+  build_image_uri    = var.codebuild_image_ecr_url
+  buildspec_file     = "buildspec/deploy_hem_lambda.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["staging"] },
+  ]
+  region = var.region
+}
+
+module "codebuild_deploy_hem_lambda_production" {
+  source             = "../codebuild_project"
+  codebuild_role_arn = var.codebuild_role_arn
+  name               = "${var.project_name}-codebuild-deploy-hem-lambda-production"
+  build_image_uri    = var.codebuild_image_ecr_url
+  buildspec_file     = "buildspec/deploy_hem_lambda.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["production"] },
   ]
   region = var.region
 }

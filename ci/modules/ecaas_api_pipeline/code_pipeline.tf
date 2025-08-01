@@ -99,19 +99,63 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "deploy-hem-lambda"
+    name = "deploy-hem-lambda-to-integration"
 
     action {
-      name             = "DeployHEMLambda"
+      name             = "DeployHEMLambdaToIntegration"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
       input_artifacts  = ["build_hem_lambda_output", "source_output"]
-      output_artifacts = ["deploy_hem_lambda_output"]
-
       configuration = {
-        ProjectName   = module.codebuild_deploy_hem_lambda.codebuild_name
+        ProjectName   = module.codebuild_deploy_hem_lambda_integration.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+  }
+
+  stage {
+    name = "deploy-hem-lambda-to-staging"
+
+    action {
+      name             = "DeployHEMLambdaToStaging"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["build_hem_lambda_output", "source_output"]
+      configuration = {
+        ProjectName   = module.codebuild_deploy_hem_lambda_staging.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+  }
+
+  stage {
+    name = "approval-to-deploy-to-prod"
+
+    action {
+      name     = "ApproveForProduction"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
+    }
+  }
+
+  stage {
+    name = "deploy-hem-lambda-to-production"
+
+    action {
+      name             = "DeployHEMLambdaToProduction"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["build_hem_lambda_output", "source_output"]
+      configuration = {
+        ProjectName   = module.codebuild_deploy_hem_lambda_production.codebuild_name
         PrimarySource = "source_output"
       }
     }
