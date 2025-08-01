@@ -6,10 +6,6 @@ variable "repo_bucket_name" {
   type = string
 }
 
-variable "dev_account_id" {
-  type = string
-}
-
 variable "codepipeline_role_arn" {
   type = string
 }

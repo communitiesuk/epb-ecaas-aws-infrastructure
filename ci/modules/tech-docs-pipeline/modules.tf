@@ -6,7 +6,6 @@ module "codebuild_build_push_repo" {
   buildspec_file     = "${var.configuration}/build_and_push_to_aws.yml"
   environment_variables = [
     { name = "BUCKET_NAME", value = var.repo_bucket_name },
-    { name = "AWS_ACCOUNT_ID", value = var.dev_account_id },
   ]
   region = var.region
 }
