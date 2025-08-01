@@ -28,10 +28,10 @@ module "codebuild_build_front_end" {
   region = var.region
 }
 
-module "codebuild_deploy_front_end" {
+module "codebuild_deploy_front_end_integration" {
   source                     = "../codebuild_project"
   codebuild_role_arn         = var.codebuild_role_arn
-  name                       = "${var.project_name}-codebuild-deploy-front-end"
+  name                       = "${var.project_name}-codebuild-deploy-front-end-integration"
   codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
   codebuild_environment_type = "LINUX_CONTAINER"
   build_image_uri            = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
@@ -39,6 +39,38 @@ module "codebuild_deploy_front_end" {
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+  ]
+  region = var.region
+}
+
+module "codebuild_deploy_front_end_staging" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-deploy-front-end-staging"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "LINUX_CONTAINER"
+  build_image_uri            = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
+  buildspec_file             = "buildspec/deploy_front_end.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["staging"] },
+    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+  ]
+  region = var.region
+}
+
+module "codebuild_deploy_front_end_production" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-deploy-front-end-production"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "LINUX_CONTAINER"
+  build_image_uri            = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
+  buildspec_file             = "buildspec/deploy_front_end.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["production"] },
     { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
   ]
   region = var.region
@@ -54,6 +86,6 @@ module "codebuild_e2e_test_front_end" {
   buildspec_file             = "buildspec/e2e_test_front_end.yml"
   region                     = var.region
   environment_variables = [
-    { name = "ECAAS_URL", value = var.ecaas_url },
+    { name = "ECAAS_URL", value = var.ecaas_integration_frontend_url },
   ]
 }

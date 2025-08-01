@@ -56,7 +56,6 @@ module "tech_docs_pipeline" {
   region                  = var.region
   repo_bucket_name        = var.tech_docs_bucket_name
   source                  = "./modules/tech-docs-pipeline"
-  dev_account_id          = var.account_ids["integration"]
 }
 
 module "front-end-pipeline" {
@@ -70,11 +69,10 @@ module "front-end-pipeline" {
   github_organisation     = var.github_organisation
   codestar_connection_arn = module.codestar_connection.codestar_connection_arn
   project_name            = "epb-ecaas-frontend"
-  # codebuild_image_ecr_url = var.codebuild_image_ecr_url
   region            = var.region
   account_ids       = var.account_ids
   sentry_auth_token = var.sentry_auth_token
-  ecaas_url         = var.ecaas_url
+  ecaas_integration_frontend_url         = var.ecaas_integration_frontend_url
 }
 
 module "tech_docs" {
@@ -92,11 +90,11 @@ module "parameters" {
     },
     "LOGIN_USERNAME" : {
       type  = "String"
-      value = var.login_username
+      value = var.ecaas_integration_frontend_login_username
     },
     "LOGIN_PASSWORD" : {
       type  = "String"
-      value = var.login_password
+      value = var.ecaas_integration_frontend_login_password
     }
   }
 }

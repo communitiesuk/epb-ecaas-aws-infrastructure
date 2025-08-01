@@ -48,6 +48,6 @@ variable "sentry_auth_token" {
   sensitive = true
 }
 
-variable "ecaas_url" {
+variable "ecaas_integration_frontend_url" {
   type = string
 }

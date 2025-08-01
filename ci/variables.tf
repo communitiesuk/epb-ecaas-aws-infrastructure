@@ -35,17 +35,17 @@ variable "sentry_auth_token" {
   sensitive = true
 }
 
-variable "login_username" {
+variable "ecaas_integration_frontend_url" {
   type      = string
   sensitive = true
 }
 
-variable "login_password" {
+variable "ecaas_integration_frontend_login_username" {
   type      = string
   sensitive = true
 }
 
-variable "ecaas_url" {
+variable "ecaas_integration_frontend_login_password" {
   type      = string
   sensitive = true
 }
