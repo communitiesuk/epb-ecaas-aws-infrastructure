@@ -12,6 +12,7 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
   enabled         = true
   is_ipv6_enabled = true
   price_class     = "PriceClass_100" # Affects CDN distribution https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html
+  web_acl_id      = aws_wafv2_web_acl.ecaas_frontend_web_acl.arn
   aliases         = [var.domain_name]
 
   origin {
@@ -98,4 +99,9 @@ resource "aws_cloudfront_cache_policy" "this" {
       query_string_behavior = "all"
     }
   }
+}
+
+resource "aws_shield_protection" "ecaas_frontend_shield" {
+  name         = "ecaas_cloudfront_protection"
+  resource_arn = aws_cloudfront_distribution.front_end_cloudfront_distribution.arn
 }
