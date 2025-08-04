@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "logs" {
-  bucket = var.environment == "ecaas-intg" ? "ecaas-cloudtrail-s3-bucket" : "epb-${var.environment}-cloudtrail-s3-bucket"
+  bucket = "epb-${var.environment}-cloudtrail-s3-bucket"
 }
 
 resource "aws_s3_bucket_public_access_block" "logs" {
