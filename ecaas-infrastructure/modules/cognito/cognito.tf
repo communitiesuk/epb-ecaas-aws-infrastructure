@@ -61,7 +61,7 @@ resource "aws_cognito_user_pool_client" "frontend_user_login_client" {
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["openid"]
   supported_identity_providers         = ["COGNITO"]
-  callback_urls                        = ["http://localhost:3000/auth/cognito","https://energy-calculator-integration.digital.communities.gov.uk/auth/cognito"]
+  callback_urls                        = ["http://localhost:3000/auth/cognito","https://${var.frontend_callback_domain}/auth/cognito"]
   access_token_validity                = 60
   id_token_validity                    = 60
   refresh_token_validity               = 5

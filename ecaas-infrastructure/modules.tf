@@ -7,10 +7,11 @@ module "access" {
 }
 
 module "cognito" {
-  source              = "./modules/cognito"
-  domain_name         = var.api_domain_name
-  cdn_certificate_arn = module.api_cdn_certificate.certificate_arn
-  rest_api_id         = module.api_gateway.rest_api_id
+  source                   = "./modules/cognito"
+  domain_name              = var.api_domain_name
+  cdn_certificate_arn      = module.api_cdn_certificate.certificate_arn
+  rest_api_id              = module.api_gateway.rest_api_id
+  frontend_callback_domain = var.frontend_domain_name
 }
 
 module "api_gateway" {

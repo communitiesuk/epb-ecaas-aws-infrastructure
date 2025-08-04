@@ -9,3 +9,7 @@ variable "domain_name" {
 variable "rest_api_id" {
   type = string
 }
+
+variable "frontend_callback_domain" {
+  type = string
+}
