@@ -1,8 +1,7 @@
-resource "aws_wafv2_web_acl" "ecaas_frontend_web_acl" {
-  name        = "ecaas_frontend_web_acl"
-  description = "Web ACL to restrict traffic to CloudFront"
-  provider    = aws.us-east
-  scope       = "CLOUDFRONT"
+resource "aws_wafv2_web_acl" "ecaas_api_acl" {
+  name        = "ecaas_api_acl"
+  description = "Web ACL to restrict traffic to ECaaS API"
+  scope       = "REGIONAL"
 
   default_action {
     allow {}
@@ -151,4 +150,9 @@ resource "aws_wafv2_web_acl" "ecaas_frontend_web_acl" {
     metric_name                = "waf-metrics"
     sampled_requests_enabled   = false
   }
+}
+
+resource "aws_wafv2_web_acl_association" "ecaas_api_waf" {
+  resource_arn = aws_api_gateway_stage.DeploymentStage.arn
+  web_acl_arn  = aws_wafv2_web_acl.ecaas_api_acl.arn
 }
