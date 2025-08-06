@@ -1,5 +1,8 @@
 resource "aws_cognito_user_pool" "pool" {
   name = "ecaas-user-pool"
+  admin_create_user_config {
+    allow_admin_create_user_only = true
+  }
 }
 
 resource "aws_cognito_user_pool_domain" "user_pool_domain" {
