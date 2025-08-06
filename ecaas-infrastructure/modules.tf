@@ -51,7 +51,7 @@ module "front_end" {
   nuxt_session_password = var.nuxt_session_password
   sentry_auth_token     = var.sentry_auth_token
   sentry_dsn            = var.sentry_dsn
-  gtag_id				= var.gtag_id
+  gtag_id               = var.gtag_id
 }
 
 module "parameter_store" {
@@ -91,8 +91,8 @@ module "logging" {
 }
 
 module "alerts" {
-  source = "./modules/alerts"
-  region = var.region
+  source                    = "./modules/alerts"
+  region                    = var.region
   slack_webhook_url         = var.parameters["epb_team_slack_url"]
   main_slack_alerts         = var.environment == "ecaas-intg" ? 1 : 0
   main_slack_webhook_url    = var.parameters["epc_team_main_slack_url"]

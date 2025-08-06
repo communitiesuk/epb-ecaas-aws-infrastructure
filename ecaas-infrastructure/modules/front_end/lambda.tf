@@ -30,7 +30,7 @@ resource "aws_lambda_function" "front_end_lambda" {
       SENTRY_DSN                      = var.sentry_dsn
       NUXT_PUBLIC_ENVIRONMENT         = var.environment
       NODE_OPTIONS                    = "--import ./sentry.server.config.mjs"
-	  NUXT_PUBLIC_GTAG_ID			  = var.gtag_id
+      NUXT_PUBLIC_GTAG_ID             = var.gtag_id
     }
   }
 

@@ -58,13 +58,13 @@ resource "aws_cognito_user_pool_client" "frontend_user_login_client" {
   name                                 = "ECaaS frontend userpool client"
   user_pool_id                         = aws_cognito_user_pool.pool.id
   generate_secret                      = true
-  explicit_auth_flows                  = ["ALLOW_USER_AUTH","ALLOW_USER_SRP_AUTH","ALLOW_REFRESH_TOKEN_AUTH"]
+  explicit_auth_flows                  = ["ALLOW_USER_AUTH", "ALLOW_USER_SRP_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
   prevent_user_existence_errors        = "ENABLED"
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["openid"]
   supported_identity_providers         = ["COGNITO"]
-  callback_urls                        = ["http://localhost:3000/auth/cognito","https://${var.frontend_callback_domain}/auth/cognito"]
+  callback_urls                        = ["http://localhost:3000/auth/cognito", "https://${var.frontend_callback_domain}/auth/cognito"]
   access_token_validity                = 60
   id_token_validity                    = 60
   refresh_token_validity               = 5
