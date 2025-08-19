@@ -93,7 +93,7 @@ module "parameters" {
       value = var.ecaas_integration_frontend_login_username
     },
     "LOGIN_PASSWORD" : {
-      type  = "String"
+      type  = "SecureString"
       value = var.ecaas_integration_frontend_login_password
     }
   }
