@@ -20,6 +20,7 @@ module "api_gateway" {
   domain_name           = var.api_domain_name
   cdn_certificate_arn   = module.api_cdn_certificate.certificate_arn
   gateway_authorizer_id = module.cognito.gateway_authorizer_id
+  environment           = var.environment
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate

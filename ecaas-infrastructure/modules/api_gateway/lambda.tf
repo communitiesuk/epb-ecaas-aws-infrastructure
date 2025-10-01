@@ -14,6 +14,12 @@ resource "aws_lambda_function" "hem_lambda" {
   timeout       = 60
   memory_size   = 8192
 
+  environment {
+    variables = {
+      SENTRY_ENVIRONMENT = var.environment
+    }
+  }
+
   tracing_config {
     mode = var.tracing_config_mode
   }

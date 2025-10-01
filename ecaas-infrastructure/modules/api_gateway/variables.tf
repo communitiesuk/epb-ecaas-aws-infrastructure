@@ -40,3 +40,7 @@ variable "log_group_retention_in_days" {
 variable "gateway_authorizer_id" {
   type = string
 }
+
+variable "environment" {
+  type = string
+}
