@@ -44,9 +44,9 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      name = "ResolvePCDBDataSource"
-      category = "Source"
-      owner = "AWS"
+      name             = "ResolvePCDBDataSource"
+      category         = "Source"
+      owner            = "AWS"
       provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["resolve_pcdb_data_source_output"]
@@ -102,12 +102,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "deploy-hem-lambda-to-integration"
 
     action {
-      name             = "DeployHEMLambdaToIntegration"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["build_hem_lambda_output", "source_output"]
+      name            = "DeployHEMLambdaToIntegration"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["build_hem_lambda_output", "source_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_hem_lambda_integration.codebuild_name
         PrimarySource = "source_output"
@@ -119,12 +119,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "deploy-hem-lambda-to-staging"
 
     action {
-      name             = "DeployHEMLambdaToStaging"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["build_hem_lambda_output", "source_output"]
+      name            = "DeployHEMLambdaToStaging"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["build_hem_lambda_output", "source_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_hem_lambda_staging.codebuild_name
         PrimarySource = "source_output"
@@ -148,12 +148,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "deploy-hem-lambda-to-production"
 
     action {
-      name             = "DeployHEMLambdaToProduction"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["build_hem_lambda_output", "source_output"]
+      name            = "DeployHEMLambdaToProduction"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["build_hem_lambda_output", "source_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_hem_lambda_production.codebuild_name
         PrimarySource = "source_output"

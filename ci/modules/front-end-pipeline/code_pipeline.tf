@@ -66,12 +66,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "deploy-frontend-integration"
 
     action {
-      name             = "DeployFrontend"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["source_output", "build_frontend_output"]
+      name            = "DeployFrontend"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source_output", "build_frontend_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_front_end_integration.codebuild_name
         PrimarySource = "source_output"
@@ -101,12 +101,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "deploy-frontend-staging"
 
     action {
-      name             = "DeployFrontend"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["source_output", "build_frontend_output"]
+      name            = "DeployFrontend"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source_output", "build_frontend_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_front_end_staging.codebuild_name
         PrimarySource = "source_output"
@@ -130,12 +130,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "deploy-frontend-production"
 
     action {
-      name             = "DeployFrontend"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["source_output", "build_frontend_output"]
+      name            = "DeployFrontend"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source_output", "build_frontend_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_front_end_production.codebuild_name
         PrimarySource = "source_output"

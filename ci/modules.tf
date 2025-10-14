@@ -59,20 +59,20 @@ module "tech_docs_pipeline" {
 }
 
 module "front-end-pipeline" {
-  source                  = "./modules/front-end-pipeline"
-  codepipeline_bucket     = module.artefact.codepipeline_bucket
-  codepipeline_role_arn   = module.codepipeline_role.aws_codepipeline_role_arn
-  codebuild_role_arn      = module.codebuild_role.aws_codebuild_role_arn
-  pipeline_name           = "ecaas-frontend-pipeline"
-  github_repository       = "epb-ecaas-frontend"
-  github_branch           = "main"
-  github_organisation     = var.github_organisation
-  codestar_connection_arn = module.codestar_connection.codestar_connection_arn
-  project_name            = "epb-ecaas-frontend"
-  region            = var.region
-  account_ids       = var.account_ids
-  sentry_auth_token = var.sentry_auth_token
-  ecaas_integration_frontend_url         = var.ecaas_integration_frontend_url
+  source                         = "./modules/front-end-pipeline"
+  codepipeline_bucket            = module.artefact.codepipeline_bucket
+  codepipeline_role_arn          = module.codepipeline_role.aws_codepipeline_role_arn
+  codebuild_role_arn             = module.codebuild_role.aws_codebuild_role_arn
+  pipeline_name                  = "ecaas-frontend-pipeline"
+  github_repository              = "epb-ecaas-frontend"
+  github_branch                  = "main"
+  github_organisation            = var.github_organisation
+  codestar_connection_arn        = module.codestar_connection.codestar_connection_arn
+  project_name                   = "epb-ecaas-frontend"
+  region                         = var.region
+  account_ids                    = var.account_ids
+  sentry_auth_token              = var.sentry_auth_token
+  ecaas_integration_frontend_url = var.ecaas_integration_frontend_url
 }
 
 module "tech_docs" {

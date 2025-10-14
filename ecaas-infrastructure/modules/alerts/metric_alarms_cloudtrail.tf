@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_metric_alarm" "unauthorized_api_calls_alarm" {
-  alarm_name = "${aws_cloudwatch_log_metric_filter.unauthorized_api_calls_metric.name}-alarm"
+  alarm_name          = "${aws_cloudwatch_log_metric_filter.unauthorized_api_calls_metric.name}-alarm"
   alarm_description   = "There have been >3 unauthorized calls to the AWS API in the last minute"
   namespace           = "CISBenchmark"
   comparison_operator = "GreaterThanOrEqualToThreshold"
