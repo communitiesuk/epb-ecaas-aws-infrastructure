@@ -19,6 +19,10 @@ variable "github_branch" {
   type = string
 }
 
+variable "github_branch_production" {
+  type = string
+}
+
 variable "github_organisation" {
   type = string
 }

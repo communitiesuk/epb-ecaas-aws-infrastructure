@@ -67,6 +67,7 @@ module "front-end-pipeline" {
   pipeline_name                  = "ecaas-frontend-pipeline"
   github_repository              = "epb-ecaas-frontend"
   github_branch                  = "main"
+  github_branch_production       = "production"
   github_organisation            = var.github_organisation
   codestar_connection_arn        = module.codestar_connection.codestar_connection_arn
   project_name                   = "epb-ecaas-frontend"
