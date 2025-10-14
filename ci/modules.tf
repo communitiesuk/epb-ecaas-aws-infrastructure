@@ -28,21 +28,22 @@ module "codebuild_role" {
 }
 
 module "ecaas-api-pipeline" {
-  source                  = "./modules/ecaas_api_pipeline"
-  codepipeline_bucket     = module.artefact.codepipeline_bucket
-  codepipeline_role_arn   = module.codepipeline_role.aws_codepipeline_role_arn
-  codebuild_role_arn      = module.codebuild_role.aws_codebuild_role_arn
-  pipeline_name           = "ecaas-api-pipeline"
-  github_repository       = "epb-ecaas-api"
-  github_branch           = "main"
-  github_organisation     = var.github_organisation
-  hem_core_repository     = "epb-home-energy-model"
-  hem_core_branch         = "main"
-  codestar_connection_arn = module.codestar_connection.codestar_connection_arn
-  project_name            = "ecaas-api"
-  codebuild_image_ecr_url = var.codebuild_image_ecr_url
-  region                  = var.region
-  account_ids             = var.account_ids
+  source                   = "./modules/ecaas_api_pipeline"
+  codepipeline_bucket      = module.artefact.codepipeline_bucket
+  codepipeline_role_arn    = module.codepipeline_role.aws_codepipeline_role_arn
+  codebuild_role_arn       = module.codebuild_role.aws_codebuild_role_arn
+  pipeline_name            = "ecaas-api-pipeline"
+  github_repository        = "epb-ecaas-api"
+  github_branch            = "main"
+  github_branch_production = "production"
+  github_organisation      = var.github_organisation
+  hem_core_repository      = "epb-home-energy-model"
+  hem_core_branch          = "main"
+  codestar_connection_arn  = module.codestar_connection.codestar_connection_arn
+  project_name             = "ecaas-api"
+  codebuild_image_ecr_url  = var.codebuild_image_ecr_url
+  region                   = var.region
+  account_ids              = var.account_ids
 }
 
 module "tech_docs_pipeline" {
