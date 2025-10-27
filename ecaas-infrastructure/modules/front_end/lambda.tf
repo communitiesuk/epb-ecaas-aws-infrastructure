@@ -168,7 +168,7 @@ data "aws_iam_policy_document" "lambda_dynamo_policy_document" {
 
     ]
     resources = [
-      aws_dynamodb_table.user-sessions-table.arn
+      aws_dynamodb_table.user_sessions_table.arn
     ]
   }
 }
