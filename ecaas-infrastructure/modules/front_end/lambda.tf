@@ -154,9 +154,30 @@ resource "aws_iam_role_policy_attachment" "lambda_elasticache" {
   policy_arn = aws_iam_policy.lambda_elasticache_policy.arn
 }
 
-
-
 resource "aws_iam_role_policy_attachment" "lambda_vpc_access" {
   role       = aws_iam_role.front_end_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+data "aws_iam_policy_document" "lambda_dynamo_policy_document" {
+  statement {
+    actions = [
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+
+    ]
+    resources = [
+      aws_dynamodb_table.user-sessions-table.arn
+    ]
+  }
+}
+resource "aws_iam_policy" "dynamodb_lambda_policy" {
+  name        = "dynamodb-lambda-policy"
+  description = "This policy will be used by the lambda to write/read data from DynamoDB"
+  policy      = data.aws_iam_policy_document.lambda_dynamo_policy_document.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_policy" {
+  role       = aws_iam_role.front_end_lambda_role.name
+  policy_arn = aws_iam_policy.dynamodb_lambda_policy.arn
 }
