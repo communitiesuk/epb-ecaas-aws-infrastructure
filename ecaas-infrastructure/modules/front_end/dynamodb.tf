@@ -11,9 +11,9 @@ resource "aws_dynamodb_table" "user_sessions_table" {
     enabled        = true
     attribute_name = "ttl"
   }
-  # point_in_time_recovery {
-  #   enabled = true
-  # }
+  server_side_encryption {
+    enabled = true
+  }
 }
 
 
