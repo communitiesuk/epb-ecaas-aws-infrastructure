@@ -31,7 +31,6 @@ resource "aws_lambda_function" "front_end_lambda" {
       NUXT_PUBLIC_ENVIRONMENT         = var.environment
       NODE_OPTIONS                    = "--import ./sentry.server.config.mjs"
       NUXT_PUBLIC_GTAG_ID             = var.gtag_id
-      NUXT_DYNAMODB_REGION            = var.region
     }
   }
 
