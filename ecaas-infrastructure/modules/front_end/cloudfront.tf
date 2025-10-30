@@ -55,6 +55,27 @@ resource "aws_cloudfront_distribution" "front_end_cloudfront_distribution" {
     }
   }
 
+  ordered_cache_behavior {
+    path_pattern           = "api/*session*"
+    target_origin_id       = "nuxt-ssr-engine"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods         = ["GET", "HEAD"]
+    viewer_protocol_policy = "redirect-to-https"
+    forwarded_values {
+      query_string = true
+      headers      = ["Authorization"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    min_ttl     = 0
+    default_ttl = 0
+    max_ttl     = 0
+  }
+
+
   # If there is a 404, return index.html with a HTTP 200 Response
   # custom_error_response {
   #   error_caching_min_ttl = 3000
