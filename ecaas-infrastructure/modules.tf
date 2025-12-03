@@ -55,6 +55,11 @@ module "front_end" {
   gtag_id               = var.gtag_id
 }
 
+module "pcdb_sync" {
+  source                = "./modules/pcdb_sync"
+  environment           = var.environment
+}
+
 module "parameter_store" {
   source = "./modules/parameter_store"
   parameters = {
