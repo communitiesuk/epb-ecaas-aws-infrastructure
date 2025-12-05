@@ -10,11 +10,6 @@ resource "aws_dynamodb_table" "products_table" {
   }
 
   attribute {
-	name = "category"
-	type = "S"
-  }
-
-  attribute {
 	name = "technologyType"
 	type = "S"
   }
@@ -32,13 +27,6 @@ resource "aws_dynamodb_table" "products_table" {
   attribute {
 	name = "sk-by-model"
 	type = "S"
-  }
-
-  global_secondary_index {
-	name = "by-category"
-	hash_key = "category"
-	projection_type = "INCLUDE"
-	non_key_attributes = ["id", "brandName", "modelName", "modelQualifier"]
   }
 
   global_secondary_index {
