@@ -24,7 +24,7 @@ resource "aws_iam_role" "pcdb_sync_lambda_role" {
 
 resource "aws_lambda_function" "pcdb_sync_lambda" {
   filename      = data.archive_file.aws_lambda_placeholder_archive.output_path
-  function_name = "pcdb-sync-lambda"
+  function_name = "ecaas-pcdb-sync-lambda"
   role          = aws_iam_role.pcdb_sync_lambda_role.arn
   handler       = "index.handler"
   runtime       = "nodejs22.x"

@@ -77,6 +77,21 @@ module "front-end-pipeline" {
   ecaas_integration_frontend_url = var.ecaas_integration_frontend_url
 }
 
+module "pcdb_sync_pipeline" {
+  source                         = "./modules/pcdb_sync_pipeline"
+  project_name                   = "epb-ecaas-pcdb-sync"
+  codepipeline_bucket            = module.artefact.codepipeline_bucket
+  pipeline_name                  = "pcdb_sync_pipeline"
+  codepipeline_role_arn          = module.codepipeline_role.aws_codepipeline_role_arn
+  codebuild_role_arn             = module.codebuild_role.aws_codebuild_role_arn
+  codestar_connection_arn        = module.codestar_connection.codestar_connection_arn
+  github_repository              = "epb-ecaas-pcdb-sync"
+  github_organisation            = var.github_organisation
+  github_branch                  = "main"
+  region                         = var.region
+  account_ids                    = var.account_ids
+}
+
 module "tech_docs" {
   source                = "./modules/tech_docs"
   region                = var.region

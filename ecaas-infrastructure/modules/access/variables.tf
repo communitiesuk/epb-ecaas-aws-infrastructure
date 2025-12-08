@@ -13,3 +13,7 @@ variable "front_end_lambda_arn" {
 variable "front_end_s3_arn" {
   type = string
 }
+
+variable "pcdb_sync_lambda_arn" {
+  type = string
+}
