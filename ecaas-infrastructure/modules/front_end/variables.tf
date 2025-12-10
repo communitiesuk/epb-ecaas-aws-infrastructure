@@ -67,3 +67,7 @@ variable "gtag_id" {
   type      = string
   sensitive = true
 }
+
+variable "products_table_arn" {
+  type = string
+}

@@ -165,11 +165,15 @@ data "aws_iam_policy_document" "lambda_dynamo_policy_document" {
       "dynamodb:GetItem",
       "dynamodb:PutItem",
       "dynamodb:UpdateItem"
-
     ]
     resources = [
       aws_dynamodb_table.user_sessions_table.arn
     ]
+  }
+
+  statement {
+	actions = ["dynamodb:Query"]
+	resources = [var.products_table_arn]
   }
 }
 resource "aws_iam_policy" "dynamodb_lambda_policy" {
