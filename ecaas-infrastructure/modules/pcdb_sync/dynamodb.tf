@@ -15,42 +15,25 @@ resource "aws_dynamodb_table" "products_table" {
   }
 
   attribute {
-	name = "modelQualifier"
-	type = "S"
-  }
-
-  attribute {
-	name = "sk-by-brand"
-	type = "S"
-  }
-
-  attribute {
-	name = "sk-by-model"
+	name = "brandName"
 	type = "S"
   }
 
   global_secondary_index {
-	name = "by-brand"
+	name = "by-technology-type"
 	hash_key = "technologyType"
-	range_key = "sk-by-brand"
+	range_key = "brandName"
 	projection_type = "INCLUDE"
-	non_key_attributes = ["id", "brandName", "modelName", "modelQualifier", "boilerLocation", "communityHeatNetworkName", "backupCtrlType", "powerMaxBackup"]
-  }
-
-  global_secondary_index {
-	name = "by-model"
-	hash_key = "technologyType"
-	range_key = "sk-by-model"
-	projection_type = "INCLUDE"
-	non_key_attributes = ["id", "brandName", "modelName", "modelQualifier"]
-  }
-
-  global_secondary_index {
-	name = "by-model-qualifier"
-	hash_key = "technologyType"
-	range_key = "modelQualifier"
-	projection_type = "INCLUDE"
-	non_key_attributes = ["id", "brandName", "modelName", "modelQualifier"]
+	non_key_attributes = [
+		"id",
+		"brandName",
+		"modelName",
+		"modelQualifier",
+		"boilerLocation",
+		"communityHeatNetworkName",
+		"backupCtrlType",
+		"powerMaxBackup"
+	]
   }
 }
 
