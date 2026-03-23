@@ -15,6 +15,11 @@ resource "aws_dynamodb_table" "products_table" {
   }
 
   attribute {
+	name = "technologyGroup"
+	type = "S"
+  }
+
+  attribute {
 	name = "brandName"
 	type = "S"
   }
@@ -31,8 +36,19 @@ resource "aws_dynamodb_table" "products_table" {
 		"modelQualifier",
 		"boilerLocation",
 		"communityHeatNetworkName",
-		"backupCtrlType",
-		"powerMaxBackup"
+	]
+  }
+
+  global_secondary_index {
+	name = "by-technology-group"
+	hash_key = "technologyGroup"
+	range_key = "brandName"
+	projection_type = "INCLUDE"
+	non_key_attributes = [
+		"id",
+		"brandName",
+		"modelName",
+		"modelQualifier"
 	]
   }
 }
