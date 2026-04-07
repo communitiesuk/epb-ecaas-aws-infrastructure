@@ -34,6 +34,7 @@ resource "aws_dynamodb_table" "products_table" {
 		"brandName",
 		"modelName",
 		"modelQualifier",
+		"technologyType",
 		"boilerLocation",
 		"communityHeatNetworkName",
 	]
@@ -48,7 +49,9 @@ resource "aws_dynamodb_table" "products_table" {
 		"id",
 		"brandName",
 		"modelName",
-		"modelQualifier"
+		"modelQualifier",
+		"technologyType",
+		"boilerProductID"
 	]
   }
 }
