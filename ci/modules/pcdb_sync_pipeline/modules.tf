@@ -27,3 +27,33 @@ module "codebuild_deploy_lambda" {
   ]
   region = var.region
 }
+
+module "codebuild_deploy_pcdb_sync_staging" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-deploy-pcdb-sync-staging"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "LINUX_CONTAINER"
+  build_image_uri            = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
+  buildspec_file             = "buildspec/deploy_lambda.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["staging"] },
+  ]
+  region = var.region
+}
+
+module "codebuild_deploy_pcdb_sync_production" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-deploy-pcdb-sync-production"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "LINUX_CONTAINER"
+  build_image_uri            = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
+  buildspec_file             = "buildspec/deploy_lambda.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["production"] },
+  ]
+  region = var.region
+}

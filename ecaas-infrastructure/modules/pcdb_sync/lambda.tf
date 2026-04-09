@@ -1,10 +1,10 @@
- data "archive_file" "aws_lambda_placeholder_archive" {
+data "archive_file" "aws_lambda_placeholder_archive" {
   type        = "zip"
   source_file = "bootstrap"
   output_path = "bootstrap.zip"
 }
- 
- data "aws_iam_policy_document" "pcdb_sync_lambda_assume_role" {
+
+data "aws_iam_policy_document" "pcdb_sync_lambda_assume_role" {
   statement {
     effect = "Allow"
 

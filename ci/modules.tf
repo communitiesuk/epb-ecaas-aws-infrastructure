@@ -78,18 +78,19 @@ module "front-end-pipeline" {
 }
 
 module "pcdb_sync_pipeline" {
-  source                         = "./modules/pcdb_sync_pipeline"
-  project_name                   = "epb-ecaas-pcdb-sync"
-  codepipeline_bucket            = module.artefact.codepipeline_bucket
-  pipeline_name                  = "pcdb_sync_pipeline"
-  codepipeline_role_arn          = module.codepipeline_role.aws_codepipeline_role_arn
-  codebuild_role_arn             = module.codebuild_role.aws_codebuild_role_arn
-  codestar_connection_arn        = module.codestar_connection.codestar_connection_arn
-  github_repository              = "epb-ecaas-pcdb-sync"
-  github_organisation            = var.github_organisation
-  github_branch                  = "main"
-  region                         = var.region
-  account_ids                    = var.account_ids
+  source                  = "./modules/pcdb_sync_pipeline"
+  project_name            = "epb-ecaas-pcdb-sync"
+  codepipeline_bucket     = module.artefact.codepipeline_bucket
+  pipeline_name           = "pcdb_sync_pipeline"
+  codepipeline_role_arn   = module.codepipeline_role.aws_codepipeline_role_arn
+  codebuild_role_arn      = module.codebuild_role.aws_codebuild_role_arn
+  codestar_connection_arn = module.codestar_connection.codestar_connection_arn
+  github_repository       = "epb-ecaas-pcdb-sync"
+  github_organisation     = var.github_organisation
+  github_branch           = "main"
+  region                  = var.region
+  account_ids             = var.account_ids
+  github_branch_production = "production"
 }
 
 module "tech_docs" {

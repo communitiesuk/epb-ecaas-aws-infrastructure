@@ -4,6 +4,6 @@ output "pcdb_sync_lambda_arn" {
 }
 
 output "pcdb_sync_products_table_arn" {
-  value = aws_dynamodb_table.products_table.arn
+  value       = aws_dynamodb_table.products_table.arn
   description = "The arn of the pcdb dynamodb table"
 }

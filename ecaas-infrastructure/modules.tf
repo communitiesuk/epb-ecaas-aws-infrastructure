@@ -54,12 +54,12 @@ module "front_end" {
   sentry_auth_token     = var.sentry_auth_token
   sentry_dsn            = var.sentry_dsn
   gtag_id               = var.gtag_id
-  products_table_arn 	= module.pcdb_sync.pcdb_sync_products_table_arn
+  products_table_arn    = module.pcdb_sync.pcdb_sync_products_table_arn
 }
 
 module "pcdb_sync" {
-  source                = "./modules/pcdb_sync"
-  environment           = var.environment
+  source      = "./modules/pcdb_sync"
+  environment = var.environment
 }
 
 module "parameter_store" {
