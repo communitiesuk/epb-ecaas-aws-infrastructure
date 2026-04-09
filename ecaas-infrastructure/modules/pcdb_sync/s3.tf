@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "pcdb_s3" {
-  bucket        = "epb-ecaas-pcdb"
+  bucket        = "epb-${var.environment}-pcdb"
   force_destroy = false
 }
 
