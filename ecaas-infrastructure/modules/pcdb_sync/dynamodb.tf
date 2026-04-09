@@ -6,7 +6,7 @@ resource "aws_dynamodb_table" "products_table" {
 
   attribute {
 	name = "id"
-	type = "N"
+	type = "S"
   }
 
   attribute {
