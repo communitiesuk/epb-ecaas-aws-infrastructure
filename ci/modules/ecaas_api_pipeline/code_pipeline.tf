@@ -57,6 +57,22 @@ resource "aws_codepipeline" "codepipeline" {
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
+
+    action {
+      name             = "FHSWrapperSource"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["fhs_wrapper_source_output"]
+
+      configuration = {
+        ConnectionArn        = var.codestar_connection_arn
+        FullRepositoryId     = format("%s/%s", var.github_organisation, var.fhs_wrapper_repository)
+        BranchName           = var.fhs_wrapper_branch
+        OutputArtifactFormat = "CODEBUILD_CLONE_REF"
+      }
+    }
   }
 
   stage {
@@ -87,7 +103,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["source_output", "hem_core_source_output"]
+      input_artifacts  = ["source_output", "hem_core_source_output", "fhs_wrapper_source_output"]
       output_artifacts = ["build_hem_lambda_output"]
 
       configuration = {

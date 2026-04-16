@@ -36,6 +36,8 @@ module "ecaas-api-pipeline" {
   github_repository        = "epb-ecaas-api"
   github_branch            = "main"
   github_branch_production = "production"
+  fhs_wrapper_repository   = "epb-hem-wrapper-fhs"
+  fhs_wrapper_branch       = "main"
   github_organisation      = var.github_organisation
   hem_core_repository      = "epb-home-energy-model"
   hem_core_branch          = "main"
