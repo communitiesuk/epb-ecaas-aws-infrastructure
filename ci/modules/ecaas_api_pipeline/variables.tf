@@ -46,10 +46,6 @@ variable "fhs_wrapper_repository" {
   type = string
 }
 
-variable "fhs_wrapper_branch" {
-  type = string
-}
-
 variable "pipeline_name" {
   type = string
 }

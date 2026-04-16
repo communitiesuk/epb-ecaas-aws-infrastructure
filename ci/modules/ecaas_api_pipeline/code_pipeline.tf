@@ -69,7 +69,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.fhs_wrapper_repository)
-        BranchName           = var.fhs_wrapper_branch
+        BranchName           = var.github_branch
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
