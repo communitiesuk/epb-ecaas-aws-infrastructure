@@ -44,3 +44,7 @@ variable "gateway_authorizer_id" {
 variable "environment" {
   type = string
 }
+
+variable "products_table_arn" {
+  type = string
+}

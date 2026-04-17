@@ -51,6 +51,6 @@ variable "ecaas_integration_frontend_login_password" {
 }
 
 variable "github_access_token" {
-  type = string
+  type      = string
   sensitive = true
 }
