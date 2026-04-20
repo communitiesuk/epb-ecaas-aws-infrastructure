@@ -115,9 +115,5 @@ module "parameters" {
       type  = "SecureString"
       value = var.ecaas_integration_frontend_login_password
     },
-    "GITHUB_TOKEN" : {
-      type  = "SecureString"
-      value = var.github_access_token
-    }
   }
 }
