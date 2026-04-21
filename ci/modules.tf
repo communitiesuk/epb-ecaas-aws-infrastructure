@@ -34,12 +34,11 @@ module "ecaas-api-pipeline" {
   codebuild_role_arn       = module.codebuild_role.aws_codebuild_role_arn
   pipeline_name            = "ecaas-api-pipeline"
   github_repository        = "epb-ecaas-api"
-  github_branch            = "main"
+  github_branch_main       = "main"
   github_branch_production = "production"
   fhs_wrapper_repository   = "epb-hem-wrapper-fhs"
   github_organisation      = var.github_organisation
   hem_core_repository      = "epb-home-energy-model"
-  hem_core_branch          = "main"
   codestar_connection_arn  = module.codestar_connection.codestar_connection_arn
   project_name             = "ecaas-api"
   codebuild_image_ecr_url  = var.codebuild_image_ecr_url

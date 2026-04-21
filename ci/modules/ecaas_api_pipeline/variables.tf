@@ -18,7 +18,7 @@ variable "codestar_connection_arn" {
   type = string
 }
 
-variable "github_branch" {
+variable "github_branch_main" {
   type = string
 }
 
@@ -35,10 +35,6 @@ variable "github_repository" {
 }
 
 variable "hem_core_repository" {
-  type = string
-}
-
-variable "hem_core_branch" {
   type = string
 }
 

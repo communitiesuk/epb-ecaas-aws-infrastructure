@@ -21,7 +21,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.github_repository)
-        BranchName           = var.github_branch
+        BranchName           = var.github_branch_main
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -37,7 +37,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.hem_core_repository)
-        BranchName           = var.hem_core_branch
+        BranchName           = var.github_branch_main
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -53,7 +53,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, "epb-ecaas-pcdb")
-        BranchName           = "main"
+        BranchName           = var.github_branch_main
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -69,7 +69,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.fhs_wrapper_repository)
-        BranchName           = var.github_branch
+        BranchName           = var.github_branch_main
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -170,7 +170,7 @@ resource "aws_codepipeline" "codepipeline_production" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.hem_core_repository)
-        BranchName           = var.hem_core_branch
+        BranchName           = var.github_branch_production
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -186,7 +186,7 @@ resource "aws_codepipeline" "codepipeline_production" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, "epb-ecaas-pcdb")
-        BranchName           = "main"
+        BranchName           = var.github_branch_production
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
