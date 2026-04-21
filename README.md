@@ -95,7 +95,9 @@ The repo is subdivided into terraform for the following ECaaS infrastructure:
 
    `aws-vault exec {AWS_profile_name_for_environment} -- terraform init -backend-config=backend_{profile}.hcl`
 
-   Example:
+   Examples:
+
+   `aws-vault exec ecaas-ci-dev -- terraform init -backend-config=backend_ecaas_cicd.hcl`
 
    `aws-vault exec ecaas-integration -- terraform init -backend-config=backend_ecaas_integration.hcl`
 
