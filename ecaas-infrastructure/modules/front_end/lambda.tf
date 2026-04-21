@@ -172,7 +172,11 @@ data "aws_iam_policy_document" "lambda_dynamo_policy_document" {
   }
 
   statement {
-    actions = ["dynamodb:Query", "dynamodb:GetItem"]
+    actions = [
+      "dynamodb:Query",
+      "dynamodb:GetItem",
+      "dynamodb:BatchGetItem"
+    ]
     resources = [
       var.products_table_arn,
       "${var.products_table_arn}/index/*"
