@@ -31,6 +31,13 @@ resource "aws_lambda_function" "pcdb_sync_lambda" {
   architectures = ["arm64"]
   timeout       = 60
   memory_size   = 1024
+
+  environment {
+    variables = {
+      BUCKET_NAME     = var.bucket_name
+      EXPORT_FILENAME = var.export_filename
+    }
+  }
 }
 
 data "aws_iam_policy_document" "lambda_dynamodb_pcdb_policy_document" {

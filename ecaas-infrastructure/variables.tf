@@ -25,6 +25,7 @@ variable "parameters" {
   type        = map(string)
   sensitive   = true
 }
+
 variable "environment" {
   type = string
 }
@@ -42,4 +43,8 @@ variable "sentry_dsn" {
 variable "gtag_id" {
   type      = string
   sensitive = true
+}
+
+variable "pcdb_export_filename" {
+  type      = string
 }
