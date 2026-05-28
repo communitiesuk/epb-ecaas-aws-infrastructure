@@ -37,6 +37,11 @@ resource "aws_dynamodb_table" "products_table" {
       "technologyType",
       "boilerLocation",
       "communityHeatNetworkName",
+      "type",
+      "height",
+      "floorFinishCompatibility",
+      "pipeCentres",
+      "systemName"
     ]
   }
 
