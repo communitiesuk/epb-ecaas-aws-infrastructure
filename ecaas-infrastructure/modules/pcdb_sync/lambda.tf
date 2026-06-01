@@ -45,6 +45,7 @@ data "aws_iam_policy_document" "lambda_dynamodb_pcdb_policy_document" {
     actions = [
       "dynamodb:BatchWriteItem",
       "dynamodb:Scan",
+      "dynamodb:PutItem"
     ]
     resources = [
       aws_dynamodb_table.products_table.arn
