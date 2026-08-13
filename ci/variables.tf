@@ -1,5 +1,5 @@
 variable "codebuild_image_ecr_url" {
-  default = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  default = "aws/codebuild/amazonlinux-aarch64-standard:4.0"
   type    = string
 }
 
