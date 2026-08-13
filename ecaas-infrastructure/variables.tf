@@ -46,5 +46,5 @@ variable "gtag_id" {
 }
 
 variable "pcdb_export_filename" {
-  type      = string
+  type = string
 }

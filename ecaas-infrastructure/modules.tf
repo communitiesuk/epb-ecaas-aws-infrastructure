@@ -59,9 +59,9 @@ module "front_end" {
 }
 
 module "pcdb_sync" {
-  source      = "./modules/pcdb_sync"
-  environment = var.environment
-  bucket_name = module.pcdb_sync.pcdb_sync_bucket_name
+  source          = "./modules/pcdb_sync"
+  environment     = var.environment
+  bucket_name     = module.pcdb_sync.pcdb_sync_bucket_name
   export_filename = var.pcdb_export_filename
 }
 
