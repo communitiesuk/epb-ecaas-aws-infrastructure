@@ -112,7 +112,7 @@ resource "aws_iam_role_policy_attachment" "xray_tracing" {
 
 data "aws_iam_policy_document" "lambda_dynamo_policy_document" {
   statement {
-    actions = ["dynamodb:BatchGetItem"]
+    actions = ["dynamodb:BatchGetItem", "dynamodb:GetItem"]
     resources = [
       var.products_table_arn,
       "${var.products_table_arn}/index/*"
