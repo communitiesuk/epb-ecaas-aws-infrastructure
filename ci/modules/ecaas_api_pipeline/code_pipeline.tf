@@ -84,7 +84,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["source_output", "hem_core_source_output"]
+      input_artifacts  = ["source_output", "hem_core_source_output", "fhs_wrapper_source_output"]
       output_artifacts = []
 
       configuration = {
