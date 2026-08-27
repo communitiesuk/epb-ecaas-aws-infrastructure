@@ -79,12 +79,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "test-hem-lambda"
 
     action {
-      name             = "TestHEM"
-      category         = "Test"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["source_output", "hem_core_source_output", "fhs_wrapper_source_output"]
+      name     = "TestHEM"
+      category = "Test"
+      owner    = "AWS"
+      provider = "CodeBuild"
+      version  = "1"
+      input_artifacts  = ["source_output", "hem_core_source_output", "fhs_wrapper_source_output", "resolve_pcdb_data_source_output"]
       output_artifacts = []
 
       configuration = {
