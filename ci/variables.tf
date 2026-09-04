@@ -35,6 +35,10 @@ variable "sentry_auth_token" {
   sensitive = true
 }
 
+variable "sentry_dsn_api" {
+  type = string
+}
+
 variable "ecaas_integration_frontend_url" {
   type      = string
   sensitive = true

@@ -106,6 +106,10 @@ module "parameters" {
       type  = "String"
       value = var.sentry_dsn
     },
+    "SENTRY_DSN_API" : {
+      type  = "String"
+      value = var.sentry_dsn_api
+    },
     "LOGIN_USERNAME" : {
       type  = "String"
       value = var.ecaas_integration_frontend_login_username

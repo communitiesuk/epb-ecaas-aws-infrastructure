@@ -24,7 +24,7 @@ module "codebuild_test_hem_lambda" {
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
-    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+    { name = "SENTRY_DSN_API", type = "PARAMETER_STORE", value = "SENTRY_DSN_API" }
   ]
   region = var.region
 }
@@ -40,7 +40,7 @@ module "codebuild_build_hem_lambda" {
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
-    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+    { name = "SENTRY_DSN_API", type = "PARAMETER_STORE", value = "SENTRY_DSN_API" }
   ]
   region = var.region
 }
