@@ -56,9 +56,8 @@ resource "aws_dynamodb_table" "products_table" {
       "modelName",
       "modelQualifier",
       "technologyType",
-      "boilerProductID",
+      "boilerProductId",
       "vesselType"
     ]
   }
 }
-
