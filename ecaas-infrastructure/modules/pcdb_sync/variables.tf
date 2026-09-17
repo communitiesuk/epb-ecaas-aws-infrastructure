@@ -9,3 +9,8 @@ variable "bucket_name" {
 variable "export_filename" {
   type = string
 }
+
+variable "log_group_retention_in_days" {
+  default = 14
+  type    = number
+}

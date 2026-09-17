@@ -63,3 +63,34 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_pcdb_policy" {
   role       = aws_iam_role.pcdb_sync_lambda_role.name
   policy_arn = aws_iam_policy.lambda_dynamodb_pcdb_policy.arn
 }
+
+resource "aws_cloudwatch_log_group" "pcdb_sync_lambda" {
+  name              = "/aws/lambda/${aws_lambda_function.pcdb_sync_lambda.function_name}"
+  retention_in_days = var.log_group_retention_in_days
+}
+
+data "aws_iam_policy_document" "pcdb_sync_lambda_logging" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+
+    resources = ["arn:aws:logs:*:*:*"]
+  }
+}
+
+resource "aws_iam_policy" "pcdb_sync_lambda_logging" {
+  name        = "pcdb_sync_lambda_logging"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+  policy      = data.aws_iam_policy_document.pcdb_sync_lambda_logging.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.pcdb_sync_lambda_role.name
+  policy_arn = aws_iam_policy.pcdb_sync_lambda_logging.arn
+}
