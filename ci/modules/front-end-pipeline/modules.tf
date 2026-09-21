@@ -40,7 +40,8 @@ module "codebuild_deploy_front_end_integration" {
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
     { name = "BUCKET_NAME", value = "epb-ecaas-intg-frontend-assets" },
-    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" },
+    { name = "NUXT_PUBLIC_SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
   ]
   region = var.region
 }
@@ -57,7 +58,8 @@ module "codebuild_deploy_front_end_staging" {
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["staging"] },
     { name = "BUCKET_NAME", value = "epb-ecaas-stag-frontend-assets" },
-    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" },
+    { name = "NUXT_PUBLIC_SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
   ]
   region = var.region
 }
@@ -74,7 +76,8 @@ module "codebuild_deploy_front_end_production" {
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["production"] },
     { name = "BUCKET_NAME", value = "epb-ecaas-prod-frontend-assets" },
-    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
+    { name = "SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" },
+    { name = "NUXT_PUBLIC_SENTRY_DSN", type = "PARAMETER_STORE", value = "SENTRY_DSN" }
   ]
   region = var.region
 }
