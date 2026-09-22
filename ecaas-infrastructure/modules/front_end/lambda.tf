@@ -27,6 +27,7 @@ resource "aws_lambda_function" "front_end_lambda" {
       NUXT_REDIS_PASSWORD             = random_password.lambda_user_password.result
       NUXT_REDIS_USERNAME             = aws_elasticache_user.lambda_valkey_user.user_name
       SENTRY_AUTH_TOKEN               = var.sentry_auth_token
+      NUXT_PUBLIC_SENTRY_DSN          = var.sentry_dsn
       SENTRY_DSN                      = var.sentry_dsn
       NUXT_PUBLIC_ENVIRONMENT         = var.environment
       NODE_OPTIONS                    = "--import ./sentry.server.config.mjs"
