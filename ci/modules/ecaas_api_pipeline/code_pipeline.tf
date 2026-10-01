@@ -186,7 +186,7 @@ resource "aws_codepipeline" "codepipeline_production" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, "epb-ecaas-pcdb")
-        BranchName           = var.github_branch_production
+        BranchName           = var.github_branch_main # using main for now - intending to change this so branches aren't set in definition but maybe passed in as parameters
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
