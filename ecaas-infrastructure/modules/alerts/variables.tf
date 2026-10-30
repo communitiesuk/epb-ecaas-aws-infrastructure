@@ -15,7 +15,3 @@ variable "main_slack_webhook_url" {
 variable "main_slack_alerts" {
   type = number
 }
-
-variable "cloudtrail_log_group_name" {
-  type = string
-}
