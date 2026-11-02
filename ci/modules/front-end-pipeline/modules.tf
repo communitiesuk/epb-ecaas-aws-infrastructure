@@ -82,6 +82,9 @@ module "codebuild_deploy_front_end_production" {
   region = var.region
 }
 
+# commented out for now as we will probably want to restore this but for an ephemeral environment prior to deploying to an environment that gets traffic
+# if still commented out after 2027-04-01, delete this comment
+#
 module "codebuild_e2e_test_front_end" {
   source                     = "../codebuild_project"
   codebuild_role_arn         = var.codebuild_role_arn
