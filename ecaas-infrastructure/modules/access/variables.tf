@@ -17,3 +17,7 @@ variable "front_end_s3_arn" {
 variable "pcdb_sync_lambda_arn" {
   type = string
 }
+
+variable "brel_pdf_generator_lambda_arn" {
+  type = string
+}

@@ -31,7 +31,8 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
         Resource = [
           var.hem_lambda_arn,
           var.front_end_lambda_arn,
-          var.pcdb_sync_lambda_arn
+          var.pcdb_sync_lambda_arn,
+          var.brel_pdf_generator_lambda_arn
         ]
       },
       {
