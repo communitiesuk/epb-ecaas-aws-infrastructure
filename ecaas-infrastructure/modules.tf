@@ -5,6 +5,7 @@ module "access" {
   front_end_lambda_arn = module.front_end.front_end_lambda_arn
   front_end_s3_arn     = module.front_end.front_end_s3_arn
   pcdb_sync_lambda_arn = module.pcdb_sync.pcdb_sync_lambda_arn
+  brel_pdf_generator_lambda_arn = module.brel_pdf_generator.brel_pdf_generator_lambda_arn
 }
 
 module "cognito" {
@@ -63,6 +64,12 @@ module "pcdb_sync" {
   environment     = var.environment
   bucket_name     = module.pcdb_sync.pcdb_sync_bucket_name
   export_filename = var.pcdb_export_filename
+}
+
+module "brel_pdf_generator" {
+  source             = "./modules/brel_pdf_generator"
+  environment        = var.environment
+  invoking_role_name = module.api_gateway.lambda_role_name
 }
 
 module "parameter_store" {
