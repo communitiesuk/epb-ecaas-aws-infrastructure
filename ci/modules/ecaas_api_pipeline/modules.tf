@@ -98,7 +98,7 @@ module "codebuild_build_brel_pdf_lambda" {
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
   ]
-  region                     = var.region
+  region = var.region
 }
 
 module "codebuild_deploy_brel_pdf_lambda_integration" {
@@ -110,7 +110,7 @@ module "codebuild_deploy_brel_pdf_lambda_integration" {
   codebuild_environment_type = "ARM_CONTAINER"
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
-    { name = "AWS_ACCOUNT_ID",     value = var.account_ids["integration"] },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
   ]
   region = var.region
 }

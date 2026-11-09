@@ -30,15 +30,15 @@ resource "aws_lambda_function" "brel_pdf_generator_lambda" {
   layers        = [aws_lambda_layer_version.chromium_layer.arn]
 
   lifecycle {
-  ignore_changes = [filename, source_code_hash]
-}
+    ignore_changes = [filename, source_code_hash]
+  }
 
   environment {
-  variables = {
-    NODE_ENV           = "production"
-    PDF_STORAGE_BUCKET = aws_s3_bucket.brel_pdf_storage.id
+    variables = {
+      NODE_ENV           = "production"
+      PDF_STORAGE_BUCKET = aws_s3_bucket.brel_pdf_storage.id
+    }
   }
-}
 }
 
 resource "aws_cloudwatch_log_group" "brel_pdf_generator_lambda_log_group" {

@@ -1,10 +1,10 @@
 module "access" {
-  source               = "./modules/access"
-  ci_account_id        = var.ci_account_id
-  hem_lambda_arn       = module.api_gateway.hem_lambda_arn
-  front_end_lambda_arn = module.front_end.front_end_lambda_arn
-  front_end_s3_arn     = module.front_end.front_end_s3_arn
-  pcdb_sync_lambda_arn = module.pcdb_sync.pcdb_sync_lambda_arn
+  source                        = "./modules/access"
+  ci_account_id                 = var.ci_account_id
+  hem_lambda_arn                = module.api_gateway.hem_lambda_arn
+  front_end_lambda_arn          = module.front_end.front_end_lambda_arn
+  front_end_s3_arn              = module.front_end.front_end_s3_arn
+  pcdb_sync_lambda_arn          = module.pcdb_sync.pcdb_sync_lambda_arn
   brel_pdf_generator_lambda_arn = module.brel_pdf_generator.brel_pdf_generator_lambda_arn
 }
 
