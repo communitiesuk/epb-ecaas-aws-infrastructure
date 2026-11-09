@@ -79,23 +79,26 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  stage {
-    name = "e2e-test-frontend"
+  # commented out for now as we will probably want to restore this but for an ephemeral environment prior to deploying to an environment that gets traffic
+  # if still commented out after 2027-04-01, delete this comment
+  #
+  # stage {
+  #   name = "e2e-test-frontend"
 
-    action {
-      name             = "E2eTestFrontend"
-      category         = "Test"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["source_output"]
-      output_artifacts = ["e2e_test_frontend_output"]
+  #   action {
+  #     name             = "E2eTestFrontend"
+  #     category         = "Test"
+  #     owner            = "AWS"
+  #     provider         = "CodeBuild"
+  #     version          = "1"
+  #     input_artifacts  = ["source_output"]
+  #     output_artifacts = ["e2e_test_frontend_output"]
 
-      configuration = {
-        ProjectName = module.codebuild_e2e_test_front_end.codebuild_name
-      }
-    }
-  }
+  #     configuration = {
+  #       ProjectName = module.codebuild_e2e_test_front_end.codebuild_name
+  #     }
+  #   }
+  # }
 }
 
 resource "aws_codepipeline" "codepipeline_production" {
