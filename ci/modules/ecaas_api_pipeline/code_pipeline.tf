@@ -129,46 +129,7 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
-
-  stage {
-    name = "build-brel-pdf-lambda"
-
-    action {
-      name             = "BuildBrelPdfLambda"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      version          = "1"
-      input_artifacts  = ["brel_pdf_source_output"]
-      output_artifacts = ["build_pdf_lambda_output"]
-
-      configuration = {
-        ProjectName   = module.codebuild_build_brel_pdf_lambda.codebuild_name
-        PrimarySource = "brel_pdf_source_output"
-      }
-    }
-  }
-
-  stage {
-    name = "deploy-brel-pdf-lambda-to-integration"
-
-    action {
-      name            = "DeployBrelPdfLambdaToIntegration"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      version         = "1"
-      input_artifacts = ["build_pdf_lambda_output", "brel_pdf_source_output"]
-
-      configuration = {
-        ProjectName   = module.codebuild_deploy_brel_pdf_lambda_integration.codebuild_name
-        PrimarySource = "brel_pdf_source_output"
-      }
-    }
-  }
 }
-
-
 
 resource "aws_codepipeline" "codepipeline_production" {
   name     = "${var.pipeline_name}-production"
