@@ -93,6 +93,22 @@ module "pcdb_sync_pipeline" {
   github_branch_production = "production"
 }
 
+module "brel_pdf_generator_pipeline" {
+  source                   = "./modules/brel_pdf_generator_pipeline"
+  project_name             = "epb-ecaas-brel-report"
+  pipeline_name            = "brel-pdf-generator-pipeline"
+  codepipeline_bucket      = module.artefact.codepipeline_bucket
+  codepipeline_role_arn    = module.codepipeline_role.aws_codepipeline_role_arn
+  codebuild_role_arn       = module.codebuild_role.aws_codebuild_role_arn
+  codestar_connection_arn  = module.codestar_connection.codestar_connection_arn
+  codebuild_image_ecr_url  = var.codebuild_image_ecr_url
+  github_repository        = "epb-ecaas-brel-report"
+  github_organisation      = var.github_organisation
+  github_branch_main       = "main"
+  region                   = var.region
+  account_ids              = var.account_ids
+}
+
 module "tech_docs" {
   source                = "./modules/tech_docs"
   region                = var.region

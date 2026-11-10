@@ -45,3 +45,6 @@ terraform.rc
 
 # IDE stuff
 .idea
+
+# Ignore local chromium layer binary
+chromium_layer.zip
