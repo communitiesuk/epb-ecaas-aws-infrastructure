@@ -16,7 +16,7 @@ resource "aws_s3_bucket_public_access_block" "lambda_assets" {
 resource "aws_s3_object" "chromium_layer_zip" {
   bucket = aws_s3_bucket.lambda_assets.id
   key    = "layers/chromium-v153.0.0-arm64.zip"
-  source = "${path.module}/chromium_layer.zip"
+  source = "${path.module}/chromium-v153.0.0-layer.arm64.zip"
   etag   = filemd5("${path.module}/chromium-v153.0.0-layer.arm64.zip")
 }
 

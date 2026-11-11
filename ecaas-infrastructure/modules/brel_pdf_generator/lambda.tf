@@ -16,6 +16,8 @@ resource "aws_lambda_layer_version" "chromium_layer" {
   compatible_runtimes = ["nodejs22.x"]
 
   compatible_architectures = ["arm64"]
+
+  depends_on = [aws_s3_object.chromium_layer_zip]
 }
 
 resource "aws_lambda_function" "brel_pdf_generator_lambda" {
