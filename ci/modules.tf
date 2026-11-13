@@ -34,7 +34,7 @@ module "ecaas-api-pipeline" {
   codebuild_role_arn               = module.codebuild_role.aws_codebuild_role_arn
   pipeline_name                    = "ecaas-api-pipeline"
   github_repository                = "epb-ecaas-api"
-  github_branch_main               = "1_0_0a7"
+  github_branch_main               = "1_0_0a9"
   github_branch_production         = "1_0_0a7"
   github_lambda_branch_integration = "main"
   github_lambda_branch_production  = "production"
