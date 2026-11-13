@@ -18,11 +18,21 @@ variable "codestar_connection_arn" {
   type = string
 }
 
+# these are for branch names in HEM libraries
 variable "github_branch_main" {
   type = string
 }
 
 variable "github_branch_production" {
+  type = string
+}
+
+# these are for the API lambdas
+variable "github_lambda_branch_integration" {
+  type = string
+}
+
+variable "github_lambda_branch_production" {
   type = string
 }
 

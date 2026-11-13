@@ -21,7 +21,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.github_repository)
-        BranchName           = var.github_branch_main
+        BranchName           = var.github_lambda_branch_integration
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -154,7 +154,7 @@ resource "aws_codepipeline" "codepipeline_production" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.github_repository)
-        BranchName           = var.github_branch_production
+        BranchName           = var.github_lambda_branch_production
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
