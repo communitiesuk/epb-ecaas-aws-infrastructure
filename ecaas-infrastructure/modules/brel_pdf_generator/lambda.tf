@@ -22,7 +22,7 @@ resource "aws_lambda_layer_version" "chromium_layer" {
 
 resource "aws_lambda_function" "brel_pdf_generator_lambda" {
   filename      = data.archive_file.aws_lambda_placeholder_archive.output_path
-  function_name = "brel-pdf-generator"
+  function_name = "brel-pdf-generator-lambda"
   role          = aws_iam_role.brel_pdf_generator_lambda_role.arn
   handler       = "index.handler"
   runtime       = "nodejs22.x"
