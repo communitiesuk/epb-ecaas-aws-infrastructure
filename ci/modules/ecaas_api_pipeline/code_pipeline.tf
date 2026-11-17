@@ -21,7 +21,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.github_repository)
-        BranchName           = var.github_branch_main
+        BranchName           = var.github_lambda_branch_integration
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -154,7 +154,7 @@ resource "aws_codepipeline" "codepipeline_production" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, var.github_repository)
-        BranchName           = var.github_branch_production
+        BranchName           = var.github_lambda_branch_production
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -186,7 +186,7 @@ resource "aws_codepipeline" "codepipeline_production" {
       configuration = {
         ConnectionArn        = var.codestar_connection_arn
         FullRepositoryId     = format("%s/%s", var.github_organisation, "epb-ecaas-pcdb")
-        BranchName           = var.github_branch_main # using main for now - intending to change this so branches aren't set in definition but maybe passed in as parameters
+        BranchName           = var.github_branch_production
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
@@ -217,7 +217,7 @@ resource "aws_codepipeline" "codepipeline_production" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["source_output", "hem_core_source_output"]
+      input_artifacts  = ["source_output", "hem_core_source_output", "fhs_wrapper_source_output", "resolve_pcdb_data_source_output"]
       output_artifacts = []
 
       configuration = {
