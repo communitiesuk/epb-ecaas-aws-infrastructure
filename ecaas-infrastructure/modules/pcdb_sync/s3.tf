@@ -19,14 +19,19 @@ resource "aws_s3_bucket_policy" "s3_access_from_lambda" {
 
 data "aws_iam_policy_document" "s3_access_from_lambda" {
   statement {
-    sid    = "AllowPcdbLambdaReadOnly"
+    sid    = "AllowPcdbLambdaReadWrite"
     effect = "Allow"
     principals {
       identifiers = [aws_iam_role.pcdb_sync_lambda_role.arn]
       type        = "AWS"
     }
-    actions = ["s3:GetObject"]
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket",
+      "s3:PutObject",
+    ]
     resources = [
+      aws_s3_bucket.pcdb_s3.arn,
       "${aws_s3_bucket.pcdb_s3.arn}/*"
     ]
   }
