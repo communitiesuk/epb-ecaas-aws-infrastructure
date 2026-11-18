@@ -9,15 +9,12 @@ data "archive_file" "aws_lambda_placeholder_archive" {
 }
 
 resource "aws_lambda_layer_version" "chromium_layer" {
-  layer_name          = "chromium_layer"
-  description         = "Chromium v153.0.0 layer"
-  s3_bucket           = aws_s3_bucket.lambda_assets.id
-  s3_key              = aws_s3_object.chromium_layer_zip.key
-  compatible_runtimes = ["nodejs22.x"]
-
+  layer_name               = "chromium_layer"
+  description              = "Chromium ${var.chromium_version} layer"
+  s3_bucket                = data.aws_s3_object.chromium_layer_zip.bucket
+  s3_key                   = data.aws_s3_object.chromium_layer_zip.key
+  compatible_runtimes      = ["nodejs22.x"]
   compatible_architectures = ["arm64"]
-
-  depends_on = [aws_s3_object.chromium_layer_zip]
 }
 
 resource "aws_lambda_function" "brel_pdf_generator_lambda" {
