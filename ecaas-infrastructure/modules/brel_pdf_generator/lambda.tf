@@ -43,6 +43,11 @@ resource "aws_lambda_function" "brel_pdf_generator_lambda" {
   }
 }
 
+resource "aws_lambda_function_url" "brel_pdf_generator_lambda_url" {
+  function_name      = aws_lambda_function.brel_pdf_generator_lambda.function_name
+  authorization_type = "AWS_IAM"
+}
+
 resource "aws_cloudwatch_log_group" "brel_pdf_generator_lambda_log_group" {
   name              = "/aws/lambda/${aws_lambda_function.brel_pdf_generator_lambda.function_name}"
   retention_in_days = var.log_group_retention_in_days
