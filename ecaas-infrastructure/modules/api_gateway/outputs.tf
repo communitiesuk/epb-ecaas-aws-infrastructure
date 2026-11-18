@@ -11,3 +11,8 @@ output "rest_api_id" {
 output "ecaas_api_url" {
   value = "https://${aws_api_gateway_domain_name.ecaas_api_domain_name.domain_name}"
 }
+
+output "lambda_role_name" {
+  description = "Execution role name for hem-lambda"
+  value       = aws_iam_role.lambda_role.name
+}
