@@ -48,3 +48,17 @@ variable "gtag_id" {
 variable "pcdb_export_filename" {
   type = string
 }
+
+variable "pcdb_api_url" {
+  type = string
+}
+
+variable "pcdb_api_username" {
+  type      = string
+  sensitive = true
+}
+
+variable "pcdb_api_password" {
+  type      = string
+  sensitive = true
+}

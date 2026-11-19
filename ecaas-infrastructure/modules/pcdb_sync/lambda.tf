@@ -34,8 +34,11 @@ resource "aws_lambda_function" "pcdb_sync_lambda" {
 
   environment {
     variables = {
-      BUCKET_NAME     = var.bucket_name
-      EXPORT_FILENAME = var.export_filename
+      BUCKET_NAME       = var.bucket_name
+      EXPORT_FILENAME   = var.export_filename
+      PCDB_API_URL      = var.pcdb_api_url
+      PCDB_API_USERNAME = var.pcdb_api_username
+      PCDB_API_PASSWORD = var.pcdb_api_password
     }
   }
 }
