@@ -5,7 +5,7 @@ module "access" {
   front_end_lambda_arn          = module.front_end.front_end_lambda_arn
   front_end_s3_arn              = module.front_end.front_end_s3_arn
   pcdb_sync_lambda_arn          = module.pcdb_sync.pcdb_sync_lambda_arn
-  brel_pdf_generator_lambda_arn = module.brel_pdf_generator.brel_pdf_generator_lambda_arn
+  brel_pdf_generator_lambda_arn = try(module.brel_pdf_generator[0].brel_pdf_generator_lambda_arn, null)
 }
 
 module "cognito" {
@@ -67,9 +67,15 @@ module "pcdb_sync" {
 }
 
 module "brel_pdf_generator" {
+  count              = var.environment == "ecaas-intg" ? 1 : 0
   source             = "./modules/brel_pdf_generator"
   environment        = var.environment
   invoking_role_name = module.api_gateway.lambda_role_name
+}
+
+moved {
+  from = module.brel_pdf_generator
+  to   = module.brel_pdf_generator[0]
 }
 
 module "parameter_store" {
