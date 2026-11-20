@@ -13,11 +13,6 @@ resource "aws_s3_bucket_public_access_block" "lambda_assets" {
   restrict_public_buckets = true
 }
 
-data "aws_s3_object" "chromium_layer_zip" {
-  bucket = aws_s3_bucket.lambda_assets.id
-  key    = "layers/chromium-${var.chromium_version}-arm64.zip"
-}
-
 # 2. PDF Storage Bucket (holds generated PDFs for 14 days)
 resource "aws_s3_bucket" "brel_pdf_storage" {
   bucket_prefix = "epb-${var.environment}-brel-pdf-storage-"

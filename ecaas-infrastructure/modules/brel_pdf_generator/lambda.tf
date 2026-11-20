@@ -8,13 +8,27 @@ data "archive_file" "aws_lambda_placeholder_archive" {
   }
 }
 
+data "archive_file" "chromium_layer_placeholder_archive" {
+  type        = "zip"
+  output_path = "${path.module}/placeholder_chromium_layer.zip"
+
+  source {
+    content  = "// placeholder layer replaced by CI pipeline"
+    filename = "nodejs/placeholder.js"
+  }
+}
+
 resource "aws_lambda_layer_version" "chromium_layer" {
   layer_name               = "chromium_layer"
-  description              = "Chromium ${var.chromium_version} layer"
-  s3_bucket                = data.aws_s3_object.chromium_layer_zip.bucket
-  s3_key                   = data.aws_s3_object.chromium_layer_zip.key
+  description              = "Initial placeholder Chromium layer (managed by CI)"
+  filename                 = data.archive_file.chromium_layer_placeholder_archive.output_path
+  source_code_hash         = data.archive_file.chromium_layer_placeholder_archive.output_base64sha256
   compatible_runtimes      = ["nodejs22.x"]
   compatible_architectures = ["arm64"]
+
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "aws_lambda_function" "brel_pdf_generator_lambda" {
