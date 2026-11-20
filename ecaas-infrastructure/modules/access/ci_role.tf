@@ -27,6 +27,7 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           "lambda:UpdateFunctionCode",
           "lambda:UpdateFunctionConfiguration",
           "lambda:GetFunction",
+          "lambda:GetFunctionConfiguration",
         ]
         Resource = compact([
           var.hem_lambda_arn,
