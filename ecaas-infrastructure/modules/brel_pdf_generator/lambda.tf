@@ -29,7 +29,7 @@ resource "aws_lambda_function" "brel_pdf_generator_lambda" {
   layers        = [aws_lambda_layer_version.chromium_layer.arn]
 
   lifecycle {
-    ignore_changes = [filename, source_code_hash]
+    ignore_changes = [filename, source_code_hash, layers]
   }
 
   environment {

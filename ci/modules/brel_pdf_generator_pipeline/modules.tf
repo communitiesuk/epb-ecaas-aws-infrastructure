@@ -22,6 +22,7 @@ module "codebuild_deploy_brel_pdf_generator_lambda_integration" {
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },
     { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "ENVIRONMENT", value = "ecaas-intg" },
   ]
   region = var.region
 }

@@ -21,3 +21,11 @@ variable "pcdb_sync_lambda_arn" {
 variable "brel_pdf_generator_lambda_arn" {
   type = string
 }
+
+variable "brel_lambda_assets_s3_arn" {
+  type = string
+}
+
+variable "chromium_layer_arn" {
+  type = string
+}

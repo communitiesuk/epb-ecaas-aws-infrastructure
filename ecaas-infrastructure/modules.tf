@@ -6,6 +6,8 @@ module "access" {
   front_end_s3_arn              = module.front_end.front_end_s3_arn
   pcdb_sync_lambda_arn          = module.pcdb_sync.pcdb_sync_lambda_arn
   brel_pdf_generator_lambda_arn = try(module.brel_pdf_generator[0].brel_pdf_generator_lambda_arn, null)
+  brel_lambda_assets_s3_arn     = try(module.brel_pdf_generator[0].lambda_assets_s3_arn, null)
+  chromium_layer_arn            = try(module.brel_pdf_generator[0].chromium_layer_arn, null)
 }
 
 module "cognito" {

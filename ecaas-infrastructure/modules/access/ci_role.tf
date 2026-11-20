@@ -37,16 +37,34 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
       },
       {
         Effect = "Allow"
-        Resource = [
+        Resource = compact([
           var.front_end_s3_arn,
-          "${var.front_end_s3_arn}/*"
-        ]
+          var.front_end_s3_arn != "" ? "${var.front_end_s3_arn}/*" : "",
+          var.brel_lambda_assets_s3_arn,
+          var.brel_lambda_assets_s3_arn != "" ? "${var.brel_lambda_assets_s3_arn}/*" : ""
+        ])
         Action = [
           "s3:DeleteObject",
           "s3:PutObject",
           "s3:Get*",
           "s3:List*"
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:PublishLayerVersion",
+          "lambda:GetLayerVersion",
+        ]
+        Resource = compact([
+          var.chromium_layer_arn,
+          var.chromium_layer_arn != null ? "${var.chromium_layer_arn}:*" : ""
+        ])
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:ListAllMyBuckets"]
+        Resource = "*"
       }
     ]
   })

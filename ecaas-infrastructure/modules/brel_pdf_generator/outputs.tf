@@ -7,3 +7,11 @@ output "brel_pdf_generator_lambda_function_url" {
   description = "Function URL for the BREL PDF Generator Lambda"
   value       = aws_lambda_function_url.brel_pdf_generator_lambda_url.function_url
 }
+
+output "lambda_assets_s3_arn" {
+  value = aws_s3_bucket.lambda_assets.arn
+}
+
+output "chromium_layer_arn" {
+  value = aws_lambda_layer_version.chromium_layer.layer_arn
+}
