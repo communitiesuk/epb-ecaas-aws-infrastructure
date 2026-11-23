@@ -13,6 +13,24 @@ resource "aws_s3_bucket_public_access_block" "lambda_assets" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_versioning" "lambda_assets" {
+  bucket = aws_s3_bucket.lambda_assets.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "lambda_assets" {
+  bucket = aws_s3_bucket.lambda_assets.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 # 2. PDF Storage Bucket (holds generated PDFs for 14 days)
 resource "aws_s3_bucket" "brel_pdf_storage" {
   bucket_prefix = "epb-${var.environment}-brel-pdf-storage-"
@@ -28,8 +46,27 @@ resource "aws_s3_bucket_public_access_block" "brel_pdf_storage" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "brel_pdf_storage_lifecycle" {
+resource "aws_s3_bucket_versioning" "brel_pdf_storage" {
   bucket = aws_s3_bucket.brel_pdf_storage.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "brel_pdf_storage" {
+  bucket = aws_s3_bucket.brel_pdf_storage.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "brel_pdf_storage_lifecycle" {
+  bucket     = aws_s3_bucket.brel_pdf_storage.id
+  depends_on = [aws_s3_bucket_versioning.brel_pdf_storage]
 
   rule {
     id     = "expire-reports-after-14-days"
@@ -39,6 +76,21 @@ resource "aws_s3_bucket_lifecycle_configuration" "brel_pdf_storage_lifecycle" {
 
     expiration {
       days = 14
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+  }
+
+  rule {
+    id     = "cleanup-expired-delete-markers"
+    status = "Enabled"
+
+    filter {}
+
+    expiration {
+      expired_object_delete_marker = true
     }
   }
 }
