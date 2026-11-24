@@ -43,6 +43,59 @@ resource "aws_lambda_function" "pcdb_sync_lambda" {
   }
 }
 
+resource "aws_scheduler_schedule" "pcdb_sync_scheduler" {
+  name = "pcdb-sync-scheduler"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression = "cron(0 3 * * ? *)"
+
+  target {
+    arn      = aws_lambda_function.pcdb_sync_lambda.arn
+    role_arn = aws_iam_role.pcdb_sync_scheduler_role.arn
+  }
+}
+
+resource "aws_iam_role" "pcdb_sync_scheduler_role" {
+  name = "pcdb-sync-scheduler-role"
+  assume_role_policy = jsonencode(
+    {
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = "sts:AssumeRole",
+          Effect = "Allow",
+          Principal = {
+            Service = "scheduler.amazonaws.com"
+          }
+        }
+      ]
+    }
+  )
+}
+
+resource "aws_iam_policy" "pcdb_sync_scheduler_policy" {
+  policy = jsonencode(
+    {
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action   = "lambda:InvokeFunction"
+          Effect   = "Allow"
+          Resource = aws_lambda_function.pcdb_sync_lambda.arn
+        }
+      ]
+    }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "pcdb_sync_scheduler_policy_attachment" {
+  policy_arn = aws_iam_policy.pcdb_sync_scheduler_policy.arn
+  role       = aws_iam_role.pcdb_sync_scheduler_role.name
+}
+
 data "aws_iam_policy_document" "lambda_dynamodb_pcdb_policy_document" {
   statement {
     actions = [
