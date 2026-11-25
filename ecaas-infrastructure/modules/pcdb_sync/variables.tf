@@ -15,12 +15,12 @@ variable "pcdb_api_url" {
 }
 
 variable "pcdb_api_username" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "pcdb_api_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 

@@ -42,7 +42,7 @@ resource "aws_iam_role_policy" "ci_api_gateway_policy" {
           var.front_end_s3_arn,
           var.front_end_s3_arn != "" ? "${var.front_end_s3_arn}/*" : "",
           var.brel_lambda_assets_s3_arn,
-          var.brel_lambda_assets_s3_arn != "" ? "${var.brel_lambda_assets_s3_arn}/*" : ""
+          var.brel_lambda_assets_s3_arn != null ? "${var.brel_lambda_assets_s3_arn}/*" : ""
         ])
         Action = [
           "s3:DeleteObject",
