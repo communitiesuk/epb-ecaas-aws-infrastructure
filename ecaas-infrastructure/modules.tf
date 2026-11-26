@@ -47,6 +47,22 @@ module "fhs_monolith_lambda" {
   }
 }
 
+module "fhs_lambda" {
+  source               = "./modules/lambda"
+  products_table_arn   = module.pcdb_sync.pcdb_sync_products_table_arn
+  lambda_function_name = "fhs-lambda"
+  environment          = var.environment
+  count                = var.environment == "ecaas-intg" ? 1 : 0
+}
+
+module "hem_worker_lambda" {
+  source               = "./modules/lambda"
+  lambda_function_name = "hem-worker"
+  lambda_memory_size   = 3072
+  environment          = var.environment
+  count                = var.environment == "ecaas-intg" ? 1 : 0
+}
+
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
 module "api_cdn_certificate" {
   source = "./modules/ssl"
