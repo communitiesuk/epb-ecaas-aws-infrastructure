@@ -110,15 +110,16 @@ data "aws_iam_policy_document" "lambda_dynamo_policy_document" {
     ]
   }
 }
+
 resource "aws_iam_policy" "dynamodb_lambda_policy" {
   count       = var.products_table_arn != null ? 1 : 0
   name        = "dynamodb-hem-lambda-policy"
   description = "This policy will be used by the lambda to read data from DynamoDB"
-  policy      = data.aws_iam_policy_document.lambda_dynamo_policy_document.json
+  policy      = data.aws_iam_policy_document.lambda_dynamo_policy_document[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
   count      = var.products_table_arn != null ? 1 : 0
   role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.dynamodb_lambda_policy.arn
+  policy_arn = aws_iam_policy.dynamodb_lambda_policy[0].arn
 }

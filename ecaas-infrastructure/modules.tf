@@ -53,6 +53,10 @@ module "fhs_lambda" {
   lambda_function_name = "fhs-lambda"
   environment          = var.environment
   count                = var.environment == "ecaas-intg" ? 1 : 0
+
+  providers = {
+    aws = aws.home-region
+  }
 }
 
 module "hem_worker_lambda" {
@@ -61,6 +65,10 @@ module "hem_worker_lambda" {
   lambda_memory_size   = 3072
   environment          = var.environment
   count                = var.environment == "ecaas-intg" ? 1 : 0
+
+  providers = {
+    aws = aws.home-region
+  }
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
@@ -206,4 +214,14 @@ moved {
 moved {
   from = module.api_gateway.aws_iam_policy.dynamodb_lambda_policy
   to   = module.fhs_monolith_lambda.aws_iam_policy.dynamodb_lambda_policy
+}
+
+moved {
+  from = module.fhs_monolith_lambda.aws_iam_role_policy_attachment.lambda_policy_attachment
+  to   = module.fhs_monolith_lambda.aws_iam_role_policy_attachment.lambda_policy_attachment[0]
+}
+
+moved {
+  from = module.fhs_monolith_lambda.aws_iam_policy.dynamodb_lambda_policy
+  to   = module.fhs_monolith_lambda.aws_iam_policy.dynamodb_lambda_policy[0]
 }
