@@ -41,6 +41,7 @@ resource "aws_lambda_function" "brel_pdf_generator_lambda" {
   memory_size   = 2048
   timeout       = 30
   layers        = [aws_lambda_layer_version.chromium_layer.arn]
+  kms_key_arn   = aws_kms_key.brel_pdf_generator.arn
 
   lifecycle {
     ignore_changes = [filename, source_code_hash, layers]
@@ -62,6 +63,29 @@ resource "aws_lambda_function_url" "brel_pdf_generator_lambda_url" {
 resource "aws_cloudwatch_log_group" "brel_pdf_generator_lambda_log_group" {
   name              = "/aws/lambda/${aws_lambda_function.brel_pdf_generator_lambda.function_name}"
   retention_in_days = var.log_group_retention_in_days
+  kms_key_id        = aws_kms_key.brel_pdf_generator.arn
+
+  depends_on = [aws_kms_key.brel_pdf_generator]
+}
+
+resource "aws_cloudwatch_metric_alarm" "brel_pdf_generator_errors" {
+  alarm_name          = "brel-pdf-generator-lambda-errors"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  metric_name         = "Errors"
+  namespace           = "AWS/Lambda"
+  period              = 60
+  statistic           = "Sum"
+  threshold           = 1
+  alarm_description   = "Triggers when brel-pdf-generator-lambda encounters an execution error"
+  treat_missing_data  = "notBreaching"
+
+  dimensions = {
+    FunctionName = aws_lambda_function.brel_pdf_generator_lambda.function_name
+  }
+
+  # TODO: Left empty whilst only in integration but to connect to module.alerts SNS topic when releasing to production.
+  alarm_actions = []
 }
 
 resource "aws_iam_role" "brel_pdf_generator_lambda_role" {
@@ -113,6 +137,17 @@ data "aws_iam_policy_document" "brel_pdf_s3_write" {
       "${aws_s3_bucket.brel_pdf_storage.arn}/*"
     ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:GenerateDataKey*",
+      "kms:Decrypt"
+    ]
+    resources = [
+      aws_kms_key.brel_pdf_generator.arn
+    ]
+  }
 }
 
 resource "aws_iam_policy" "brel_pdf_s3_write" {
@@ -123,4 +158,36 @@ resource "aws_iam_policy" "brel_pdf_s3_write" {
 resource "aws_iam_role_policy_attachment" "brel_pdf_s3_write" {
   role       = aws_iam_role.brel_pdf_generator_lambda_role.name
   policy_arn = aws_iam_policy.brel_pdf_s3_write.arn
+}
+
+data "aws_iam_policy_document" "hem_lambda_read_pdf" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject"
+    ]
+    resources = [
+      "${aws_s3_bucket.brel_pdf_storage.arn}/*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt"
+    ]
+    resources = [
+      aws_kms_key.brel_pdf_generator.arn
+    ]
+  }
+}
+
+resource "aws_iam_policy" "hem_lambda_read_pdf" {
+  name   = "hem-lambda-read-brel-pdf"
+  policy = data.aws_iam_policy_document.hem_lambda_read_pdf.json
+}
+
+resource "aws_iam_role_policy_attachment" "hem_read_pdf" {
+  role       = var.invoking_role_name
+  policy_arn = aws_iam_policy.hem_lambda_read_pdf.arn
 }

@@ -8,6 +8,11 @@ output "brel_pdf_generator_lambda_function_url" {
   value       = aws_lambda_function_url.brel_pdf_generator_lambda_url.function_url
 }
 
+output "brel_pdf_generator_kms_key_arn" {
+  value       = aws_kms_key.brel_pdf_generator.arn
+  description = "The ARN of the KMS key for BREL PDF generator"
+}
+
 output "lambda_assets_s3_arn" {
   value = aws_s3_bucket.lambda_assets.arn
 }

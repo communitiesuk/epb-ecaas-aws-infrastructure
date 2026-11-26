@@ -26,9 +26,41 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "lambda_assets" {
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.brel_pdf_generator.arn
+    }
+    bucket_key_enabled = true
+  }
+}
+
+data "aws_iam_policy_document" "lambda_assets_deny_http" {
+  statement {
+    sid     = "DenyInsecureTransport"
+    effect  = "Deny"
+    actions = ["s3:*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    resources = [
+      aws_s3_bucket.lambda_assets.arn,
+      "${aws_s3_bucket.lambda_assets.arn}/*",
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
     }
   }
+}
+
+resource "aws_s3_bucket_policy" "lambda_assets" {
+  bucket     = aws_s3_bucket.lambda_assets.id
+  policy     = data.aws_iam_policy_document.lambda_assets_deny_http.json
+  depends_on = [aws_s3_bucket_public_access_block.lambda_assets]
 }
 
 # 2. PDF Storage Bucket (holds generated PDFs for 14 days)
@@ -59,8 +91,10 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "brel_pdf_storage"
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.brel_pdf_generator.arn
     }
+    bucket_key_enabled = true
   }
 }
 
@@ -93,4 +127,34 @@ resource "aws_s3_bucket_lifecycle_configuration" "brel_pdf_storage_lifecycle" {
       expired_object_delete_marker = true
     }
   }
+}
+
+data "aws_iam_policy_document" "brel_pdf_storage_deny_http" {
+  statement {
+    sid     = "DenyInsecureTransport"
+    effect  = "Deny"
+    actions = ["s3:*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    resources = [
+      aws_s3_bucket.brel_pdf_storage.arn,
+      "${aws_s3_bucket.brel_pdf_storage.arn}/*",
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "brel_pdf_storage" {
+  bucket     = aws_s3_bucket.brel_pdf_storage.id
+  policy     = data.aws_iam_policy_document.brel_pdf_storage_deny_http.json
+  depends_on = [aws_s3_bucket_public_access_block.brel_pdf_storage]
 }

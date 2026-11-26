@@ -76,3 +76,25 @@ resource "aws_iam_role_policy_attachment" "codebuild_api_gateway_policy" {
   role       = aws_iam_role.ci_role.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator"
 }
+
+
+resource "aws_iam_role_policy" "ci_brel_kms_policy" {
+  count = var.enable_brel_pdf_generator ? 1 : 0
+  name  = "ci_brel_kms_policy"
+  role  = aws_iam_role.ci_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:GenerateDataKey*",
+          "kms:Decrypt",
+          "kms:DescribeKey"
+        ]
+        Resource = var.brel_pdf_generator_kms_key_arn
+      }
+    ]
+  })
+}
