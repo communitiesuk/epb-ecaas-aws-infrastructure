@@ -1,14 +1,14 @@
 module "access" {
-  source                        = "./modules/access"
-  ci_account_id                 = var.ci_account_id
-  fhs_lambda_arn                = module.fhs_monolith_lambda.lambda_arn
-  front_end_lambda_arn          = module.front_end.front_end_lambda_arn
-  front_end_s3_arn              = module.front_end.front_end_s3_arn
-  pcdb_sync_lambda_arn          = module.pcdb_sync.pcdb_sync_lambda_arn
+  source                         = "./modules/access"
+  ci_account_id                  = var.ci_account_id
+  fhs_lambda_arn                 = module.fhs_monolith_lambda.lambda_arn
+  front_end_lambda_arn           = module.front_end.front_end_lambda_arn
+  front_end_s3_arn               = module.front_end.front_end_s3_arn
+  pcdb_sync_lambda_arn           = module.pcdb_sync.pcdb_sync_lambda_arn
   enable_brel_pdf_generator      = var.environment == "ecaas-intg"
-  brel_pdf_generator_lambda_arn = try(module.brel_pdf_generator[0].brel_pdf_generator_lambda_arn, null)
-  brel_lambda_assets_s3_arn     = try(module.brel_pdf_generator[0].lambda_assets_s3_arn, null)
-  chromium_layer_arn            = try(module.brel_pdf_generator[0].chromium_layer_arn, null)
+  brel_pdf_generator_lambda_arn  = try(module.brel_pdf_generator[0].brel_pdf_generator_lambda_arn, null)
+  brel_lambda_assets_s3_arn      = try(module.brel_pdf_generator[0].lambda_assets_s3_arn, null)
+  chromium_layer_arn             = try(module.brel_pdf_generator[0].chromium_layer_arn, null)
   brel_pdf_generator_kms_key_arn = try(module.brel_pdf_generator[0].brel_pdf_generator_kms_key_arn, null)
 }
 
@@ -176,10 +176,10 @@ moved {
 
 moved {
   from = module.api_gateway.aws_cloudwatch_log_group.hem_lambda_log_group
-  to = module.fhs_monolith_lambda.aws_cloudwatch_log_group.lambda_log_group
+  to   = module.fhs_monolith_lambda.aws_cloudwatch_log_group.lambda_log_group
 }
 
 moved {
   from = module.api_gateway.aws_iam_policy.dynamodb_lambda_policy
-  to = module.fhs_monolith_lambda.aws_iam_policy.dynamodb_lambda_policy
+  to   = module.fhs_monolith_lambda.aws_iam_policy.dynamodb_lambda_policy
 }
