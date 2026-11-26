@@ -1,7 +1,7 @@
 module "access" {
   source                        = "./modules/access"
   ci_account_id                 = var.ci_account_id
-  hem_lambda_arn                = module.api_gateway.hem_lambda_arn
+  fhs_lambda_arn                = module.fhs_monolith_lambda.lambda_arn
   front_end_lambda_arn          = module.front_end.front_end_lambda_arn
   front_end_s3_arn              = module.front_end.front_end_s3_arn
   pcdb_sync_lambda_arn          = module.pcdb_sync.pcdb_sync_lambda_arn
@@ -25,7 +25,16 @@ module "api_gateway" {
   cdn_certificate_arn   = module.api_cdn_certificate.certificate_arn
   gateway_authorizer_id = module.cognito.gateway_authorizer_id
   environment           = var.environment
-  products_table_arn    = module.pcdb_sync.pcdb_sync_products_table_arn
+  lambda_invoke_arn     = module.fhs_monolith_lambda.lambda_invoke_arn
+  lambda_function_name  = module.fhs_monolith_lambda.lambda_function_name
+}
+
+module "fhs_monolith_lambda" {
+  source               = "./modules/lambda"
+  products_table_arn   = module.pcdb_sync.pcdb_sync_products_table_arn
+  lambda_function_name = "hem-lambda"
+  lambda_memory_size   = 8192
+  environment          = var.environment
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
@@ -75,7 +84,7 @@ module "brel_pdf_generator" {
   count              = var.environment == "ecaas-intg" ? 1 : 0
   source             = "./modules/brel_pdf_generator"
   environment        = var.environment
-  invoking_role_name = module.api_gateway.lambda_role_name
+  invoking_role_name = module.fhs_monolith_lambda.lambda_role_name
 }
 
 moved {
@@ -125,4 +134,49 @@ module "alerts" {
   slack_webhook_url      = var.parameters["epb_team_slack_url"]
   main_slack_alerts      = var.environment == "ecaas-intg" ? 1 : 0
   main_slack_webhook_url = var.parameters["epc_team_main_slack_url"]
+}
+
+moved {
+  from = module.api_gateway.aws_iam_role_policy_attachment.lambda_policy_attachment
+  to   = module.fhs_monolith_lambda.aws_iam_role_policy_attachment.lambda_policy_attachment
+}
+
+moved {
+  from = module.api_gateway.aws_iam_role_policy_attachment.lambda_logs
+  to   = module.fhs_monolith_lambda.aws_iam_role_policy_attachment.lambda_logs
+}
+
+moved {
+  from = module.api_gateway.aws_lambda_function.hem_lambda
+  to   = module.fhs_monolith_lambda.aws_lambda_function.this
+}
+
+moved {
+  from = module.api_gateway.aws_iam_role_policy_attachment.xray_tracing
+  to   = module.fhs_monolith_lambda.aws_iam_role_policy_attachment.xray_tracing
+}
+
+moved {
+  from = module.api_gateway.aws_iam_role.lambda_role
+  to   = module.fhs_monolith_lambda.aws_iam_role.lambda_role
+}
+
+moved {
+  from = module.api_gateway.aws_iam_policy.xray_tracing
+  to   = module.fhs_monolith_lambda.aws_iam_policy.xray_tracing
+}
+
+moved {
+  from = module.api_gateway.aws_iam_policy.lambda_logging
+  to   = module.fhs_monolith_lambda.aws_iam_policy.lambda_logging
+}
+
+moved {
+  from = module.api_gateway.aws_cloudwatch_log_group.hem_lambda_log_group
+  to = module.fhs_monolith_lambda.aws_cloudwatch_log_group.lambda_log_group
+}
+
+moved {
+  from = module.api_gateway.aws_iam_policy.dynamodb_lambda_policy
+  to = module.fhs_monolith_lambda.aws_iam_policy.dynamodb_lambda_policy
 }

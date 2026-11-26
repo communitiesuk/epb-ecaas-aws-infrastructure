@@ -96,7 +96,15 @@ resource "aws_api_gateway_integration" "hem_lambda" {
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.hem_lambda.invoke_arn
+  uri                     = var.lambda_invoke_arn
+}
+
+resource "aws_lambda_permission" "api_gateway_lambda_permission" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.lambda_function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.ecaas_api.execution_arn}/*/*"
 }
 
 # canned response for 504 gateway errors

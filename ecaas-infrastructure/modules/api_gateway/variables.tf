@@ -45,6 +45,10 @@ variable "environment" {
   type = string
 }
 
-variable "products_table_arn" {
+variable "lambda_invoke_arn" {
+  type = string
+}
+
+variable "lambda_function_name" {
   type = string
 }

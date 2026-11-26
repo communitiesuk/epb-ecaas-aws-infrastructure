@@ -4,15 +4,15 @@ data "archive_file" "aws_lambda_placeholder_archive" {
   output_path = "bootstrap.zip"
 }
 
-resource "aws_lambda_function" "hem_lambda" {
+resource "aws_lambda_function" "this" {
   filename      = data.archive_file.aws_lambda_placeholder_archive.output_path
-  function_name = "hem-lambda"
+  function_name = var.lambda_function_name
   role          = aws_iam_role.lambda_role.arn
   handler       = "bootstrap"
   runtime       = "provided.al2023"
   architectures = ["arm64"]
   timeout       = 60
-  memory_size   = 8192
+  memory_size   = var.lambda_memory_size
 
   environment {
     variables = {
@@ -25,8 +25,8 @@ resource "aws_lambda_function" "hem_lambda" {
   }
 }
 
-resource "aws_cloudwatch_log_group" "hem_lambda_log_group" {
-  name              = "/aws/lambda/${aws_lambda_function.hem_lambda.function_name}"
+resource "aws_cloudwatch_log_group" "lambda_log_group" {
+  name              = "/aws/lambda/${aws_lambda_function.this.function_name}"
   retention_in_days = var.log_group_retention_in_days
 }
 
@@ -72,14 +72,6 @@ resource "aws_iam_policy" "lambda_logging" {
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_logging.arn
-}
-
-resource "aws_lambda_permission" "api_gateway_lambda_permission" {
-  statement_id  = "AllowAPIGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.hem_lambda.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.ecaas_api.execution_arn}/*/*"
 }
 
 data "aws_iam_policy_document" "xray_tracing" {
