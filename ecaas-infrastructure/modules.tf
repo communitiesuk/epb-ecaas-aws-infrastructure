@@ -37,6 +37,10 @@ module "fhs_monolith_lambda" {
   lambda_function_name = "hem-lambda"
   lambda_memory_size   = 8192
   environment          = var.environment
+
+  providers = {
+    aws = aws.home-region
+  }
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
