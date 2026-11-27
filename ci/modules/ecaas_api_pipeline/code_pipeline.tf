@@ -95,7 +95,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "build-hem-lambda"
+    name = "build-lambdas"
 
     action {
       name             = "BuildHEMLambda"
@@ -111,10 +111,40 @@ resource "aws_codepipeline" "codepipeline" {
         PrimarySource = "source_output"
       }
     }
+
+    action {
+      name             = "BuildFHSLambda"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_fhs_lambda_output"]
+
+      configuration = {
+        ProjectName   = module.codebuild_build_fhs_lambda.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+
+    action {
+      name             = "BuildHEMWorkerLambda"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_hem_worker_lambda_output"]
+
+      configuration = {
+        ProjectName   = module.codebuild_build_hem_worker_lambda.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
   }
 
   stage {
-    name = "deploy-hem-lambda-to-integration"
+    name = "deploy-lambdas-to-integration"
 
     action {
       name            = "DeployHEMLambdaToIntegration"
@@ -125,6 +155,32 @@ resource "aws_codepipeline" "codepipeline" {
       input_artifacts = ["build_hem_lambda_output", "source_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_hem_lambda_integration.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+
+    action {
+      name            = "DeployFHSLambdaToIntegration"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["build_fhs_lambda_output"]
+      configuration = {
+        ProjectName   = module.codebuild_deploy_fhs_lambda_integration.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+
+    action {
+      name            = "DeployHEMWorkerLambdaToIntegration"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["build_hem_worker_lambda_output"]
+      configuration = {
+        ProjectName   = module.codebuild_deploy_hem_worker_lambda_integration.codebuild_name
         PrimarySource = "source_output"
       }
     }

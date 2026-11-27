@@ -45,12 +45,72 @@ module "codebuild_build_hem_lambda" {
   region = var.region
 }
 
+module "codebuild_build_fhs_lambda" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-build-fhs-lambda"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "ARM_CONTAINER"
+  build_image_uri            = var.codebuild_image_ecr_url
+  buildspec_file             = "buildspec/build_fhs_lambda.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "SENTRY_DSN_API", type = "PARAMETER_STORE", value = "SENTRY_DSN_API" }
+  ]
+  region = var.region
+}
+
+module "codebuild_build_hem_worker_lambda" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-build-hem-worker-lambda"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "ARM_CONTAINER"
+  build_image_uri            = var.codebuild_image_ecr_url
+  buildspec_file             = "buildspec/build_hem_worker_lambda.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "SENTRY_DSN_API", type = "PARAMETER_STORE", value = "SENTRY_DSN_API" }
+  ]
+  region = var.region
+}
+
 module "codebuild_deploy_hem_lambda_integration" {
   source                     = "../codebuild_project"
   codebuild_role_arn         = var.codebuild_role_arn
   name                       = "${var.project_name}-codebuild-deploy-hem-lambda-integration"
   build_image_uri            = var.codebuild_image_ecr_url
   buildspec_file             = "buildspec/deploy_hem_lambda.yml"
+  codebuild_environment_type = "ARM_CONTAINER"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+  ]
+  region = var.region
+}
+
+module "codebuild_deploy_fhs_lambda_integration" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-deploy-fhs-lambda-integration"
+  build_image_uri            = var.codebuild_image_ecr_url
+  buildspec_file             = "buildspec/deploy_fhs_lambda.yml"
+  codebuild_environment_type = "ARM_CONTAINER"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+  ]
+  region = var.region
+}
+
+module "codebuild_deploy_hem_worker_lambda_integration" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-deploy-hem-worker-lambda-integration"
+  build_image_uri            = var.codebuild_image_ecr_url
+  buildspec_file             = "buildspec/deploy_hem_worker_lambda.yml"
   codebuild_environment_type = "ARM_CONTAINER"
   environment_variables = [
     { name = "AWS_DEFAULT_REGION", value = var.region },

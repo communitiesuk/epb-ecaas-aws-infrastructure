@@ -27,6 +27,6 @@ variable "products_table_arn" {
 }
 
 variable "environment_vars" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
