@@ -57,6 +57,11 @@ module "fhs_lambda" {
   providers = {
     aws = aws.home-region
   }
+
+  environment_vars = {
+    SENTRY_ENVIRONMENT = var.environment
+    STEP_FUNCTION_ARN = module.hem_worker_step_function.state_machine_arn
+  }
 }
 
 module "hem_worker_lambda" {

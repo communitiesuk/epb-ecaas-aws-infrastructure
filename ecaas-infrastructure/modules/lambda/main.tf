@@ -29,7 +29,7 @@ resource "aws_cloudwatch_log_group" "lambda_log_group" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name               = "lambda-role"
+  name               = "lambda-role-${var.lambda_function_name}"
   assume_role_policy = data.aws_iam_policy_document.assume_role_lambda.json
 }
 
@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "lambda_logging" {
 }
 
 resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
+  name        = "lambda_logging_${replace(var.lambda_function_name, "-", "_")}"
   path        = "/"
   description = "IAM policy for logging from a lambda"
   policy      = data.aws_iam_policy_document.lambda_logging.json
@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "xray_tracing" {
 }
 
 resource "aws_iam_policy" "xray_tracing" {
-  name        = "xray_tracing"
+  name        = "xray_tracing_${replace(var.lambda_function_name, "-", "_")}"
   path        = "/"
   description = "IAM policy for x-ray tracing from a lambda"
   policy      = data.aws_iam_policy_document.xray_tracing.json
@@ -113,7 +113,7 @@ data "aws_iam_policy_document" "lambda_dynamo_policy_document" {
 
 resource "aws_iam_policy" "dynamodb_lambda_policy" {
   count       = var.products_table_arn != null ? 1 : 0
-  name        = "dynamodb-hem-lambda-policy"
+  name        = "dynamodb-policy-${var.lambda_function_name}"
   description = "This policy will be used by the lambda to read data from DynamoDB"
   policy      = data.aws_iam_policy_document.lambda_dynamo_policy_document[0].json
 }
