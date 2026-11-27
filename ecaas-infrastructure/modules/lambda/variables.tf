@@ -25,3 +25,8 @@ variable "lambda_function_name" {
 variable "products_table_arn" {
   type = string
 }
+
+variable "environment_vars" {
+  type = map(string)
+  default = {}
+}

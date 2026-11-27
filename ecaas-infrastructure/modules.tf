@@ -41,6 +41,10 @@ module "fhs_monolith_lambda" {
   providers = {
     aws = aws.home-region
   }
+
+  environment_vars = {
+    SENTRY_ENVIRONMENT = var.environment
+  }
 }
 
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate

@@ -15,9 +15,7 @@ resource "aws_lambda_function" "this" {
   memory_size   = var.lambda_memory_size
 
   environment {
-    variables = {
-      SENTRY_ENVIRONMENT = var.environment
-    }
+    variables = var.environment_vars
   }
 
   tracing_config {
