@@ -165,7 +165,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner           = "AWS"
       provider        = "CodeBuild"
       version         = "1"
-      input_artifacts = ["build_fhs_lambda_output"]
+      input_artifacts = ["build_fhs_lambda_output", "source_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_fhs_lambda_integration.codebuild_name
         PrimarySource = "source_output"
@@ -178,7 +178,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner           = "AWS"
       provider        = "CodeBuild"
       version         = "1"
-      input_artifacts = ["build_hem_worker_lambda_output"]
+      input_artifacts = ["build_hem_worker_lambda_output", "source_output"]
       configuration = {
         ProjectName   = module.codebuild_deploy_hem_worker_lambda_integration.codebuild_name
         PrimarySource = "source_output"
