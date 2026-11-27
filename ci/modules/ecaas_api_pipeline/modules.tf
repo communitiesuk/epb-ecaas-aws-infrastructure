@@ -29,6 +29,54 @@ module "codebuild_test_hem_lambda" {
   region = var.region
 }
 
+module "codebuild_test_hem" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-test-hem"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "ARM_CONTAINER"
+  build_image_uri            = var.codebuild_image_ecr_url
+  buildspec_file             = "buildspec/test_hem.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "SENTRY_DSN_API", type = "PARAMETER_STORE", value = "SENTRY_DSN_API" }
+  ]
+  region = var.region
+}
+
+module "codebuild_test_fhs" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-test-fhs"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "ARM_CONTAINER"
+  build_image_uri            = var.codebuild_image_ecr_url
+  buildspec_file             = "buildspec/test_fhs.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "SENTRY_DSN_API", type = "PARAMETER_STORE", value = "SENTRY_DSN_API" }
+  ]
+  region = var.region
+}
+
+module "codebuild_test_pcdb" {
+  source                     = "../codebuild_project"
+  codebuild_role_arn         = var.codebuild_role_arn
+  name                       = "${var.project_name}-codebuild-test-pcdb"
+  codebuild_compute_type     = "BUILD_GENERAL1_LARGE"
+  codebuild_environment_type = "ARM_CONTAINER"
+  build_image_uri            = var.codebuild_image_ecr_url
+  buildspec_file             = "buildspec/test_pcdb.yml"
+  environment_variables = [
+    { name = "AWS_DEFAULT_REGION", value = var.region },
+    { name = "AWS_ACCOUNT_ID", value = var.account_ids["integration"] },
+    { name = "SENTRY_DSN_API", type = "PARAMETER_STORE", value = "SENTRY_DSN_API" }
+  ]
+  region = var.region
+}
+
 module "codebuild_build_hem_lambda" {
   source                     = "../codebuild_project"
   codebuild_role_arn         = var.codebuild_role_arn

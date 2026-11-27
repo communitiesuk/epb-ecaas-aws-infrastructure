@@ -23,7 +23,7 @@ variable "lambda_function_name" {
 }
 
 variable "products_table_arn" {
-  type = string
+  type    = string
   default = null
 }
 

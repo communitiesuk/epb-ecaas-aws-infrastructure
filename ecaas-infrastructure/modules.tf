@@ -60,7 +60,7 @@ module "fhs_lambda" {
 
   environment_vars = {
     SENTRY_ENVIRONMENT = var.environment
-    STEP_FUNCTION_ARN = module.hem_worker_step_function.state_machine_arn
+    STEP_FUNCTION_ARN  = module.hem_worker_step_function.state_machine_arn
   }
 }
 
@@ -77,7 +77,7 @@ module "hem_worker_lambda" {
 }
 
 module "hem_worker_step_function" {
-  source = "./modules/step_function"
+  source            = "./modules/step_function"
   worker_lambda_arn = module.hem_worker_lambda[0].lambda_arn
 }
 

@@ -76,7 +76,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "test-hem-lambda"
+    name = "test-ecaas-crates"
 
     action {
       name             = "TestHEM"
@@ -84,11 +84,41 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["source_output", "hem_core_source_output", "fhs_wrapper_source_output", "resolve_pcdb_data_source_output"]
+      input_artifacts  = ["source_output", "hem_core_source_output"]
       output_artifacts = []
 
       configuration = {
-        ProjectName   = module.codebuild_test_hem_lambda.codebuild_name
+        ProjectName   = module.codebuild_test_hem.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+
+    action {
+      name             = "TestFHS"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output", "fhs_wrapper_source_output"]
+      output_artifacts = []
+
+      configuration = {
+        ProjectName   = module.codebuild_test_fhs.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+
+    action {
+      name             = "TestPCDB"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output", "resolve_pcdb_data_source_output"]
+      output_artifacts = []
+
+      configuration = {
+        ProjectName   = module.codebuild_test_pcdb.codebuild_name
         PrimarySource = "source_output"
       }
     }
@@ -265,7 +295,7 @@ resource "aws_codepipeline" "codepipeline_production" {
   }
 
   stage {
-    name = "test-hem-lambda"
+    name = "test-ecaas-crates"
 
     action {
       name             = "TestHEM"
@@ -273,11 +303,41 @@ resource "aws_codepipeline" "codepipeline_production" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["source_output", "hem_core_source_output", "fhs_wrapper_source_output", "resolve_pcdb_data_source_output"]
+      input_artifacts  = ["source_output", "hem_core_source_output"]
       output_artifacts = []
 
       configuration = {
-        ProjectName   = module.codebuild_test_hem_lambda.codebuild_name
+        ProjectName   = module.codebuild_test_hem.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+
+    action {
+      name             = "TestFHS"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output", "fhs_wrapper_source_output"]
+      output_artifacts = []
+
+      configuration = {
+        ProjectName   = module.codebuild_test_fhs.codebuild_name
+        PrimarySource = "source_output"
+      }
+    }
+
+    action {
+      name             = "TestPCDB"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output", "resolve_pcdb_data_source_output"]
+      output_artifacts = []
+
+      configuration = {
+        ProjectName   = module.codebuild_test_pcdb.codebuild_name
         PrimarySource = "source_output"
       }
     }
