@@ -71,6 +71,11 @@ module "hem_worker_lambda" {
   }
 }
 
+module "hem_worker_step_function" {
+  source = "./modules/step_function"
+  worker_lambda_arn = module.hem_worker_lambda[0].lambda_arn
+}
+
 # This being on us-east-1 is a requirement for CloudFront to use the SSL certificate
 module "api_cdn_certificate" {
   source = "./modules/ssl"
